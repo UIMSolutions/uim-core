@@ -1,4 +1,4 @@
-﻿module uim.core.json;
+﻿module uim.core.web.json;
 
 import uim.core;
 
@@ -6,7 +6,7 @@ string toJSON(T)(T value) if (isBoolean!T) {
 	return (value) ? "true" : "false"; 
 }
 
-string toJSON(T)(T value) if ((isNumeric!T) && (!isBoolean!T)) {
+string toJSON(T)(T value) if ((std.traits.isNumeric!T) && (!isBoolean!T)) {
 	return "%s".format(value);
 }
 
@@ -15,7 +15,7 @@ string toJSON(string value) {
 }
 
 string toJSON(T)(string key, T value) {
-	return "%s:%s".format(key.toJSON, value.toJSON);
+	return "\"%s\":%s".format(key, value.toJSON);
 }
 
 unittest {
