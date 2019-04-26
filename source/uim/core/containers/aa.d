@@ -2,12 +2,29 @@
 
 import uim.core;
 
+/***********************************
+ * get (sorted) keys of an associative array
+ * 
+ * 1st Parameter = aa
+ * 2nd Parameter = sorting on/off (default: true)
+ * 
+ * Alternative: aa.keys.sort
+ */
 K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
 	K[] results;
-	foreach(k, v; aa) results ~= k;
+	foreach(k, v; values) results ~= k;
 	if (sorted) results = results.sort.array;
 	return results;
 }
+
+/***********************************
+ * get (sorted) values of an associative array
+ * 
+ * 1st Parameter = aa
+ * 2nd Parameter = sorting on/off (default: true)
+ * 
+ * Alternative: aa.values.sort
+ */
 V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	V[] results;
 	foreach(k, v; aa) results ~= v;
@@ -15,10 +32,16 @@ V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	return results;
 }
 
+/***********************************
+ * add
+ */
 void add(T, S)(ref T[S] lhs, T[S] rhs) {
 	foreach(k, v; rhs) lhs[k] = v;
 }
 
+/***********************************
+ * toIndexAA
+ */
 auto toIndexAA(T)(T[] values) {
 	size_t[T] result;
 	foreach(i, value; values) result[value] = i;
