@@ -1,3 +1,4 @@
 # uim.core
 
-uim.core is a collection of functions and additional features based on the D language standard.
+uim.core is a collection of base datatypes, functions and additional features used in our libraries.
+
