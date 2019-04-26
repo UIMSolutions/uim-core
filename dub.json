@@ -1,0 +1,11 @@
+{
+	"name": "uim-core",
+	"authors": [ "UI Manufaktur UG" ],
+	"description": "Core D Library",
+	"copyright": "Copyright © 2019, UI Manufaktur UG",
+	"license": "Apache 2.0",
+	"targetType": "library",
+	"dependencies": {
+		"vibe-d:data": "~>0.8.4"
+	}
+}
