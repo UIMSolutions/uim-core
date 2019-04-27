@@ -12,7 +12,7 @@ import uim.core;
  */
 K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
 	K[] results;
-	foreach(k, v; values) results ~= k;
+	foreach(k, v; aa) results ~= k;
 	if (sorted) results = results.sort.array;
 	return results;
 }
