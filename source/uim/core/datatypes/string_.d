@@ -18,10 +18,28 @@ import uim.core;
 	return false;
 }
 
-@safe string[] remove(string[] values, string removeValue) {
-	string[] results;
-	foreach(value; values) { if (value != removeValue) results ~= value; }
+/**
+ * remove all string values from a array of strings
+ * 
+ * Parameters:
+ * values = string array
+ * removeValues = values which should be removed
+ */
+@safe string[] remove(string[] values, string[] removeValues...) {
+	string[] results = values;
+	foreach(removeValue; removeValues) {
+		auto existingValues = results;
+		results = null;
+		foreach(value; existingValues) { if (value != removeValue) results ~= value; }
+	}
 	return results;
+}
+unittest{
+	assert(remove(["a", "b", "c"], "b") == ["a", "c"]);
+	assert(remove(["a", "b", "c", "b"], "b") == ["a", "c"]);
+
+	assert(remove(["a", "b", "c"], "a", "b") == ["c"]);
+	assert(remove(["a", "b", "c", "b"], "a", "b") == ["c"]);
 }
 
 @safe string[] unique(string[] values) {
