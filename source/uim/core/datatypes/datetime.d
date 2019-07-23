@@ -37,3 +37,16 @@ long datetimeForJs(string dt) {
 	auto dTime = cast(DateTime)SysTime.fromISOExtString(dt);
 	return (dTime-jsTime).total!"msecs";
 }
+
+DateTime jsToDatetime(long jsTime) {
+	auto result = DateTime(1970, 1, 1, 0, 0, 0)+msecs(jsTime);
+	return cast(DateTime)result;
+}
+string germanDate(DateTime dt) {
+	return "%s. %s. %s".format(dt.day, cast(int)dt.month, dt.year);
+}
+string isoDate(DateTime dt) {
+	auto m = (cast(int)dt.month < 10 ? "0"~to!string(cast(int)dt.month) : to!string(cast(int)dt.month));
+	auto d = (dt.day < 10 ? "0"~to!string(dt.day) : to!string(dt.day));
+	return "%s-%s-%s".format(dt.year, m, d);
+}
