@@ -83,7 +83,7 @@ OUT[] castTo(OUT, IN)(IN[] values) {
 }
 
 unittest {
-	writeln("Testing ", __MODULE__);
+	
 
 	auto values = [1, 2, 3, 4]; 
 	change(values[2], values[3]); 

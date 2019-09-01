@@ -32,7 +32,7 @@ T translate(T)(bool value, T ifTrue, T ifFalse) { return (value) ? ifTrue : ifFa
 bool translate(T)(T value, T ifTrue) { return (value == ifTrue); }
 
 unittest {
-	writeln("Testing ", __MODULE__); 
+	 
 
 	bool test = true;
 	assert(toggle(test) == false, "Error in toggle(bool)");

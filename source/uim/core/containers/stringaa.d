@@ -112,5 +112,5 @@ string aa2String(STRINGAA atts, string sep = "=") {
 //}
 
 unittest {
-	writeln("Testing ", __MODULE__);
+	
 }

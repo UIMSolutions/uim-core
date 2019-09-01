@@ -156,8 +156,6 @@ template CascadeNotNull(alias A, alias B, alias C, alias D) {
 }
 
 unittest {
-	writeln("Testing ", __MODULE__);
-
-	writeln("stringAA2Array(string[string] values)", stringAA2Array(["A":"B", "C":"D"], "/"));
+	assert(stringAA2Array(["A":"B", "C":"D"], "/")==["A/B", "C/D"]);
 }
 
