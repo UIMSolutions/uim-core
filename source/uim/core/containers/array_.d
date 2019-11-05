@@ -2,22 +2,42 @@
 
 import uim.core;
 
-bool has(T)(T[] lhs, T rhs) {
+// Check if rhs exists in lhs
+@safe bool has(T)(T[] lhs, T rhs) {
 	return lhs.canFind(rhs);
 }
-
-// add
-T[] add(T)(ref T[] lhs, T rhs) {
-	lhs ~= rhs;
-	return lhs;
-}
-T[] add(T)(ref T[] lhs, T[] rhs) {
-	 lhs ~= rhs;
-	return lhs;
+unittest {
+	assert([1, 2, 3].has(1));
+	assert(![1, 2, 3].has(4));
 }
 
-// change
-void change(T)(ref T left, ref T right) {
+// Add item in array
+@safe T[] add(T)(T[] lhs, T rhs, bool unique = false) {
+	auto result = lhs.dup;	
+	if (unique) { if (!result.has(rhs)) result~=rhs; }
+	else result ~= rhs;
+
+	return result;
+}
+unittest {
+	assert([1,2,3].add(4) == [1,2,3,4]);
+	assert([1,2,3].add(3) == [1,2,3,3]);
+	assert([1,2,3].add(3,true) == [1,2,3]);
+}
+
+// Add items in array
+@safe T[] add(T)(T[] lhs, T[] rhs, bool unique = false) {
+	foreach(r; rhs) lhs = add(lhs, r, unique);
+	return lhs;
+}
+unittest {
+	assert([1,2,3].add([4,5]) == [1,2,3,4,5]);
+	assert([1,2,3].add([3,4]) == [1,2,3,3,4]);
+	assert([1,2,3].add([3,4],true) == [1,2,3,4]);
+}
+
+/// change positions
+@safe void change(T)(ref T left, ref T right) {
 	T buffer = left;
 	left = right;
 	right = buffer;
@@ -29,7 +49,7 @@ void change(T)(ref T left, ref T right) {
  * values = Array
  * firstPosition, secondPosition = positions of elements
  */
-T[] change(T)(T[] values, size_t firstPosition, size_t secondPosition) {
+@safe T[] change(T)(T[] values, size_t firstPosition, size_t secondPosition) {
 	if ((firstPosition >= values.length) || (secondPosition >= values.length) || (firstPosition == secondPosition)) return values;
 
 	T[] results = values.dup;
@@ -46,30 +66,25 @@ unittest{
 }
 
 // sub
-T[] sub(T)(ref T[] lhs, T rhs, bool multiple = false) {
-	if (multiple) {
-		while(lhs.has(rhs)) lhs.sub(rhs);
-	}
-	else {
-		foreach(i, value; lhs) { 
-			if (value == rhs) {
-				lhs = lhs.remove(i);
-				break;
-			}
+@safe T[] sub(T)(T[] lhs, T rhs, bool multiple = false) {
+	auto result = lhs.dup;
+	if (multiple) { while(result.has(rhs)) result = result.sub(rhs); }
+	else foreach(i, value; result) { 
+		if (value == rhs) {
+			result = result.remove(i);
+			break;
 		}
 	}
-	return lhs;
+	return result;
 } 
-T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
+@safe T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
 	foreach(v; rhs) lhs.sub(v, multiple);
 	return lhs;
 } 
-
-string toJS(T)(T[] values) {
-	string result = "[";
-	foreach(val; values) result ~= "'%s'".format(val); 
-	return result~"]";
+unittest {
+	assert([1, 2, 3].sub(2) == [1, 3]); 
 }
+
 //T[] sort(T)(T[] values, bool asc = true) {
 //	T[] newValues;
 //	foreach(v; values) if (v != value) newValues ~= v;
@@ -83,21 +98,9 @@ OUT[] castTo(OUT, IN)(IN[] values) {
 }
 
 unittest {
-	
-
 	auto values = [1, 2, 3, 4]; 
 	change(values[2], values[3]); 
 	assert(values == [1, 2, 4, 3]);
 
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
-
-	// test add
-	values = [1, 2, 3]; assert(values.add(4) == [1,2,3,4]);
-	values = [1, 2, 3]; assert(values.add([4,5]) == [1,2,3,4,5]);
-
-	// test sub
-	values = [1, 2, 3, 4, 3]; assert(values.sub(3) == [1,2,4,3]);
-	values = [1, 2, 3, 4, 3]; assert(values.sub(3, true) == [1,2,4]);
-	values = [1, 2, 3, 4, 3]; assert(values.sub([3, 4]) == [1,2,3]);
-	values = [1, 2, 3, 4, 3]; assert(values.sub([3, 4], true) == [1,2]);
 }

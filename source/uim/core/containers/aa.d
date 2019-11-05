@@ -63,14 +63,6 @@ auto toIndexesAA(T)(T[] values) {
 	return result;
 }
 
-string toJS(string[string] values, bool sorted = false) {
-	string[] result; 
-	if (sorted) 
-		foreach(k; values.keys.sort) result ~= k~":"~values[k];
-	else 
-		foreach(k,v; values) result ~= k~":"~v;
-	return result.join(",");
-}
 string toJSON(string[string] values, bool sorted = false) {
 	string[] result; 
 
