@@ -1,4 +1,4 @@
-﻿module uim.core.mixins.property;
+﻿module uim.core.mixins.properties.property;
 
 import std.string;
 
