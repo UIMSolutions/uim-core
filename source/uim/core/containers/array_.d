@@ -4,7 +4,9 @@ import uim.core;
 
 // Check if rhs exists in lhs
 @safe bool has(T)(T[] lhs, T rhs) {
-	return lhs.canFind(rhs);
+	// return lhs.canFind(rhs);
+	foreach(item; lhs) if (item == rhs) return true;
+	return false;
 }
 unittest {
 	assert([1, 2, 3].has(1));

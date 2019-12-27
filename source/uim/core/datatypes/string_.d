@@ -4,19 +4,47 @@ import std.stdio;
 import std.string; 
 import uim.core;
 
+/**
+ * fill - create a string with defined length and content
+ */
+string fill(size_t length = 0, string txt = "0") {
+  string result; 
+	if (txt) {
+		while (result.length < length) result ~= txt;
+		result.length = length; // cut result to length
+	}
+  return result;
+}
+unittest {
+  assert(fill(10, "0") == "0000000000");
+  assert(fill(10, "TXT") == "TXTTXTTXTT");
+}
+
 @safe string bind(string source, string[string] values, string limiter = "%") {
 	import std.string; 
 	string result = source;
 	foreach(k, v; values) { result = result.replace(limiter~k~limiter, v); }
 	return result;
 }
+unittest {
+	/// TODO
+}
+
+
+@safe bool endsWith(string str, string txt) {
+	if (str.length == 0) return false;
+	if (txt.length == 0) return false;
+	return (lastIndexOf(str, txt) == str.length-1);
+}
+unittest {
+	assert("ABC".endsWith("C"));	
+	assert(!"".endsWith("C"));	
+	assert(!"ABC".endsWith(""));	
+}
 
 // values.has(searchValue) : true | false
-@safe bool has(string value, string txt) { return (indexOf(value, txt) > -1); }  
-@safe bool has(string[] values, string searchValue) {
-	foreach(value; values) if (value == searchValue) return true;
-	return false;
-}
+// @safe bool has(string value, string searchText) { return (indexOf(value, searchText) != -1); }  
+// @safe bool has(string[] values, string searchText) { return (indexOf(value, searchText) != -1); }  
 
 /**
  * remove all string values from a array of strings
@@ -42,10 +70,16 @@ unittest{
 	assert(remove(["a", "b", "c", "b"], "a", "b") == ["c"]);
 }
 
+/// Unique - Reduce duplicates in array
 @safe string[] unique(string[] values) {
-	string[] results;
-	foreach(value; values) { if (!results.has(value)) results ~= value; }
+	string[] results; results.length = values.length; size_t counter = 0;
+	foreach(value; values) { if (!has(results, value)) { results[counter] = value; counter++; }}
+	results.length = counter;
 	return results;
+}
+unittest{
+	assert(["a", "b", "c"].unique == ["a", "b", "c"]);
+	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
 }
 
 @safe size_t[string] countValues(string[] values) {
@@ -55,6 +89,21 @@ unittest{
 		else results[v] = 1;    
 	}
 	return results;
+}
+unittest {
+	/// TODO
+}
+
+
+@safe bool startsWith(string str, string txt) {
+	if (str.length == 0) return false;
+	if (txt.length == 0) return false;
+	return (indexOf(str, txt) == 0);
+}
+unittest {
+	assert("ABC".startsWith("A"));	
+	assert(!"".startsWith("A"));	
+	assert(!"ABC".startsWith(""));	
 }
 
 @safe string toString(string[] values) {
@@ -75,5 +124,7 @@ unittest{
 	return results;
 }
 unittest {
-	
+	/// TODO
 }
+
+

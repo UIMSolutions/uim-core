@@ -10,11 +10,17 @@ StringAA addKeyPrefix(StringAA entries, string prefix) {
 	foreach(k, v; entries) results[prefix~k] = v;
 	return results;
 }
+unittest {
+	/// TODO
+}
 
 StringAA concat(StringAA left, StringAA right) {  // right will overright left
 	StringAA results = left.dup;
 	foreach(k, v; right) results[k] = v;
 	return results;
+}
+unittest {
+	/// TODO
 }
 
 StringAA startsWith(StringAA entries, string prefix) {  // right will overright left
@@ -22,11 +28,17 @@ StringAA startsWith(StringAA entries, string prefix) {  // right will overright 
 	foreach(k, v; entries) if (k.startsWith(prefix)) results[k] = v;
 	return results;
 }
+unittest {
+	/// TODO
+}
 
 StringAA startsNotWith(StringAA entries, string prefix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (!k.startsWith(prefix)) results[k] = v;
 	return results;
+}
+unittest {
+	/// TODO
 }
 
 StringAA endsWith(StringAA entries, string postfix) {  // right will overright left
@@ -34,11 +46,17 @@ StringAA endsWith(StringAA entries, string postfix) {  // right will overright l
 	foreach(k, v; entries) if (k.endsWith(postfix)) results[k] = v;
 	return results;
 }
+unittest {
+	/// TODO
+}
 
 StringAA endsNotWith(StringAA entries, string postfix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (!k.endsWith(postfix)) results[k] = v;
 	return results;
+}
+unittest {
+	/// TODO
 }
 
 StringAA selectKeys(StringAA entries, string[] keys) {
@@ -46,11 +64,17 @@ StringAA selectKeys(StringAA entries, string[] keys) {
 	foreach(k; keys) if (k in entries) results[k] = entries[k];
 	return results;
 }
+unittest {
+	/// TODO
+}
 
 StringAA selectNotKeys(StringAA entries, string[] keys) {
 	StringAA results = entries.dup;
 	foreach(k; keys) if (k in entries) results.remove(k);
 	return results;
+}
+unittest {
+	/// TODO
 }
 
 StringAA selectValues(StringAA entries, string[] values) {
@@ -62,15 +86,18 @@ StringAA selectValues(StringAA entries, string[] values) {
 	}
 	return results;
 }
+unittest {
+	/// TODO
+}
 
 bool isIn(string value, string[] values) {
 	foreach(v; values) if (v == value) return true;
 	return false;
 }
-bool has(string[] values, string value) {
-	foreach(v; values) if (v == value) return true;
-	return false;
+unittest {
+	/// TODO
 }
+
 //StringAA selectNotKeys(StringAA entries, string[] values) {
 //	StringAA results = entries.dup;
 //	foreach(v; values) {
@@ -99,6 +126,9 @@ string toHTML(STRINGAA aa, string sep = "=", string rightQuotes = "\"", string l
 	foreach(k, v; aa) strings ~= leftQuotes~k~leftQuotes~sep~rightQuotes~v~rightQuotes;
 	return strings.join(" ");
 }
+unittest {
+	/// TODO
+}
 
 string aa2String(STRINGAA atts, string sep = "=") {
 	string[] strings;
@@ -110,7 +140,6 @@ string aa2String(STRINGAA atts, string sep = "=") {
 //	foreach(k, v; atts) strings ~= k~"=\""~v~"\"";
 //	return strings.join(" ");
 //}
-
 unittest {
-	
+	/// TODO
 }

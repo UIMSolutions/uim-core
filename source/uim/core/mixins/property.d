@@ -1,5 +1,7 @@
 ﻿module uim.core.mixins.property;
 
+import std.string;
+
 auto PROPERTYPREFIX(string dataType, string propertyName, string defaultValue = null) {
 	return "
 protected "~dataType~" _"~propertyName~(defaultValue.length > 0 ? " = "~defaultValue : "")~";
@@ -113,4 +115,19 @@ template TXProperty(string dataType, string propertyName, string defaultValue = 
 
 unittest {
 
+}
+
+template XString(string name) {
+	const char[] XString = "
+	string _"~name~";
+	auto "~name~"() { return _"~name~"; }
+	O "~name~"(this O)(string add"~name~") { _"~name~" ~= add"~name~"; return cast(O)this; }
+	O clear"~name.capitalize~"(this O)() { _"~name~" = null; return cast(O)this; }	
+	";
+}
+unittest {
+	class test { mixin(XString!"a"); }
+	assert((new test).a("x").a == "x");
+	assert((new test).a("x").a("x").a == "xx");
+	assert((new test).a("x").clearA.a == "");
 }
