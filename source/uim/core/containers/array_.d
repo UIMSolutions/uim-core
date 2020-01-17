@@ -14,12 +14,10 @@ unittest {
 }
 
 // Add item in array
-@safe T[] add(T)(T[] lhs, T rhs, bool unique = false) {
-	auto result = lhs.dup;	
-	if (unique) { if (!result.has(rhs)) result~=rhs; }
-	else result ~= rhs;
-
-	return result;
+@safe auto add(T)(T[] lhs, T rhs, bool unique = false) {
+	if (unique) { if (!lhs.has(rhs)) lhs~=rhs; }
+	else lhs ~= rhs;
+	return lhs;
 }
 unittest {
 	assert([1,2,3].add(4) == [1,2,3,4]);
@@ -28,8 +26,8 @@ unittest {
 }
 
 // Add items in array
-@safe T[] add(T)(T[] lhs, T[] rhs, bool unique = false) {
-	foreach(r; rhs) lhs = add(lhs, r, unique);
+@safe auto add(T)(T[] lhs, T[] rhs, bool unique = false) {
+	foreach(r; rhs) lhs = lhs.add(r, unique);
 	return lhs;
 }
 unittest {

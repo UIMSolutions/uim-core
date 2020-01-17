@@ -1,6 +1,4 @@
-﻿module uim.core.mixins.properties.property;
-
-import std.string;
+﻿module uim.core.mixins.property;
 
 auto PROPERTYPREFIX(string dataType, string propertyName, string defaultValue = null) {
 	return "
@@ -116,4 +114,3 @@ template TXProperty(string dataType, string propertyName, string defaultValue = 
 unittest {
 
 }
-
