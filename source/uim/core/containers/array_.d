@@ -13,6 +13,22 @@ unittest {
 	assert(![1, 2, 3].has(4));
 }
 
+bool isIn(T)(T value, T[] values) {
+	foreach(v; values) if (value == v) return true;
+	return false;
+}
+unittest {
+	/// TODO
+}
+
+size_t[T] indexing(T)(T[] values) {
+	size_t[T] results;
+	foreach(i, v; values) results[v] = i;
+	return results;
+}
+unittest {
+// assert(indexing([1]) == [1U:1]);
+}
 // Add item in array
 @safe auto add(T)(T[] lhs, T rhs, bool unique = false) {
 	if (unique) { if (!lhs.has(rhs)) lhs~=rhs; }

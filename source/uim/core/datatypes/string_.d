@@ -127,4 +127,35 @@ unittest {
 	/// TODO
 }
 
+@safe string indent(in string txt, int indent = 2) {	
+	string result = txt;
+	for(auto i = 0; i < indent; i++) result = " "~result;
+	return result; 
+}
+unittest {
+	assert(indent("Hallo") == "  Hallo");
+	assert(indent("Hallo", 3) == "   Hallo");
+}
 
+size_t[] indexOfAll(string text, string searchTxt) {
+	writeln(text.indexOf(searchTxt));
+	if (text.indexOf(searchTxt) == -1) return [];
+
+	size_t[] results;
+	size_t currentPos = 0;
+	while((currentPos < text.length) && (currentPos >= 0)) {
+		currentPos = text.indexOf(searchTxt, currentPos);
+		write(currentPos, "\t");
+		if ((currentPos < text.length) && (currentPos >= 0)) {
+			results ~= currentPos;
+			currentPos++; 
+		}
+	}
+
+	return results;
+}
+unittest {
+	writeln("< < < <");
+	writeln("< < < <".indexOfAll("<"));
+	writeln("< < < <".indexOfAll(" "));
+}	

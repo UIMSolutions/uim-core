@@ -90,14 +90,6 @@ unittest {
 	/// TODO
 }
 
-bool isIn(string value, string[] values) {
-	foreach(v; values) if (v == value) return true;
-	return false;
-}
-unittest {
-	/// TODO
-}
-
 //StringAA selectNotKeys(StringAA entries, string[] values) {
 //	StringAA results = entries.dup;
 //	foreach(v; values) {

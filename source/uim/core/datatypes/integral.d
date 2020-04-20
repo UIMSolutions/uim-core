@@ -69,3 +69,22 @@ unittest {
   assert(8.transform(0, 10, 0, 100) == 80);
   assert(80.transform(0, 100, 0, 10) == 8);
 }
+
+@safe pure bool isLess(T)(T base, T[] values...) {
+  foreach(value;values) if (value <= base) return false;
+  return true;  
+}
+unittest {
+  assert(8.isLess(10, 100));
+  assert(!80.isLess(10, 100));
+}
+
+@safe pure bool isGreater(T)(T base, T[] values...) {
+  foreach(value; values) if (value >= base) return false;
+  return true; // base is always greater
+}
+unittest {
+  assert(800.isGreater(10, 100));
+  assert(!80.isGreater(10, 100));
+}
+
