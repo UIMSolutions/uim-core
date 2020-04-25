@@ -145,14 +145,34 @@ unittest {
 	/// TODO
 }
 
-string toSqlUpdate(string[string] values, bool sorted = false) {
+@safe string toSqlUpdate(string[string] values, bool sorted = false) {
 	string[] results; 
 	if (sorted) 
-		foreach(k; values.keys.sort) results ~= `%s='%s'`.format(k, values[k]);
+		foreach(k; values.toKeys.sort) results ~= `%s='%s'`.format(k, values[k]);
 	else 
 		foreach(k,v; values) results ~= `%s='%s'`.format(k, v);
 	return results.join(",");
 }
 unittest {
 	/// TODO
+}
+
+@safe K[] toKeys(K,V)(V[K] values) {
+	K[] results;
+	foreach(k, v; values) results ~= k;
+	return results;
+}
+unittest {
+	assert(["a":"b"].toKeys == ["a"]);
+}
+
+@safe V[] toValues(K,V)(V[K] values) {
+	V[] results;
+
+	foreach(k, v; values) results ~= v;
+
+	return results;
+}
+unittest {
+	assert(["a":"b"].toValues == ["b"]);
 }

@@ -155,7 +155,7 @@ size_t[] indexOfAll(string text, string searchTxt) {
 	return results;
 }
 unittest {
-	writeln("< < < <");
-	writeln("< < < <".indexOfAll("<"));
-	writeln("< < < <".indexOfAll(" "));
+	//writeln("< < < <");
+	//writeln("< < < <".indexOfAll("<"));
+	//writeln("< < < <".indexOfAll(" "));
 }	

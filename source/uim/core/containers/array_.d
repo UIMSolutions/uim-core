@@ -2,25 +2,6 @@
 
 import uim.core;
 
-// Check if rhs exists in lhs
-@safe bool has(T)(T[] lhs, T rhs) {
-	// return lhs.canFind(rhs);
-	foreach(item; lhs) if (item == rhs) return true;
-	return false;
-}
-unittest {
-	assert([1, 2, 3].has(1));
-	assert(![1, 2, 3].has(4));
-}
-
-bool isIn(T)(T value, T[] values) {
-	foreach(v; values) if (value == v) return true;
-	return false;
-}
-unittest {
-	/// TODO
-}
-
 size_t[T] indexing(T)(T[] values) {
 	size_t[T] results;
 	foreach(i, v; values) results[v] = i;
@@ -84,7 +65,7 @@ unittest{
 // sub
 @safe T[] sub(T)(T[] lhs, T rhs, bool multiple = false) {
 	auto result = lhs.dup;
-	if (multiple) { while(result.has(rhs)) result = result.sub(rhs); }
+	if (multiple) { while(rhs.isIn(result)) result = result.sub(rhs); }
 	else foreach(i, value; result) { 
 		if (value == rhs) {
 			result = result.remove(i);
@@ -107,7 +88,7 @@ unittest {
 //	return newValues;
 //} 
 
-OUT[] castTo(OUT, IN)(IN[] values) {
+@safe OUT[] castTo(OUT, IN)(IN[] values) {
 	OUT[] results; results.length = values.length;
 	foreach(i, value; value) result[i] = to!OUT(value);
 	return results;
@@ -119,4 +100,13 @@ unittest {
 	assert(values == [1, 2, 4, 3]);
 
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
+}
+
+@safe string toJS(T)(T[] values) {
+	string[] results;
+	foreach(value; values) results ~= to!string(value);
+	return "["~results.join(",")~"]";
+}
+unittest {
+	assert([1, 2, 3].toJS == "[1,2,3]");
 }

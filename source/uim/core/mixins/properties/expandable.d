@@ -24,6 +24,7 @@ template XStringArray(string name) {
 	auto "~name~"() { return _"~name~"; }
 	O "~name~"(this O)(string[] addValues...) { foreach(v; addValues) _"~name~" ~= v; return cast(O)this; }
 	O "~name~"(this O)(string[] addValues) { foreach(v; addValues) _"~name~" ~= v; return cast(O)this; }
+	O remove"~name.capitalize~"(this O)(string name) { auto _"~name~" = null; return cast(O)this; }	
 	O clear"~name.capitalize~"(this O)() { _"~name~" = null; return cast(O)this; }	
 	";
 }
@@ -68,7 +69,8 @@ template XPropertyArray(string datatype, string name) {
 	`~datatype~`[] _`~name~`; 
 	auto `~name~`() { return _`~name~`; }
 	O clear`~Name~`(this O)() { _`~name~` = null; return cast(O)this; }
-	O remove`~Name~`(this O)(string value) { _`~name~` = _`~name~`.sub(value); return cast(O)this; }
+	O remove`~Name~`(this O)(string[] values...) { foreach(value; values) if (value.index(_`~name~`) != -1) _`~name~`.remove(value.index(_`~name~`)); return cast(O)this; }
+	O remove`~Name~`(this O)(string[] values) { foreach(value; values) if (value.index(_`~name~`) != -1) _`~name~`.remove(value.index(_`~name~`)); return cast(O)this; }
 	O `~name~`(this O)(string addValue) { _`~name~` = _`~name~`.add(addValue, true); return cast(O)this; }
 	O `~name~`(this O)(string[] values) { _`~name~` = _`~name~`.add(values, true); return cast(O)this; }`;
 }

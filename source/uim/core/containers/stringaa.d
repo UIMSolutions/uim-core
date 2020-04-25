@@ -14,15 +14,6 @@ unittest {
 	/// TODO
 }
 
-StringAA concat(StringAA left, StringAA right) {  // right will overright left
-	StringAA results = left.dup;
-	foreach(k, v; right) results[k] = v;
-	return results;
-}
-unittest {
-	/// TODO
-}
-
 StringAA startsWith(StringAA entries, string prefix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (k.startsWith(prefix)) results[k] = v;
@@ -38,7 +29,7 @@ StringAA startsNotWith(StringAA entries, string prefix) {  // right will overrig
 	return results;
 }
 unittest {
-	/// TODO
+	//
 }
 
 StringAA endsWith(StringAA entries, string postfix) {  // right will overright left
