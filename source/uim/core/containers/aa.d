@@ -73,32 +73,21 @@ unittest {
 	assert(["a", "b", "c"].indexAA(1) == ["a":1UL, "b":2UL, "c":3UL]);
 }
 
-@safe auto toAAIndex(T)(T[] values) {
-	T[size_t] result;
-	foreach(i, value; values) result[i] = value;
-	return result;
-}
-unittest {
-	/// TODO
-}
-
-@safe auto toIndexesAA(T)(T[] values) {
-	size_t[][T] result;
+@safe auto positionsAA(T)(T[] values) {
+	size_t[][T] results;
 	foreach(i, value; values) {
-		if (value !in result) result[value] = [];
-		result[value] ~= i;
+		if (value !in results) results[value] = [];
+		results[value] ~= i;
 	}
-	return result;
+	return results;
 }
 unittest {
-	/// TODO
+	assert(["a", "b", "c", "a"].positionsAA == ["a":[0UL, 3UL], "b":[1UL], "c":[2UL]]);
 }
 
-@safe string toJS(T)(T[string] values, bool sorted = false) {
+@safe pure string toJS(T)(T[string] values, bool sorted = false) {
 	string[] result; 
-	string[] keys;
-	foreach(key, value; values) keys ~= key;
-	if (sorted) keys = keys.sort.array;
+	string[] keys = values.getKeys(sorted);
 
 	foreach(k; keys) {
 		auto key = k;
@@ -108,68 +97,36 @@ unittest {
 	return "{"~result.join(",")~"}";
 }
 unittest {
-	/// TODO
+	assert(["a":1, "b":2].toJS(SORTED) == "{a:1,b:2}");
 }
 
-@safe string toJSON(string[string] values, bool sorted = false) {
+@safe pure string toJSON(T)(T[string] values, bool sorted = false) {
 	string[] result; 
 
-	if (sorted) foreach(k; values.getKeys(sorted)) result ~= `"%s":"%s"`.format(k, values[k]);
-	else foreach(k,v; values) result ~= `"%s":"%s"`.format(k, v);
+	foreach(k; values.getKeys(sorted)) result ~= `"%s":%s`.format(k, values[k]);
 
-	return result.join(",");
+	return "{"~result.join(",")~"}";
 }
 unittest {
-	/// TODO
+	assert(["a":1, "b":2].toJSON(SORTED) == `{"a":1,"b":2}`);
 }
 
-string toHTML(string[string] values, bool sorted = false) {
-	string result; 
-	if (sorted) {
-		foreach(k; values.keys.sort) {
-			auto value = values[k];
-			if (k == value) result ~= ` `~k;
-			else result ~= ` %s="%s"`.format(k, value);
-		}
-	}
-	else foreach(k,v; values) {
-		if (k == v) result ~= ` `~k;
-		else result ~= ` %s="%s"`.format(k, v);
-	}
-	return result;
-}
-unittest {
-	/// TODO
-}
-
-@safe string toSqlUpdate(string[string] values, bool sorted = false) {
+string toHTML(T)(T[string] values, bool sorted = false) {
 	string[] results; 
-	if (sorted) 
-		foreach(k; values.toKeys.sort) results ~= `%s='%s'`.format(k, values[k]);
-	else 
-		foreach(k,v; values) results ~= `%s='%s'`.format(k, v);
+	foreach(k; values.getKeys(sorted)) {
+		results ~= `%s="%s"`.format(k, values[k]);
+	}
+	return results.join(" ");
+}
+unittest {
+	assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
+}
+
+@safe string toSqlUpdate(T)(T[string] values, bool sorted = false) {
+	string[] results; 
+	foreach(k; values.getKeys(sorted)) results ~= `%s=%s`.format(k, values[k]);
 	return results.join(",");
 }
 unittest {
-	/// TODO
-}
-
-@safe K[] toKeys(K,V)(V[K] values) {
-	K[] results;
-	foreach(k, v; values) results ~= k;
-	return results;
-}
-unittest {
-	assert(["a":"b"].toKeys == ["a"]);
-}
-
-@safe V[] toValues(K,V)(V[K] values) {
-	V[] results;
-
-	foreach(k, v; values) results ~= v;
-
-	return results;
-}
-unittest {
-	assert(["a":"b"].toValues == ["b"]);
+	assert(["a":1, "b":2].toSqlUpdate(SORTED) == `a=1,b=2`);
 }
