@@ -85,18 +85,6 @@ unittest {
 	/// TODO
 }
 
-@safe string toJS(T)(T[] values, bool sorted = false) {
-  string[] result;
-	if (sorted) 
-    foreach(v; values.sort) result ~= to!string(v);
-  else 
-    foreach(v; values) result ~= to!string(v);
-  return "["~result.join(",")~"]";
-}
-unittest {
-	/// TODO
-}
-
 @safe string toJS(T)(T[string] values, bool sorted = false) {
 	string[] result; 
 	string[] keys;

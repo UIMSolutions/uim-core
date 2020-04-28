@@ -102,10 +102,13 @@ unittest {
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
 }
 
-@safe string toJS(T)(T[] values) {
-	string[] results;
-	foreach(value; values) results ~= to!string(value);
-	return "["~results.join(",")~"]";
+@safe string toJS(T)(T[] values, bool sorted = false) {
+  string[] result;
+	if (sorted) 
+    foreach(value; values.sort) result ~= to!string(value);
+  else 
+    foreach(value; values) result ~= to!string(value);
+  return "["~result.join(",")~"]";
 }
 unittest {
 	assert([1, 2, 3].toJS == "[1,2,3]");
