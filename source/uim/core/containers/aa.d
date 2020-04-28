@@ -111,7 +111,7 @@ unittest {
 	assert(["a":1, "b":2].toJSON(SORTED) == `{"a":1,"b":2}`);
 }
 
-string toHTML(T)(T[string] values, bool sorted = false) {
+@safe pure string toHTML(T)(T[string] values, bool sorted = false) {
 	string[] results; 
 	foreach(k; values.getKeys(sorted)) {
 		results ~= `%s="%s"`.format(k, values[k]);
@@ -122,7 +122,7 @@ unittest {
 	assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
 }
 
-@safe string toSqlUpdate(T)(T[string] values, bool sorted = false) {
+@safe pure string toSqlUpdate(T)(T[string] values, bool sorted = false) {
 	string[] results; 
 	foreach(k; values.getKeys(sorted)) results ~= `%s=%s`.format(k, values[k]);
 	return results.join(",");
