@@ -8,7 +8,7 @@ enum SORTED = true;
  * get (sorted) keys of an associative array
  * 
  * 1st Parameter = aa
- * 2nd Parameter = sorting on/off (default: true)
+ * 2nd Parameter = sorting on/off (default: false)
  * 
  * Alternative: aa.keys.sort
  */
@@ -19,14 +19,17 @@ enum SORTED = true;
 	return results;
 }
 unittest {
-	/// TODO
+	assert([1:1, 2:2, 3:3].getKeys(SORTED) == [1, 2, 3]);
+	assert([1:"1", 2:"2", 3:"3"].getKeys(SORTED) == [1, 2, 3]);
+	assert(["1":1, "2":2, "3":3].getKeys(SORTED) == ["1", "2", "3"]);
+	assert(["1":"1", "2":"2", "3":"3"].getKeys(SORTED) == ["1", "2", "3"]);
 }
 
 /***********************************
  * get (sorted) values of an associative array
  * 
  * 1st Parameter = aa
- * 2nd Parameter = sorting on/off (default: true)
+ * 2nd Parameter = sorting on/off (default: false)
  * 
  * Alternative: aa.values.sort
  */
@@ -37,31 +40,37 @@ unittest {
 	return results;
 }
 unittest {
-	/// TODO
+	assert([1:1, 2:2, 3:3].getValues(SORTED) == [1, 2, 3]);
+	assert([1:"1", 2:"2", 3:"3"].getValues(SORTED) == ["1", "2", "3"]);
+	assert(["1":1, "2":2, "3":3].getValues(SORTED) == [1, 2, 3]);
+	assert(["1":"1", "2":"2", "3":"3"].getValues(SORTED) == ["1", "2", "3"]);
 }
 
 /***********************************
  * add
  */
-@safe void add(T, S)(ref T[S] lhs, T[S] rhs) {
-	foreach(k, v; rhs) lhs[k] = v;
+@safe T[S] add(T, S)(T[S] lhs, T[S] rhs) {
+	T[S] results = lhs.dup;
+	foreach(k, v; rhs) results[k] = v;
+	return results;
 }
 unittest {
-	/// TODO
+	assert([1:"b", 2:"d"].add([3:"f"]) == [1:"b", 2:"d", 3:"f"]);
+	assert(["a":"b", "c":"d"].add(["e":"f"]) == ["a":"b", "c":"d", "e":"f"]);
+	assert(["a":"b", "c":"d"].add(["e":"f"]).add(["g":"h"]) == ["a":"b", "c":"d", "e":"f", "g":"h"]);
 }
-
-
 
 /***********************************
  * toIndexAA
  */
-@safe auto toIndexAA(T)(T[] values) {
-	size_t[T] result;
-	foreach(i, value; values) result[value] = i;
-	return result;
+@safe size_t[T] indexAA(T)(T[] values, size_t startPos = 0) {
+	size_t[T] results;
+	foreach(i, value; values) results[value] = i + startPos;
+	return results;
 }
 unittest {
-	/// TODO
+	assert(["a", "b", "c"].indexAA == ["a":0UL, "b":1UL, "c":2UL]);
+	assert(["a", "b", "c"].indexAA(1) == ["a":1UL, "b":2UL, "c":3UL]);
 }
 
 @safe auto toAAIndex(T)(T[] values) {
