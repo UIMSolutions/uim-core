@@ -12,7 +12,7 @@ enum SORTED = true;
  * 
  * Alternative: aa.keys.sort
  */
-@safe K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
+@safe pure K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
 	K[] results;
 	foreach(k, v; aa) results ~= k;
 	if (sorted) results = results.sort.array;
@@ -33,7 +33,7 @@ unittest {
  * 
  * Alternative: aa.values.sort
  */
-@safe V[] getValues(K, V)(V[K] aa, bool sorted = false) {
+@safe pure V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	V[] results;
 	foreach(k, v; aa) results ~= v;
 	if (sorted) results = results.sort.array;
@@ -49,7 +49,7 @@ unittest {
 /***********************************
  * add
  */
-@safe T[S] add(T, S)(T[S] lhs, T[S] rhs) {
+@safe pure T[S] add(T, S)(T[S] lhs, T[S] rhs) {
 	T[S] results = lhs.dup;
 	foreach(k, v; rhs) results[k] = v;
 	return results;
@@ -63,7 +63,7 @@ unittest {
 /***********************************
  * toIndexAA
  */
-@safe size_t[T] indexAA(T)(T[] values, size_t startPos = 0) {
+@safe pure size_t[T] indexAA(T)(T[] values, size_t startPos = 0) {
 	size_t[T] results;
 	foreach(i, value; values) results[value] = i + startPos;
 	return results;
