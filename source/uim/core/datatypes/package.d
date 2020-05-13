@@ -22,7 +22,6 @@ unittest {
     assert(3.toggle(1, 2) == 3);
 }
 
-
 T rotate(T value, T[] values, bool directionRight = true) {
     if (values.length > 0)
     foreach(index, val; values) {
