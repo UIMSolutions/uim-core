@@ -7,10 +7,6 @@ public import std.array;
 public import std.algorithm;
 public import std.traits;
 
-public import vibe.data.json;
-public import vibe.data.bson;
-
-// public import uim.core.annotations;
 public import uim.core.mixins;
 public import uim.core.classes;
 public import uim.core.containers;

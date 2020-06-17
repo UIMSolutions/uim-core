@@ -42,6 +42,7 @@ template XStringAA(string name) {
 	auto "~name~"() { return _"~name~"; }
 	O "~name~"(this O)(string key, string value) { _"~name~"[key] = value; return cast(O)this; }
 	O "~name~"(this O)(string[string] addValues) { foreach(kv; addValues.byKeyValue) _"~name~"[kv.key] = kv.value; return cast(O)this; }
+	O remove"~name.capitalize~"(this O)(string name) { _"~name~".remove(name); return cast(O)this; }	
 	O clear"~name.capitalize~"(this O)() { _"~name~" = null; return cast(O)this; }	
 	";
 }

@@ -46,6 +46,28 @@ unittest {
 // @safe bool has(string value, string searchText) { return (indexOf(value, searchText) != -1); }  
 // @safe bool has(string[] values, string searchText) { return (indexOf(value, searchText) != -1); }  
 
+@safe bool has(string base, string[] values...)  { return has(base, values); }
+@safe bool has(string base, string[] values)  {
+	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
+	return false;
+}
+@safe unittest {
+  assert("One Two Three".has("One"));
+  assert("One Two Three".has("Five", "Four", "Three"));
+  assert(!"One Two Three".has("Five", "Four"));
+}
+
+@safe bool has(string[] bases, string[] values...)  { return has(bases, values); }
+@safe bool has(string[] bases, string[] values)  {
+	foreach(base; bases) if (base.has(values)) return true;
+	return false;
+}
+@safe unittest {
+  assert(["One Two Three"].has("One"));
+  assert(["One Two Three", "Eight Seven Six"].has("Five", "Four", "Six"));
+  assert(!["One Two Three"].has("Five", "Four"));
+}
+
 /**
  * remove all string values from a array of strings
  * 

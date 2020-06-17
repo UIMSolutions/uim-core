@@ -24,7 +24,7 @@ unittest {
   assert(!(20.1).isIn([1.5,2.1,3.3,4.6]));
 }
 
-bool has(T)(T[] values, T value) {
+@safe bool has(T)(T[] values, T value) if (!isSomeString!T) {
   foreach(i, ref v; values) if (v == value) return true;
   return false;
 }
