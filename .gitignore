@@ -21,3 +21,5 @@ uim-core-test-library
 .dub/build/uim-core-test-library-unittest-linux.posix-x86_64-dmd_2091-F48472627BF5AE49BB53FB1EA71A0045/uim-core-test-library.o
 dub.selections.json
 .dub/build/uim-core-test-library-unittest-linux.posix-x86_64-dmd_2091-2342B7BEAB327407B9BBA48BF3801A71/uim-core-test-library.o
+.dub/build/uim-core-test-library-unittest-linux.posix-x86_64-dmd_2091-35E0E04E028316E810A20C8274C68456/uim-core-test-library.o
+.dub/build/uim-core-test-library-unittest-linux.posix-x86_64-dmd_2091-80DBA8DB7350BFC46FE1182C3ECAD2B8/uim-core-test-library.o

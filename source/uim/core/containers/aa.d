@@ -100,7 +100,7 @@ unittest {
 	assert(["a":1, "b":2].toJS(SORTED) == "{a:1,b:2}");
 }
 
-@safe pure string toJSON(T)(T[string] values, bool sorted = false) {
+@safe pure string toJSONString(T)(T[string] values, bool sorted = false) {
 	string[] result; 
 
 	foreach(k; values.getKeys(sorted)) result ~= `"%s":%s`.format(k, values[k]);
@@ -108,7 +108,7 @@ unittest {
 	return "{"~result.join(",")~"}";
 }
 unittest {
-	assert(["a":1, "b":2].toJSON(SORTED) == `{"a":1,"b":2}`);
+	assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
 }
 
 @safe pure string toHTML(T)(T[string] values, bool sorted = false) {
