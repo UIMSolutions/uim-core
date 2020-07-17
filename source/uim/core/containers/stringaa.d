@@ -104,7 +104,7 @@ string toString(string[string] aa) {
 //}
 //}
 
-string toHTML(STRINGAA aa, string sep = "=", string rightQuotes = "\"", string leftQuotes = "") {
+/* string toHTML(STRINGAA aa, string sep = "=", string rightQuotes = "\"", string leftQuotes = "") {
 	string[] strings;
 	foreach(k, v; aa) strings ~= leftQuotes~k~leftQuotes~sep~rightQuotes~v~rightQuotes;
 	return strings.join(" ");
@@ -112,6 +112,7 @@ string toHTML(STRINGAA aa, string sep = "=", string rightQuotes = "\"", string l
 unittest {
 	/// TODO
 }
+*/
 
 string aa2String(STRINGAA atts, string sep = "=") {
 	string[] strings;

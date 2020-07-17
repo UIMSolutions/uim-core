@@ -23,19 +23,19 @@ template OProperty_set(string dataType, string propertyName, string defaultValue
 
 template OProperty(string dataType, string propertyName, string defaultValue = null, string get = null, string set = null) {
 	const char[] getFkt = (get.length > 0) ? get : "return _"~propertyName~";";
-	const char[] setFkt = (set.length > 0) ? set : "_"~propertyName~" = newValue;";
+	const char[] setFkt = (set.length > 0) ? set : "_"~propertyName~" = newValue; return cast(O)this;";
 	
 	const char[] OProperty = "
 	protected "~dataType~" _"~propertyName~(defaultValue.length > 0 ? " = "~defaultValue : "")~";
 	protected "~dataType~" _default"~propertyName~(defaultValue.length > 0 ? " = "~defaultValue : "")~";
 	
 	auto "~propertyName~"Default() { return _default"~propertyName~"; }
-	void "~propertyName~"Reset() { _"~propertyName~" = _default"~propertyName~"; }
-	void "~propertyName~"Default("~dataType~" v) { _default"~propertyName~" = v; }
+	O "~propertyName~"Reset(this O)() { _"~propertyName~" = _default"~propertyName~"; }
+	O "~propertyName~"Default(this O)("~dataType~" v) { _default"~propertyName~" = v; }
 	bool "~propertyName~"IsDefault() { return (_"~propertyName~" == _default"~propertyName~"); }
 
-	@property "~dataType~" "~propertyName~"() { "~getFkt~" }
-	@property void "~propertyName~"("~dataType~" newValue) { "~setFkt~" }";
+		@property "~dataType~" "~propertyName~"() { "~getFkt~" }
+		@property O "~propertyName~"(this O)("~dataType~" newValue) { "~setFkt~" }";
 }
 
 // mixins for Template based properties
