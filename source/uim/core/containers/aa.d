@@ -85,21 +85,6 @@ unittest {
 	assert(["a", "b", "c", "a"].positionsAA == ["a":[0UL, 3UL], "b":[1UL], "c":[2UL]]);
 }
 
-@safe pure string toJS(T)(T[string] values, bool sorted = false) {
-	string[] result; 
-	string[] keys = values.getKeys(sorted);
-
-	foreach(k; keys) {
-		auto key = k;
-		if (k.indexOf("-") >= 0) key = "'%s'".format(k);
-		result ~= `%s:%s`.format(key, values[k]);
-	}
-	return "{"~result.join(",")~"}";
-}
-unittest {
-	assert(["a":1, "b":2].toJS(SORTED) == "{a:1,b:2}");
-}
-
 @safe pure string toJSONString(T)(T[string] values, bool sorted = false) {
 	string[] result; 
 

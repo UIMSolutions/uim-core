@@ -74,12 +74,21 @@ unittest{
 	}
 	return result;
 } 
+unittest {
+	assert([1, 2, 3].sub(2) == [1, 3]); 
+	assert([1, 2, 3, 2].sub(2, true) == [1, 3]); 
+}
+
 @safe T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
-	foreach(v; rhs) lhs.sub(v, multiple);
+	auto result = lhs.dup;
+	foreach(v; rhs) lhs = lhs.sub(v, multiple);
 	return lhs;
 } 
 unittest {
-	assert([1, 2, 3].sub(2) == [1, 3]); 
+	assert([1, 2, 3].sub([2]) == [1, 3]); 
+	assert([1, 2, 3, 2].sub([2], true) == [1, 3]); 
+	assert([1, 2, 3, 2].sub([2, 3], true) == [1]); 
+	assert([1, 2, 3, 2, 3].sub([2, 3], true) == [1]); 
 }
 
 //T[] sort(T)(T[] values, bool asc = true) {
@@ -102,14 +111,41 @@ unittest {
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
 }
 
-@safe string toJS(T)(T[] values, bool sorted = false) {
-  string[] result;
-	if (sorted) 
-    foreach(value; values.sort) result ~= to!string(value);
-  else 
-    foreach(value; values) result ~= to!string(value);
-  return "["~result.join(",")~"]";
+bool has(T)(T[] values, T value) {
+	foreach (key; values) if (key == value) return true;		
+	return false;
 }
 unittest {
-	assert([1, 2, 3].toJS == "[1,2,3]");
+	assert([1,2,3,4].has(1));
+	assert(![1,2,3,4].has(5));
+}
+
+size_t index(T)(T[] values, T value) {
+	foreach (count, key; values) if (key == value) return count;		
+	return -1;
+}
+unittest {
+	assert([1,2,3,4].index(1) == 0);
+	assert([1,2,3,4].index(0) == -1);
+}
+
+size_t[] indexes(T)(T[] values, T value) {
+	size_t[] results;
+	foreach (count, key; values) if (key == value) results ~= count;		
+	return results;
+}
+unittest {
+	assert([1,2,3,4].indexes(1) == [0]);
+	assert([1,2,3,4].indexes(0) == null);
+	assert([1,2,3,4,1].indexes(1) == [0,4]);
+}
+
+size_t[][T] indexes(T)(T[] values, T[] keys) {
+	size_t[][T] results;
+	foreach (key; keys) results[key] = indexes(values, key);		
+	return results;
+}
+unittest {
+	assert([1,2,3,4].indexes([1]) == [1:[0UL]]);
+	assert([1,2,3,4,1].indexes([1]) == [1:[0UL, 4UL]]);
 }

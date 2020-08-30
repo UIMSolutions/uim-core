@@ -7,10 +7,11 @@ public import std.array;
 public import std.algorithm;
 public import std.traits;
 
-public import uim.core.mixins;
 public import uim.core.classes;
 public import uim.core.containers;
+public import uim.core.dlang;
 public import uim.core.io;
+public import uim.core.mixins;
 public import uim.core.web;
 public import uim.core.datatypes;
 

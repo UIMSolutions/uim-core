@@ -14,22 +14,38 @@ unittest {
 	/// TODO
 }
 
-StringAA startsWith(StringAA entries, string prefix) {  // right will overright left
+/**
+ * selectStartsWith
+ * Selects only entries, where key starts with prefix. Creates a new StringAA
+ * Parameters:
+ * StringAA entries - entries to read
+ * string prefix - prefix for checking
+*/
+@safe StringAA selectStartsWith(StringAA entries, string prefix) {  
 	StringAA results;
 	foreach(k, v; entries) if (k.startsWith(prefix)) results[k] = v;
 	return results;
 }
 unittest {
-	/// TODO
+	assert(selectStartsWith(["preA":"a", "b":"b"], "pre") == ["preA":"a"]);
+	assert(["preA":"a", "b":"b"].selectStartsWith("pre") == ["preA":"a"]);
 }
 
-StringAA startsNotWith(StringAA entries, string prefix) {  // right will overright left
+/**
+ * selectsStartsNotWith
+ * Opposite of selectStartsWith: Selects only entries, where key starts not with prefix. Creates a new StringAA
+ * Parameters:
+ * StringAA entries - entries to read
+ * string prefix - prefix for checking
+*/
+StringAA selectsStartsNotWith(StringAA entries, string prefix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (!k.startsWith(prefix)) results[k] = v;
 	return results;
 }
 unittest {
-	//
+	assert(selectsStartsNotWith(["preA":"a", "b":"b"], "pre") == ["b":"b"]);
+	assert(["preA":"a", "b":"b"].selectsStartsNotWith("pre") == ["b":"b"]);
 }
 
 StringAA endsWith(StringAA entries, string postfix) {  // right will overright left
