@@ -85,6 +85,12 @@ unittest {
 	assert(["a", "b", "c", "a"].positionsAA == ["a":[0UL, 3UL], "b":[1UL], "c":[2UL]]);
 }
 
+T[S] select(T, S)(T[S] base, S[] keys...) { return select(base, keys); }
+T[S] select(T, S)(T[S] base, S[] keys) { T[S] results; foreach(key; keys) if (key in base) results[key] = base[key]; return results; }
+unittest {
+	assert(["a":"b", "c":"d"].select("a") == ["a":"b"]);
+}
+
 @safe pure string toJSONString(T)(T[string] values, bool sorted = false) {
 	string[] result; 
 
