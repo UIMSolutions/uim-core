@@ -2,35 +2,100 @@
 
 import uim.core;
 
-size_t[T] indexing(T)(T[] values) {
+auto counts(T)(in T[] baseArray...) {
+	return counts(baseArray, null);
+}
+unittest {
+	assert(counts(1) == [1:1uL]);
+	assert(counts(1, 1) == [1:2uL]);
+	assert(counts(1, 2) == [1:1U, 2:1UL]);
+}
+
+/***********************************
+ * size_t[T] counts(T)(in T[] baseArray, in T[] validValues = null) {
+ * Counts the occourence of values in an array
+ * 
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+ * 	validValues - If not null, only these values will be indexed
+***********************************/
+auto counts(T)(in T[] baseArray, in T[] validValues = null) {
 	size_t[T] results;
-	foreach(i, v; values) results[v] = i;
+	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
+	foreach(v; checkValues) {
+		if (v in results) results[v]++;
+		else results[v] = 1;
+	}
 	return results;
 }
 unittest {
-// assert(indexing([1]) == [1U:1]);
+	assert(counts([1]) == [1:1uL]);
+	assert(counts([1, 1]) == [1:2uL]);
+	assert(counts([1, 2]) == [1:1U, 2:1UL]);
+	assert(counts([1, 2], [1]) == [1:1UL]);
 }
-// Add item in array
-@safe auto add(T)(T[] lhs, T rhs, bool unique = false) {
-	if (unique) { if (!lhs.has(rhs)) lhs~=rhs; }
-	else lhs ~= rhs;
-	return lhs;
+
+/***********************************
+ * size_t[][T] positions(T)(in T[] baseArray, in T[] validValues = null) {
+ * Creates a associative array with all positions of a value in an array
+ * 
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+ * 	validValues - If not null, only these values will be indexed
+***********************************/
+auto positions(T)(in T[] baseArray, in T[] validValues = null) {
+	size_t[][T] results;
+	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
+	foreach(pos, v; checkValues) {
+		if (v in results) results[v] ~= pos;
+		else results[v] = [pos];
+	}
+	return results;
+}
+unittest {
+	assert(positions([1]) == [1:[0UL]]);
+	assert(positions([1, 1]) == [1:[0UL, 1UL]]);
+	assert(positions([1, 2]) == [1:[0UL], 2:[1UL]]);
+	assert(positions([1, 2], [1]) == [1:[0UL]]);
+}
+
+/***********************************
+ * T[] add(T)(T[] baseArray, T[] newItems...)
+ * adding items into array
+ * 
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+ * 	newItems  - New Items
+***********************************/
+@safe T[] add(T)(in T[] baseArray, in T[] newItems...) {
+	return add(baseArray, newItems);
 }
 unittest {
 	assert([1,2,3].add(4) == [1,2,3,4]);
-	assert([1,2,3].add(3) == [1,2,3,3]);
-	assert([1,2,3].add(3,true) == [1,2,3]);
+	assert([1,2,3].add(4,5) == [1,2,3,4,5]);
+	assert([1.0,2.0,3.0].add(4.0,5.0) == [1.0,2.0,3.0,4.0,5.0]);
+	assert(["1","2","3"].add("4","5") == ["1","2","3","4","5"]);
 }
 
-// Add items in array
-@safe auto add(T)(T[] lhs, T[] rhs, bool unique = false) {
-	foreach(r; rhs) lhs = lhs.add(r, unique);
-	return lhs;
+/***********************************
+ * T[] add(T)(in T[] baseArray, in T[] newItems)
+
+ * adding items into array
+ * baseArray, T[] newItems
+
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+ * 	newItems  - New Items
+***********************************/
+@safe T[] add(T)(in T[] baseArray, in T[] newItems) {
+	T[] results = baseArray.dup;
+	results ~= newItems;
+	return results;
 }
 unittest {
 	assert([1,2,3].add([4,5]) == [1,2,3,4,5]);
-	assert([1,2,3].add([3,4]) == [1,2,3,3,4]);
-	assert([1,2,3].add([3,4],true) == [1,2,3,4]);
+	assert([1.0,2.0,3.0].add([4.0,5.0]) == [1.0,2.0,3.0,4.0,5.0]);
+	assert(["1","2","3"].add(["4","5"]) == ["1","2","3","4","5"]);
 }
 
 /// change positions
@@ -79,6 +144,7 @@ unittest {
 	assert([1, 2, 3, 2].sub(2, true) == [1, 3]); 
 }
 
+// sub(T)(T[] lhs, T[] rhs, bool multiple = false)
 @safe T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
 	auto result = lhs.dup;
 	foreach(v; rhs) lhs = lhs.sub(v, multiple);
@@ -91,6 +157,25 @@ unittest {
 	assert([1, 2, 3, 2, 3].sub([2, 3], true) == [1]); 
 }
 
+// filters(T)(T[] lhs, T[] rhs, bool multiple = false)
+@safe T[] filters(T)(T[] baseArray, T[] filterValues...) {
+	return filters(baseArray, filterValues);
+}
+unittest {
+	assert([1, 2, 3].filters(2) == [2]); 
+	assert([1, 2, 3].filters() == []); 
+	assert([1, 2, 3].filters(1, 2) == [1, 2]); 
+}
+
+@safe T[] filters(T)(T[] baseArray, T[] filterValues) {
+	T[] results;
+	foreach(v; baseArray) if (filterValues.has(v)) results ~= v;
+	return results;
+} 
+unittest {
+	assert([1, 2, 3].filters([2]) == [2]); 
+	assert([1, 2, 3].filters([]) == []); 
+}
 //T[] sort(T)(T[] values, bool asc = true) {
 //	T[] newValues;
 //	foreach(v; values) if (v != value) newValues ~= v;
@@ -111,13 +196,30 @@ unittest {
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
 }
 
-bool has(T)(T[] values, T value) {
-	foreach (key; values) if (key == value) return true;		
-	return false;
+bool has(T)(in T[] values, in T[] checkValues...) {
+	return has(values, checkValues);
 }
 unittest {
 	assert([1,2,3,4].has(1));
 	assert(![1,2,3,4].has(5));
+	assert([1,2,3,4].has(1, 2));
+	assert(![1,2,3,4].has(5, 1));
+}
+
+bool has(T)(in T[] values, in T[] checkValues) {
+	bool result = false;
+	foreach (cv; checkValues) {		
+		result = false;
+		foreach (value; values) if (value == cv) result = true;		
+		if (!result) return false; 
+	}
+	return result;
+}
+unittest {
+	assert([1,2,3,4].has([1]));
+	assert(![1,2,3,4].has([5]));
+	assert([1,2,3,4].has([1, 2]));
+	assert(![1,2,3,4].has([5, 1]));
 }
 
 size_t index(T)(T[] values, T value) {
