@@ -20,6 +20,9 @@ unittest {
   assert(fill(10, "TXT") == "TXTTXTTXTT");
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe string bind(string source, string[string] values, string limiter = "%") {
 	import std.string; 
 	string result = source;
@@ -31,6 +34,9 @@ unittest {
 }
 
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe bool endsWith(string str, string txt) {
 	if (str.length == 0) return false;
 	if (txt.length == 0) return false;
@@ -46,6 +52,9 @@ unittest {
 // @safe bool has(string value, string searchText) { return (indexOf(value, searchText) != -1); }  
 // @safe bool has(string[] values, string searchText) { return (indexOf(value, searchText) != -1); }  
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe bool has(string base, string[] values...)  { return has(base, values); }
 @safe bool has(string base, string[] values)  {
 	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
@@ -57,6 +66,9 @@ unittest {
   assert(!"One Two Three".has("Five", "Four"));
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe bool has(string[] bases, string[] values...)  { return has(bases, values); }
 @safe bool has(string[] bases, string[] values)  {
 	foreach(base; bases) if (base.has(values)) return true;

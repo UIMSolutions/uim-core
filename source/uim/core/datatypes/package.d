@@ -43,3 +43,4 @@ T rotate(T)(T value, T[] values, bool directionRight = true) {
 unittest {
     assert(1.rotate([2,3,1,4,5]) == 4);
 }
+

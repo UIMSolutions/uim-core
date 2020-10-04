@@ -48,6 +48,9 @@ unittest {
 	assert(["preA":"a", "b":"b"].selectsStartsNotWith("pre") == ["b":"b"]);
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 StringAA endsWith(StringAA entries, string postfix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (k.endsWith(postfix)) results[k] = v;
@@ -57,6 +60,9 @@ unittest {
 	/// TODO
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 StringAA endsNotWith(StringAA entries, string postfix) {  // right will overright left
 	StringAA results;
 	foreach(k, v; entries) if (!k.endsWith(postfix)) results[k] = v;
@@ -66,6 +72,9 @@ unittest {
 	/// TODO
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 StringAA selectKeys(StringAA entries, string[] keys) {
 	StringAA results;
 	foreach(k; keys) if (k in entries) results[k] = entries[k];
@@ -75,6 +84,9 @@ unittest {
 	/// TODO
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 StringAA selectNotKeys(StringAA entries, string[] keys) {
 	StringAA results = entries.dup;
 	foreach(k; keys) if (k in entries) results.remove(k);
@@ -84,6 +96,9 @@ unittest {
 	/// TODO
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 StringAA selectValues(StringAA entries, string[] values) {
 	StringAA results;
 	foreach(val; values) {

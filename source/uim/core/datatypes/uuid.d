@@ -6,6 +6,9 @@ import std.uuid;
 enum NULLID = "00000000-0000-0000-0000-000000000000";
 enum NULLUUID = UUID(NULLID);
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe bool isUUID(string uuid, bool stripInput = true) {
 	import std.meta;
 	alias skipSeq = AliasSeq!(8, 13, 18, 23);
@@ -43,20 +46,38 @@ enum NULLUUID = UUID(NULLID);
 	}
 	return true;
 }
+unittest {
+	/// TODO
+}
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe string[] toString(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toString;
 	return result;
 }
+unittest {
+	/// TODO
+}
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe string[] toStringCompact(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toStringCompact;
 	return result;
 }
 @safe string toStringCompact(UUID id) { return id.toString.replace("_", ""); }
+unittest {
+	/// TODO
+}
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 @safe UUID[] toUUID(string[] ids) {
 	auto result = new UUID[ids.length];
 	foreach(i, id; ids) result[i] = toUUID(id);
@@ -68,4 +89,7 @@ enum NULLUUID = UUID(NULLID);
 	// if ((id.indexOf("'") == 0) || (id.indexOf(`"`) == 0)) 
 
 	return UUID(id.strip);
+}
+unittest {
+	/// TODO
 }

@@ -3,13 +3,22 @@
 import uim.core;
 import std.datetime;
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 auto now() {
 	return Clock.currTime();
 }
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 DateTime nowDateTime() {
 	return cast(DateTime)Clock.currTime();
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 string timeToDateString(long time) {
 	auto day = to!string(SysTime(time).day);
 	auto mon = to!string(cast(int)SysTime(time).month);
@@ -19,34 +28,73 @@ string timeToDateString(long time) {
 	
 	return "%s. %s. %s - %s:%s".format(day, mon, year, hour, min);
 }
+unittest{
+	/// TODO	
+}
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 string timestampToDateTimeDE(string timeStamp) { return timestampToDateTimeDE(to!size_t(timeStamp)); }
 string timestampToDateTimeDE(size_t timeStamp) { return SysTime(timeStamp).toISOExtString.split(".")[0].replace("T", " "); }
-
+unittest{
+	/// TODO	
+}
 //dur!"msecs"(142).total!"msecs" == 142
 
 //01.01.1970 00:00:00 UTC
 	
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 long nowForJs() {
 	auto jsTime = DateTime(1970, 1, 1, 0, 0, 0);
 	auto dTime = cast(DateTime)now();
 	return (dTime - jsTime).total!"msecs";
 }
+unittest{
+	/// TODO	
+}
+
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 long datetimeForJs(string dt) {
 	auto jsTime = DateTime(1970, 1, 1, 0, 0, 0);
 	auto dTime = cast(DateTime)SysTime.fromISOExtString(dt);
 	return (dTime-jsTime).total!"msecs";
 }
+unittest{
+	/// TODO	
+}
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 DateTime jsToDatetime(long jsTime) {
 	auto result = DateTime(1970, 1, 1, 0, 0, 0)+msecs(jsTime);
 	return cast(DateTime)result;
 }
-string germanDate(DateTime dt) {
-	return "%s. %s. %s".format(dt.day, cast(int)dt.month, dt.year);
+unittest{
+	/// TODO	
 }
+
+
+string germanDate(DateTime dt) {
+	auto strDay = to!string(dt.day);
+	auto strMonth = to!string(cast(int)dt.month);
+	auto strYear = to!string(dt.year); 
+	return "%s.%s.%s".format(strDay, strMonth, strYear);
+}
+unittest{
+	/// TODO	
+}
+
 string isoDate(DateTime dt) {
 	auto m = (cast(int)dt.month < 10 ? "0"~to!string(cast(int)dt.month) : to!string(cast(int)dt.month));
 	auto d = (dt.day < 10 ? "0"~to!string(dt.day) : to!string(dt.day));
 	return "%s-%s-%s".format(dt.year, m, d);
+}
+unittest{
+	/// TODO	
 }
