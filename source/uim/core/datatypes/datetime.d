@@ -80,9 +80,16 @@ unittest{
 }
 
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 string germanDate(DateTime dt) {
 	auto strDay = to!string(dt.day);
+	if (strDay.length < 2) strDay = "0"~strDay;
+
 	auto strMonth = to!string(cast(int)dt.month);
+	if (strMonth.length < 2) strMonth = "0"~strMonth;
+
 	auto strYear = to!string(dt.year); 
 	return "%s.%s.%s".format(strDay, strMonth, strYear);
 }
@@ -90,6 +97,9 @@ unittest{
 	/// TODO	
 }
 
+/**********************************************************************
+ * /// TODO
+ **********************************************************************/
 string isoDate(DateTime dt) {
 	auto m = (cast(int)dt.month < 10 ? "0"~to!string(cast(int)dt.month) : to!string(cast(int)dt.month));
 	auto d = (dt.day < 10 ? "0"~to!string(dt.day) : to!string(dt.day));
