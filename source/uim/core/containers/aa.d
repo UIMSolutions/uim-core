@@ -87,6 +87,15 @@ unittest {
 	assert(["a", "b", "c"].indexAA(1) == ["a":1UL, "b":2UL, "c":3UL]);
 }
 
+@safe pure size_t[T] indexAAReverse(T)(T[] values, size_t startPos = 0) {
+	size_t[T] results;
+	foreach(i, value; values) results[i + startPos] = value;
+	return results;
+}
+unittest {
+	//
+}
+
 @safe auto positionsAA(T)(T[] values) {
 	size_t[][T] results;
 	foreach(i, value; values) {
