@@ -36,7 +36,7 @@ unittest {
 @safe V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	V[] results;
 	foreach(k, v; aa) results ~= v;
-	if (sorted) return results.sort.array;
+	if (sorted) return results	.sort.array;
 	return results;
 }
 unittest {
@@ -51,7 +51,7 @@ unittest {
 	auto b = new Test;
 	auto c = new Test;
 	assert([a:1, b:2, c:3].getValues(SORTED) == [1, 2, 3]);
-
+	assert([1:a, 2:b, 3:c].getValues == [a, b, c]);
 }
 
 /***********************************
