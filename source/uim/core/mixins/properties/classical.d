@@ -3,6 +3,7 @@ module uim.core.mixins.properties.classical;
 import std.string;
 
 /// mixin for boolean properties
+deprecated
 template TBool(string name, string defaultValue = null, bool get = true, bool set = true) {
     const char[] TBool = `
     protected bool _`~name~`; 
@@ -12,6 +13,7 @@ template TBool(string name, string defaultValue = null, bool get = true, bool se
 } 
 
 /// mixin for string properties
+deprecated
 template TString(string name, string defaultValue = null, bool get = true, bool set = true) {
     const char[] TString = `
     protected string _`~name~`; 

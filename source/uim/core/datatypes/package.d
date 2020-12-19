@@ -9,7 +9,6 @@ module uim.core.datatypes;
 import std.meta;
 import uim.core;
 
-public import uim.core.datatypes.mixins;
 public import uim.core.datatypes.boolean;
 public import uim.core.datatypes.datetime;
 public import uim.core.datatypes.integral;
