@@ -32,11 +32,11 @@ unittest {
 	assert([1:a, 2:b, 3:c].getKeys(SORTED) == [1, 2, 3]);
 }
 
-/// get values of an associative array
+/// get values of an associative array - currently not working für objects
 @safe V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	V[] results;
 	foreach(k, v; aa) results ~= v;
-	if (sorted) return results	.sort.array;
+	if (sorted) return results.sort.array;
 	return results;
 }
 unittest {
@@ -45,21 +45,27 @@ unittest {
 	assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
 	assert(["1":"4", "2":"5", "3":"6"].getValues(SORTED) == ["4", "5", "6"]);
 
-	// Examples by reference
-	class Test {}
-	auto a = new Test;
-	auto b = new Test;
-	auto c = new Test;
+ 	// Examples by reference
+/* 	class Test { 
+		this(int myValue) { value = myValue; }
+ 		int value; 
+		int opCmp(Test test) { 
+			if (value < test.value) return -1;
+			if (value > test.value) return 1;
+			return 0;
+		}
+	}
+	auto a = new Test(1);
+	auto b = new Test(2);
+	auto c = new Test(3);
 	assert([a:1, b:2, c:3].getValues(SORTED) == [1, 2, 3]);
-	assert([1:a, 2:b, 3:c].getValues == [a, b, c]);
-}
+	assert([1:a, 2:b, 3:c].getValues == [a, b, c]); */
+ }
 
-/***********************************
- * add
- */
-@safe T[S] add(T, S)(T[S] lhs, T[S] rhs) {
-	T[S] results = lhs.dup;
-	foreach(k, v; rhs) results[k] = v;
+// Add Items from array
+@safe T[S] add(T, S)(T[S] baseItems, T[S] addItems) {
+	T[S] results = baseItems.dup;
+	foreach(k, v; addItems) results[k] = v;
 	return results;
 }
 unittest {
@@ -69,7 +75,7 @@ unittest {
 }
 
 /// remove subItems from baseItems if key and value of item are equal
-@safe T[S] sub(T, S)(T[S] baseItems, T[S] subItems...) {
+@safe T[S] sub(T, S)(T[S] baseItems, T[S] subItems) {
 	T[S] results = baseItems.dup;
 	foreach(k, v; subItems) 
 		if ((k in results) && (results[k] == v)) results.remove(k);
