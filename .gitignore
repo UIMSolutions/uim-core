@@ -32,3 +32,4 @@ dub.selections.json
 .dub/build/uim-core-test-library-unittest-windows-x86_64-dmd_2093-3645949DF708D62053D81E56D65959E5/uim-core-test-library.ilk
 .dub/build/uim-core-test-library-unittest-windows-x86_64-dmd_2093-3645949DF708D62053D81E56D65959E5/uim-core-test-library.pdb
 uim-core-test-library.exe
+.dub/build/uim-core-test-library-unittest-linux.posix-x86_64-dmd_2094-309C4A4A1C46FE79C7658CFB683A8538/uim-core-test-library.o

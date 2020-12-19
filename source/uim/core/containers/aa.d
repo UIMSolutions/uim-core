@@ -1,4 +1,10 @@
-﻿module uim.core.containers.aa;
+﻿/***********************************************************************************************
+*	Copyright: © 2017-2020 UI Manufaktur UG
+*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+*	Authors: UI Manufaktur Team
+*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/containers/aa
+************************************************************************************************/
+module uim.core.containers.aa;
 
 import uim.core;
 
@@ -12,10 +18,18 @@ enum SORTED = true;
 	return results;
 }
 unittest {
+	// Examples by value
 	assert([1:4, 2:5, 3:6].getKeys(SORTED) == [1, 2, 3]);
 	assert([1:"4", 2:"5", 3:"6"].getKeys(SORTED) == [1, 2, 3]);
 	assert(["1":4, "2":5, "3":6].getKeys(SORTED) == ["1", "2", "3"]);
 	assert(["1":"4", "2":"5", "3":"6"].getKeys(SORTED) == ["1", "2", "3"]);
+	
+	// Examples by reference
+	class Test {}
+	auto a = new Test;
+	auto b = new Test;
+	auto c = new Test;
+	assert([1:a, 2:b, 3:c].getKeys(SORTED) == [1, 2, 3]);
 }
 
 /// get values of an associative array
@@ -30,6 +44,14 @@ unittest {
 	assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
 	assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
 	assert(["1":"4", "2":"5", "3":"6"].getValues(SORTED) == ["4", "5", "6"]);
+
+	// Examples by reference
+	class Test {}
+	auto a = new Test;
+	auto b = new Test;
+	auto c = new Test;
+	assert([a:1, b:2, c:3].getValues(SORTED) == [1, 2, 3]);
+
 }
 
 /***********************************

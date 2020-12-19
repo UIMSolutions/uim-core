@@ -1,4 +1,10 @@
-﻿module uim.core.mixins.function_;
+﻿/***********************************************************************************************
+*	Copyright: © 2017-2020 UI Manufaktur UG
+*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+*	Authors: UI Manufaktur Team
+*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/mixins/function
+************************************************************************************************/
+module uim.core.mixins.function_;
 
 template OFunction(string fName, string fParameters, string fBody) {
 	const char[] TFunction = "
