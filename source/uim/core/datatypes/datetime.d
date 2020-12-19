@@ -1,23 +1,28 @@
-﻿module uim.core.datatypes.datetime;
+﻿/***********************************************************************************************
+*	Copyright: © 2017-2020 UI Manufaktur UG
+*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+*	Authors: UI Manufaktur Team
+*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/datetime
+************************************************************************************************/
+module uim.core.datatypes.datetime;
 
 import uim.core;
 import std.datetime;
 
-/**********************************************************************
- * now()
- * Returns the current SysTime
- * 
- * Result: Systime
- **********************************************************************/
+// Current SysTime based on System Clock
 auto now() {
-	return Clock.currTime();
+	return Clock.currTime(); }
+unittest {
+	auto now1 = now; auto now2 = now;
+	assert(now2 >= now1);
 }
 
-/**********************************************************************
- * /// TODO
- **********************************************************************/
+// Current DateTime based on System Clock
 DateTime nowDateTime() {
-	return cast(DateTime)Clock.currTime();
+	return cast(DateTime)now; }
+unittest {
+	auto dt1 = nowDateTime; auto dt2 = nowDateTime;
+	assert(dt2 >= dt1);
 }
 
 /**********************************************************************

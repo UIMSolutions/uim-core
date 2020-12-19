@@ -1,4 +1,10 @@
-﻿module uim.core.datatypes.string_;
+﻿/***********************************************************************************************
+*	Copyright: © 2017-2020 UI Manufaktur UG
+*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
+*	Authors: UI Manufaktur Team
+*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/string
+************************************************************************************************/
+module uim.core.datatypes.string_;
 
 import std.stdio; 
 import std.string; 
@@ -172,14 +178,12 @@ unittest {
 }
 
 size_t[] indexOfAll(string text, string searchTxt) {
-	writeln(text.indexOf(searchTxt));
 	if (text.indexOf(searchTxt) == -1) return [];
 
 	size_t[] results;
 	size_t currentPos = 0;
 	while((currentPos < text.length) && (currentPos >= 0)) {
 		currentPos = text.indexOf(searchTxt, currentPos);
-		write(currentPos, "\t");
 		if ((currentPos < text.length) && (currentPos >= 0)) {
 			results ~= currentPos;
 			currentPos++; 

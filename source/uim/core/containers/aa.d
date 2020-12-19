@@ -4,52 +4,38 @@ import uim.core;
 
 enum SORTED = true;
 
-/**********************************************************************
- * get (sorted) keys of an associative array
- * 
- * 1st Parameter = aa
- * 2nd Parameter = sorting on/off (default: false)
- * 
- * Alternative: aa.keys.sort
- **********************************************************************/
-@safe pure K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
+/// get keys of an associative array
+@safe K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
 	K[] results;
 	foreach(k, v; aa) results ~= k;
 	if (sorted) return results.sort.array;
 	return results;
 }
 unittest {
-	assert([1:1, 2:2, 3:3].getKeys(SORTED) == [1, 2, 3]);
-	assert([1:"1", 2:"2", 3:"3"].getKeys(SORTED) == [1, 2, 3]);
-	assert(["1":1, "2":2, "3":3].getKeys(SORTED) == ["1", "2", "3"]);
-	assert(["1":"1", "2":"2", "3":"3"].getKeys(SORTED) == ["1", "2", "3"]);
+	assert([1:4, 2:5, 3:6].getKeys(SORTED) == [1, 2, 3]);
+	assert([1:"4", 2:"5", 3:"6"].getKeys(SORTED) == [1, 2, 3]);
+	assert(["1":4, "2":5, "3":6].getKeys(SORTED) == ["1", "2", "3"]);
+	assert(["1":"4", "2":"5", "3":"6"].getKeys(SORTED) == ["1", "2", "3"]);
 }
 
-/***********************************
- * get (sorted) values of an associative array
- * 
- * 1st Parameter = aa
- * 2nd Parameter = sorting on/off (default: false)
- * 
- * Alternative: aa.values.sort
- */
-@safe pure V[] getValues(K, V)(V[K] aa, bool sorted = false) {
+/// get values of an associative array
+@safe V[] getValues(K, V)(V[K] aa, bool sorted = false) {
 	V[] results;
 	foreach(k, v; aa) results ~= v;
 	if (sorted) return results.sort.array;
 	return results;
 }
 unittest {
-	assert([1:1, 2:2, 3:3].getValues(SORTED) == [1, 2, 3]);
-	assert([1:"1", 2:"2", 3:"3"].getValues(SORTED) == ["1", "2", "3"]);
-	assert(["1":1, "2":2, "3":3].getValues(SORTED) == [1, 2, 3]);
-	assert(["1":"1", "2":"2", "3":"3"].getValues(SORTED) == ["1", "2", "3"]);
+	assert([1:4, 2:5, 3:6].getValues(SORTED) == [4, 5, 6]);
+	assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
+	assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
+	assert(["1":"4", "2":"5", "3":"6"].getValues(SORTED) == ["4", "5", "6"]);
 }
 
 /***********************************
  * add
  */
-@safe pure T[S] add(T, S)(T[S] lhs, T[S] rhs) {
+@safe T[S] add(T, S)(T[S] lhs, T[S] rhs) {
 	T[S] results = lhs.dup;
 	foreach(k, v; rhs) results[k] = v;
 	return results;
@@ -60,19 +46,62 @@ unittest {
 	assert(["a":"b", "c":"d"].add(["e":"f"]).add(["g":"h"]) == ["a":"b", "c":"d", "e":"f", "g":"h"]);
 }
 
-/***********************************
- * sub
- */
-@safe pure T[S] sub(T, S)(T[S] lhs, T[S] rhs) {
-	T[S] results = lhs.dup;
-	foreach(k, v; rhs) results.remove(k);
+/// remove subItems from baseItems if key and value of item are equal
+@safe T[S] sub(T, S)(T[S] baseItems, T[S] subItems...) {
+	T[S] results = baseItems.dup;
+	foreach(k, v; subItems) 
+		if ((k in results) && (results[k] == v)) results.remove(k);
 	return results;
 }
 unittest {
-/* 	assert([1:"b", 2:"d"].add([3:"f"]) == [1:"b", 2:"d", 3:"f"]);
-	assert(["a":"b", "c":"d"].add(["e":"f"]) == ["a":"b", "c":"d", "e":"f"]);
-	assert(["a":"b", "c":"d"].add(["e":"f"]).add(["g":"h"]) == ["a":"b", "c":"d", "e":"f", "g":"h"]);
- */}
+ 	assert([1:"4", 2:"5", 3:"6"].sub([1:"5", 2:"5", 3:"6"]) == [1:"4"]);
+}
+
+/// remove subItems from baseItems if key exists
+@safe T[S] subKeys(T, S)(T[S] baseItems, S[] subItems...) {
+	return subKeys(baseItems, subItems);
+}
+unittest {
+ 	assert([1:"4", 2:"5", 3:"6"].subKeys(2, 3) == [1:"4"]);
+}
+
+/// remove subItems from baseItems if key exists
+@safe T[S] subKeys(T, S)(T[S] baseItems, S[] subItems) {
+	T[S] results = baseItems.dup;
+	foreach(key; subItems) results.remove(key);
+	return results;
+}
+unittest {
+ 	assert([1:"4", 2:"5", 3:"6"].subKeys([2, 3]) == [1:"4"]);
+}
+
+/// remove subItems from baseItems if key exists
+@safe T[S] subKeys(T, S)(T[S] baseItems, T[S] subItems) {
+	T[S] results = baseItems.dup;
+	foreach(k, v; subItems) results.remove(k);
+	return results;
+}
+unittest {
+ 	assert([1:"4", 2:"5", 3:"6"].subKeys([2:"x", 3:"y"]) == [1:"4"]);
+}
+
+/// remove subItems from baseItems if value exists
+@safe T[S] subValues(T, S)(T[S] baseItems, T[S] subItems) {
+	T[S] results = baseItems.dup;
+	foreach(k, v; subItems) {
+		foreach(kk, vv; baseItems) if (v == vv) results.remove(kk);
+	}
+	return results;
+}
+unittest {
+ 	assert([1:"4", 2:"5", 3:"6"].subValues([2:"5", 3:"6"]) == [1:"4"]);
+ 	assert([7:"4", 8:"5", 9:"6"].subValues([2:"5", 3:"6"]) == [7:"4"]);
+ 	assert([7:"4", 8:"5", 9:"6"].subValues([2:"2", 3:"2"]) != [7:"4"]);
+
+ 	assert([1:4, 2:5, 3:6].subValues([2:5, 3:6]) == [1:4]);
+ 	assert([7:4, 8:5, 9:6].subValues([2:5, 3:6]) == [7:4]);
+ 	assert([7:4, 8:5, 9:6].subValues([2:2, 3:2]) != [7:4]);
+}
 
 /***********************************
  * toIndexAA
@@ -95,6 +124,8 @@ unittest {
 unittest {
 	//
 }
+
+/**
 
 @safe auto positionsAA(T)(T[] values) {
 	size_t[][T] results;

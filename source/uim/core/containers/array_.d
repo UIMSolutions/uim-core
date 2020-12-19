@@ -2,24 +2,32 @@
 
 import uim.core;
 
-auto counts(T)(in T[] baseArray...) {
-	return counts(baseArray, null);
+
+/**********************************************************************
+ * size_t[T] countsEquals(T)(in T[] baseArray...) {
+ * Counts appearance of equal items
+ * 
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+**********************************************************************/
+auto countsEquals(T)(in T[] baseArray...) {
+	return countsEquals(baseArray, null);
 }
 unittest {
-	assert(counts(1) == [1:1uL]);
-	assert(counts(1, 1) == [1:2uL]);
-	assert(counts(1, 2) == [1:1U, 2:1UL]);
+	assert(countsEquals(1) == [1:1uL]);
+	assert(countsEquals(1, 1) == [1:2uL]);
+	assert(countsEquals(1, 2) == [1:1U, 2:1UL]);
 }
 
-/***********************************
+/**********************************************************************
  * size_t[T] counts(T)(in T[] baseArray, in T[] validValues = null) {
  * Counts the occourence of values in an array
  * 
  * Parameters:
  * 	baseArray - Array which will get new items 
  * 	validValues - If not null, only these values will be indexed
-***********************************/
-auto counts(T)(in T[] baseArray, in T[] validValues = null) {
+**********************************************************************/
+auto countsEquals(T)(in T[] baseArray, in T[] validValues = null) {
 	size_t[T] results;
 	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
 	foreach(v; checkValues) {
@@ -29,21 +37,37 @@ auto counts(T)(in T[] baseArray, in T[] validValues = null) {
 	return results;
 }
 unittest {
-	assert(counts([1]) == [1:1uL]);
-	assert(counts([1, 1]) == [1:2uL]);
-	assert(counts([1, 2]) == [1:1U, 2:1UL]);
-	assert(counts([1, 2], [1]) == [1:1UL]);
+	assert(countsEquals([1]) == [1:1uL]);
+	assert(countsEquals([1, 1]) == [1:2uL]);
+	assert(countsEquals([1, 2]) == [1:1uL, 2:1uL]);
+	assert(countsEquals([1, 2], [1]) == [1:1uL]);
 }
 
-/***********************************
+/**********************************************************************
+ * size_t[][T] positions(T)(in T[] baseArray...) {
+ * Creates a associative array with all positions of a value in an array
+ * 
+ * Parameters:
+ * 	baseArray - Array which will get new items 
+**********************************************************************/
+auto positions(T)(in T[] baseArray...) {
+	size_t[][T] results = positions(baseArray, null);
+	return results; }
+unittest {
+	assert(positions(1) == [1:[0UL]]);
+	assert(positions(1, 1) == [1:[0UL, 1UL]]);
+	assert(positions(1, 2) == [1:[0UL], 2:[1UL]]);
+}
+
+/**********************************************************************
  * size_t[][T] positions(T)(in T[] baseArray, in T[] validValues = null) {
  * Creates a associative array with all positions of a value in an array
  * 
  * Parameters:
  * 	baseArray - Array which will get new items 
  * 	validValues - If not null, only these values will be indexed
-***********************************/
-auto positions(T)(in T[] baseArray, in T[] validValues = null) {
+**********************************************************************/
+size_t[][T] positions(T)(in T[] baseArray, in T[] validValues = null) {
 	size_t[][T] results;
 	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
 	foreach(pos, v; checkValues) {
