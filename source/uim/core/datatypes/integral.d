@@ -8,13 +8,7 @@ module uim.core.datatypes.integral;
 
 import uim.core;
 
-/**
- * toString - convert integral values to string with defined length
- *   Params: 
- *      value - convert to string
- *      length - length of resulting string (0 - length of convert)
- *      fill - characters to fill result if convert ist smaller than length
- */
+/// convert integral values to string with defined length
 string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isIntegral!T) {
   string result = fill(length, fillTxt);
   
@@ -33,12 +27,7 @@ unittest {
   assert(1.toString(10, "X") == "XXXXXXXXX1");
 }
 
-/**
- * limits - limits the value on the min or max 
- *   Params:
- *     minLimit - min limit
- *     maxLimit - max limit
- */
+/// limits the value on the min or max 
 @safe T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T) 
   in(minLimit < maxLimit, "minLimit should not be equal or greater then maxLimit")
   do {
@@ -56,9 +45,7 @@ unittest {
   assert(10.limit(14, 13) > 0);
 }
 
-/**
- * transform - transform value minOld/maxOld to newMin/newMax 
- */
+/// transform value minOld/maxOld to newMin/newMax 
 @safe T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T) 
   in((value >= minOld) && (value <= maxOld), "value should be between minOld and maxOld")
   in(minOld < maxOld, "minOld should not be equal or greater then maxOld")

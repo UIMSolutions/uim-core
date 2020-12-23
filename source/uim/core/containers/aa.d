@@ -44,23 +44,7 @@ unittest {
 	assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
 	assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
 	assert(["1":"4", "2":"5", "3":"6"].getValues(SORTED) == ["4", "5", "6"]);
-
- 	// Examples by reference
-/* 	class Test { 
-		this(int myValue) { value = myValue; }
- 		int value; 
-		int opCmp(Test test) { 
-			if (value < test.value) return -1;
-			if (value > test.value) return 1;
-			return 0;
-		}
-	}
-	auto a = new Test(1);
-	auto b = new Test(2);
-	auto c = new Test(3);
-	assert([a:1, b:2, c:3].getValues(SORTED) == [1, 2, 3]);
-	assert([1:a, 2:b, 3:c].getValues == [a, b, c]); */
- }
+}
 
 // Add Items from array
 @safe T[S] add(T, S)(T[S] baseItems, T[S] addItems) {
@@ -131,9 +115,6 @@ unittest {
  	assert([7:4, 8:5, 9:6].subValues([2:2, 3:2]) != [7:4]);
 }
 
-/***********************************
- * toIndexAA
- */
 @safe pure size_t[T] indexAA(T)(T[] values, size_t startPos = 0) {
 	size_t[T] results;
 	foreach(i, value; values) results[value] = i + startPos;
@@ -153,38 +134,6 @@ unittest {
 	//
 }
 
-/**
-
-@safe auto positionsAA(T)(T[] values) {
-	size_t[][T] results;
-	foreach(i, value; values) {
-		if (value !in results) results[value] = [];
-		results[value] ~= i;
-	}
-	return results;
-}
-unittest {
-	assert(["a", "b", "c", "a"].positionsAA == ["a":[0UL, 3UL], "b":[1UL], "c":[2UL]]);
-}
-
-@safe T[S] select(T, S)(T[S] base, S[] keys...) { return select(base, keys); }
-@safe T[S] select(T, S)(T[S] base, S[] keys) { T[S] results; foreach(key; keys) if (key in base) results[key] = base[key]; return results; }
-unittest {
-	assert(["a":"b", "c":"d"].select("a") == ["a":"b"]);
-}
-
-@safe S[] selectKeys(T, S)(T[S] base, S[] keys...) { return base.selectKeys(keys); }
-@safe S[] selectKeys(T, S)(T[S] base, S[] keys) { return base.select(keys).getKeys; }
-unittest {
-	assert(["a":"b", "c":"d"].selectKeys("a") == ["a"]);
-}
-
-/* T[S] selectValues(T, S)(T[S] base, T[] values...) { return select(base, v); }
-T[S] selectValues(T, S)(T[S] base, T[] values) { return base.select(keys).getKeys; }
-unittest {
-	assert(["a":"b", "c":"d"].selectKeys("a") == ["a"]);
-}
- */
 @safe bool hasKey(T, S)(T[S] base, S key) { return (key in base) ? true : false; }
 @safe bool hasKeys(T, S)(T[S] base, S[] keys...) { return base.hasKeys(keys); }
 @safe bool hasKeys(T, S)(T[S] base, S[] keys) { bool result; foreach(key; keys) if (key !in base) return false; return true; }

@@ -12,9 +12,6 @@ import std.uuid;
 enum NULLID = "00000000-0000-0000-0000-000000000000";
 enum NULLUUID = UUID(NULLID);
 
-/**********************************************************************
- * /// TODO
- **********************************************************************/
 @safe bool isUUID(string uuid, bool stripInput = true) {
 	import std.meta;
 	alias skipSeq = AliasSeq!(8, 13, 18, 23);
@@ -57,9 +54,6 @@ unittest {
 	assert(!isUUID(randomUUID.toString[0..4]));
 }
 
-/**********************************************************************
- * /// TODO
- **********************************************************************/
 @safe string[] toString(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toString;
@@ -69,9 +63,6 @@ unittest {
 	/// TODO
 }
 
-/**********************************************************************
- * /// TODO
- **********************************************************************/
 @safe string[] toStringCompact(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toStringCompact;
@@ -82,9 +73,6 @@ unittest {
 	/// TODO
 }
 
-/**********************************************************************
- * /// TODO
- **********************************************************************/
 @safe UUID[] toUUID(string[] ids) {
 	auto result = new UUID[ids.length];
 	foreach(i, id; ids) result[i] = toUUID(id);

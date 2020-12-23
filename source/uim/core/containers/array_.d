@@ -8,14 +8,7 @@ module uim.core.containers.array_;
 
 import uim.core;
 
-
-/**********************************************************************
- * size_t[T] countsEquals(T)(in T[] baseArray...) {
- * Counts appearance of equal items
- * 
- * Parameters:
- * 	baseArray - Array which will get new items 
-**********************************************************************/
+/// Counts appearance of equal items
 auto countsEquals(T)(in T[] baseArray...) {
 	return countsEquals(baseArray, null);
 }
@@ -25,14 +18,7 @@ unittest {
 	assert(countsEquals(1, 2) == [1:1U, 2:1UL]);
 }
 
-/**********************************************************************
- * size_t[T] counts(T)(in T[] baseArray, in T[] validValues = null) {
- * Counts the occourence of values in an array
- * 
- * Parameters:
- * 	baseArray - Array which will get new items 
- * 	validValues - If not null, only these values will be indexed
-**********************************************************************/
+/// Counts the occourence of values in an array
 auto countsEquals(T)(in T[] baseArray, in T[] validValues = null) {
 	size_t[T] results;
 	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
@@ -49,13 +35,7 @@ unittest {
 	assert(countsEquals([1, 2], [1]) == [1:1uL]);
 }
 
-/**********************************************************************
- * size_t[][T] positions(T)(in T[] baseArray...) {
- * Creates a associative array with all positions of a value in an array
- * 
- * Parameters:
- * 	baseArray - Array which will get new items 
-**********************************************************************/
+/// Creates a associative array with all positions of a value in an array
 auto positions(T)(in T[] baseArray...) {
 	size_t[][T] results = positions(baseArray, null);
 	return results; }
@@ -65,14 +45,7 @@ unittest {
 	assert(positions(1, 2) == [1:[0UL], 2:[1UL]]);
 }
 
-/**********************************************************************
- * size_t[][T] positions(T)(in T[] baseArray, in T[] validValues = null) {
- * Creates a associative array with all positions of a value in an array
- * 
- * Parameters:
- * 	baseArray - Array which will get new items 
- * 	validValues - If not null, only these values will be indexed
-**********************************************************************/
+/// Creates a associative array with all positions of a value in an array
 size_t[][T] positions(T)(in T[] baseArray, in T[] validValues = null) {
 	size_t[][T] results;
 	auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray); 
@@ -89,14 +62,7 @@ unittest {
 	assert(positions([1, 2], [1]) == [1:[0UL]]);
 }
 
-/***********************************
- * T[] add(T)(T[] baseArray, T[] newItems...)
- * adding items into array
- * 
- * Parameters:
- * 	baseArray - Array which will get new items 
- * 	newItems  - New Items
-***********************************/
+/// adding items into array
 @safe T[] add(T)(in T[] baseArray, in T[] newItems...) {
 	return add(baseArray, newItems);
 }
@@ -107,16 +73,7 @@ unittest {
 	assert(["1","2","3"].add("4","5") == ["1","2","3","4","5"]);
 }
 
-/***********************************
- * T[] add(T)(in T[] baseArray, in T[] newItems)
-
- * adding items into array
- * baseArray, T[] newItems
-
- * Parameters:
- * 	baseArray - Array which will get new items 
- * 	newItems  - New Items
-***********************************/
+/// adding items into array
 @safe T[] add(T)(in T[] baseArray, in T[] newItems) {
 	T[] results = baseArray.dup;
 	results ~= newItems;
@@ -134,13 +91,7 @@ unittest {
 	left = right;
 	right = buffer;
 } 
-/**
- * Changing positions of elements in array
- * 
- * Parameters:
- * values = Array
- * firstPosition, secondPosition = positions of elements
- */
+/// Changing positions of elements in array
 @safe T[] change(T)(T[] values, size_t firstPosition, size_t secondPosition) {
 	if ((firstPosition >= values.length) || (secondPosition >= values.length) || (firstPosition == secondPosition)) return values;
 
@@ -206,11 +157,6 @@ unittest {
 	assert([1, 2, 3].filters([2]) == [2]); 
 	assert([1, 2, 3].filters([]) == []); 
 }
-//T[] sort(T)(T[] values, bool asc = true) {
-//	T[] newValues;
-//	foreach(v; values) if (v != value) newValues ~= v;
-//	return newValues;
-//} 
 
 @safe OUT[] castTo(OUT, IN)(IN[] values) {
 	OUT[] results; results.length = values.length;
