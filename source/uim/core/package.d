@@ -12,6 +12,7 @@ public import std.string;
 public import std.array;
 public import std.algorithm;
 public import std.traits;
+public import std.datetime;
 
 public import uim.core.classes;
 public import uim.core.containers;

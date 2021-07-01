@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.containers.array_;
 
+@safe:
 import uim.core;
 
 /// Counts appearance of equal items
@@ -33,6 +34,13 @@ unittest {
 	assert(countsEquals([1, 1]) == [1:2uL]);
 	assert(countsEquals([1, 2]) == [1:1uL, 2:1uL]);
 	assert(countsEquals([1, 2], [1]) == [1:1uL]);
+}
+
+auto firstPosition(T)(in T[] baseArray, in T value) {
+	foreach(index, item; baseArray) if (item == value) return index;
+	return -1;
+	 }
+unittest {
 }
 
 /// Creates a associative array with all positions of a value in an array
@@ -172,6 +180,9 @@ unittest {
 	assert([1,2,3,4].change(1, 3) == [1, 4, 3, 2]);
 }
 
+bool exist(T)(in T[] values, in T[] checkValues...) {
+	return has(values, checkValues);
+}
 bool has(T)(in T[] values, in T[] checkValues...) {
 	return has(values, checkValues);
 }

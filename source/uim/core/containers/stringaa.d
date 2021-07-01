@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.containers.stringaa;
 
+@safe:
 import std.algorithm : startsWith, endsWith; 
 import uim.core; 
 
@@ -103,5 +104,10 @@ alias StringAA = string[string];
 	}
 	unittest {
 		/// TODO
+	}
+
+	string getValue(STRINGAA keyValues, string[] keys...) {
+		foreach(k; keys) if (k in keyValues) return keyValues[k];
+		return null;
 	}
 

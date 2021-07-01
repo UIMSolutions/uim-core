@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.containers.aa;
 
+@safe:
 import uim.core;
 
 enum SORTED = true;

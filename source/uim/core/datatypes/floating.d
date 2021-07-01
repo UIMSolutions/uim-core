@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.datatypes.floating;
 
+@safe: 
 import uim.core;
 
 @safe T fuzzy(T)(T value, T minLimit, T maxLimit, T minFactor = 0, T maxFactor = 1) if (isFloatingPoint!T) {

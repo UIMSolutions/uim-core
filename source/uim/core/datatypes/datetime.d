@@ -6,8 +6,23 @@
 ************************************************************************************************/
 module uim.core.datatypes.datetime;
 
+@safe:
 import uim.core;
-import std.datetime;
+
+enum startUNIX = DateTime(1970, 1, 1, 0, 0, 0);
+
+@safe long toTimestamp(SysTime untilTime) {
+	return (untilTime - cast(SysTime)startUNIX).total!"hnsecs"();
+}
+@safe SysTime fromTimestamp(long aTimestamp) {
+	return (cast(SysTime)startUNIX + aTimestamp.hnsecs);
+}
+@safe long toJSTimestamp(long jsTimestamp) {
+	return (fromJSTimestamp(jsTimestamp) - cast(SysTime)startUNIX).total!"msecs"();
+}
+@safe SysTime fromJSTimestamp(long jsTimestamp) {
+	return (cast(SysTime)startUNIX + jsTimestamp.msecs);
+}
 
 // Current SysTime based on System Clock
 @safe auto now() {
@@ -107,4 +122,19 @@ unittest{
 }
 unittest{
 	/// TODO	
+}
+
+/// Convert dateTiem to german Date string 
+@safe string toYYYYMMDD(SysTime datetime, string separator = "") {
+	return toYYYYMMDD(cast(DateTime)datetime, separator);
+}
+@safe string toYYYYMMDD(DateTime datetime, string separator = "") {
+	string[] results;
+	results ~= to!string(datetime.year);
+	results ~= (datetime.month < 10 ? "0" : "")~to!string(to!int(datetime.month));
+	results ~= (datetime.day < 10 ? "0" : "")~to!string(datetime.day);
+	return results.join(separator);
+}
+unittest{
+	assert(DateTime(Date(1999, 7, 6)).toYYYYMMDD("-") == "1999-07-06");
 }

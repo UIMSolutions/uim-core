@@ -6,9 +6,10 @@
 ************************************************************************************************/
 module uim.core.datatypes.boolean;
 
+@safe: 
 import uim.core;
 
-char[] BOOL(bool toogleValue) { return cast(char[])((toogleValue) ? `true`:`false`); }
+// char[] BOOL(bool toogleValue) { return cast(char[])((toogleValue) ? `true`:`false`); }
 
 /// Toggle boolean value (from true to false, from false to true)
 @safe pure bool toggle(bool value) { 

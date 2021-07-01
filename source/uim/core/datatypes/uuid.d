@@ -6,11 +6,14 @@
 ************************************************************************************************/
 module uim.core.datatypes.uuid;
 
+@safe: 
 import uim.core;
 import std.uuid;
 
 enum NULLID = "00000000-0000-0000-0000-000000000000";
 enum NULLUUID = UUID(NULLID);
+
+@safe auto isNull(UUID id) { return (NULLUUID == id); }
 
 @safe bool isUUID(string uuid, bool stripInput = true) {
 	import std.meta;
