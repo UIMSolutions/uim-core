@@ -99,7 +99,10 @@ unittest{
 	/// TODO	
 }
 
-/// Convert dateTiem to german Date string 
+/// Convert dateTime to german Date string 
+@safe string germanDate(long dt) {
+		return germanDate(cast(DateTime)fromTimestamp(dt));
+}
 @safe string germanDate(DateTime dt) {
 	auto strDay = to!string(dt.day);
 	if (strDay.length < 2) strDay = "0"~strDay;

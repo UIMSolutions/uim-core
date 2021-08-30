@@ -14,6 +14,9 @@ public import std.algorithm;
 public import std.traits;
 public import std.datetime;
 
+// public import colored;
+public import vibe.d;
+
 public import uim.core.classes;
 public import uim.core.containers;
 public import uim.core.dlang;

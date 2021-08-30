@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.datatypes.integral;
 
+@safe:
 import uim.core;
 
 /// convert integral values to string with defined length
@@ -28,7 +29,7 @@ unittest {
 }
 
 /// limits the value on the min or max 
-@safe T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T) 
+T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T) 
   in(minLimit < maxLimit, "minLimit should not be equal or greater then maxLimit")
   do {
     T result = value;
@@ -46,7 +47,7 @@ unittest {
 }
 
 /// transform value minOld/maxOld to newMin/newMax 
-@safe T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T) 
+T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T) 
   in((value >= minOld) && (value <= maxOld), "value should be between minOld and maxOld")
   in(minOld < maxOld, "minOld should not be equal or greater then maxOld")
   in(newMin != newMax, "newMin should not equal to newMax")
@@ -63,7 +64,7 @@ unittest {
   assert(80.transform(0, 100, 0, 10) == 8);
 }
 
-@safe pure bool isLess(T)(T base, T[] values...) {
+pure bool isLess(T)(T base, T[] values...) {
   foreach(value;values) if (value <= base) return false;
   return true;  
 }
@@ -72,7 +73,7 @@ unittest {
   assert(!80.isLess(10, 100));
 }
 
-@safe pure bool isGreater(T)(T base, T[] values...) {
+pure bool isGreater(T)(T base, T[] values...) {
   foreach(value; values) if (value >= base) return false;
   return true; // base is always greater
 }

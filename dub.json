@@ -1,13 +1,14 @@
 {
-	"name": "uim-core",
-	"authors": [
-		"UI Manufaktur Team"
-	],
-	"copyright": "Copyright © 2017-2021, UI Manufaktur UG",
-	"dependencies": {
-		"silly": "~>1.0.2"
-	},
-	"description": "Core D Library for UIM projects",
-	"license": "MIT",
-	"targetType": "library"
+    "name": "uim-core",
+    "authors": [
+        "UI Manufaktur Team"
+    ],
+    "copyright": "Copyright © 2017-2021, UI Manufaktur UG",
+    "dependencies": {
+        "colored": "~>0.0.23",
+        "vibe-d": "==0.9.3"
+    },
+    "description": "Core D Library for UIM projects",
+    "license": "MIT",
+    "targetType": "library"
 }

@@ -6,6 +6,7 @@
 ************************************************************************************************/
 module uim.core.datatypes.string_;
 
+@safe:
 import std.stdio; 
 import std.string; 
 import uim.core;
@@ -24,7 +25,7 @@ unittest {
   assert(fill(10, "TXT") == "TXTTXTTXTT");
 }
 
-@safe string bind(string source, string[string] values, string limiter = "%") {
+string bind(string source, string[string] values, string limiter = "%") {
 	import std.string; 
 	string result = source;
 	foreach(k, v; values) { result = result.replace(limiter~k~limiter, v); }
@@ -34,7 +35,7 @@ unittest {
 	/// TODO
 }
 
-@safe bool endsWith(string str, string txt) {
+bool endsWith(string str, string txt) {
 	if (str.length == 0) return false;
 	if (txt.length == 0) return false;
 	return (lastIndexOf(str, txt) == str.length-1);
@@ -45,30 +46,30 @@ unittest {
 	assert(!"ABC".endsWith(""));	
 }
 
-@safe bool has(string base, string[] values...)  { return has(base, values); }
-@safe bool has(string base, string[] values)  {
+bool has(string base, string[] values...)  { return has(base, values); }
+bool has(string base, string[] values)  {
 	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
 	return false;
 }
-@safe unittest {
+unittest {
   assert("One Two Three".has("One"));
   assert("One Two Three".has("Five", "Four", "Three"));
   assert(!"One Two Three".has("Five", "Four"));
 }
 
-@safe bool has(string[] bases, string[] values...)  { return has(bases, values); }
-@safe bool has(string[] bases, string[] values)  {
+bool has(string[] bases, string[] values...)  { return has(bases, values); }
+bool has(string[] bases, string[] values)  {
 	foreach(base; bases) if (base.has(values)) return true;
 	return false;
 }
-@safe unittest {
+unittest {
   assert(["One Two Three"].has("One"));
   assert(["One Two Three", "Eight Seven Six"].has("Five", "Four", "Six"));
   assert(!["One Two Three"].has("Five", "Four"));
 }
 
 /// remove all string values from a array of strings
-@safe string[] remove(string[] values, string[] removeValues...) {
+string[] remove(string[] values, string[] removeValues...) {
 	string[] results = values;
 	foreach(removeValue; removeValues) {
 		auto existingValues = results;
@@ -86,7 +87,7 @@ unittest{
 }
 
 /// Unique - Reduce duplicates in array
-@safe string[] unique(string[] values) {
+string[] unique(string[] values) {
 	string[] results; results.length = values.length; size_t counter = 0;
 	foreach(value; values) { if (!has(results, value)) { results[counter] = value; counter++; }}
 	results.length = counter;
@@ -97,7 +98,7 @@ unittest{
 	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
 }
 
-@safe size_t[string] countValues(string[] values) {
+size_t[string] countValues(string[] values) {
 	size_t[string] results;
 	foreach(v; values) {
 		if (v in results) results[v] += 1; 
@@ -110,7 +111,7 @@ unittest {
 }
 
 
-@safe bool startsWith(string str, string txt) {
+bool startsWith(string str, string txt) {
 	if (str.length == 0) return false;
 	if (txt.length == 0) return false;
 	return (indexOf(str, txt) == 0);
@@ -121,19 +122,19 @@ unittest {
 	assert(!"ABC".startsWith(""));	
 }
 
-@safe string toString(string[] values) {
+string toString(string[] values) {
 	import std.string; 
 	return "%s".format(values);
 }
 
-@safe string quotes(string text, string leftAndRight) {
+string quotes(string text, string leftAndRight) {
 	return leftAndRight~text~leftAndRight;
 }
-@safe string quotes(string text, string left, string right) {
+string quotes(string text, string left, string right) {
 	return left~text~right;
 }
 
-@safe string[] toStrings(T...)(T tt){
+string[] toStrings(T...)(T tt){
 	string[] results;
 	foreach(t; tt) results ~= "%s".format(t);
 	return results;
@@ -142,7 +143,7 @@ unittest {
 	/// TODO
 }
 
-@safe string indent(in string txt, int indent = 2) {	
+string indent(in string txt, int indent = 2) {	
 	string result = txt;
 	for(auto i = 0; i < indent; i++) result = " "~result;
 	return result; 
