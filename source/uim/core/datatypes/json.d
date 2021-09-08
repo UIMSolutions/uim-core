@@ -3,12 +3,14 @@ module uim.core.datatypes.json;
 @safe:
 import uim.core;
 
+/// Checks if every key is in json object
 bool hasAllKeys(Json json, string[] keys, bool deepSearch = false) {
   foreach(key; keys) {
     if (!hasKey(json, key, deepSearch)) return false; 
   }
   return true;
 }
+///
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasAllKeys(["a", "c"]));
@@ -21,6 +23,7 @@ bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) {
     if (hasKey(json, key, deepSearch)) return true;
   return false;
 }
+///
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasAnyKey(["a"]));
