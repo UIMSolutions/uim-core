@@ -15,6 +15,17 @@ unittest {
   assert(json.hasAllKeys(["a", "d"], true));
 }
 
+bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) { 
+  foreach(key; keys) 
+    if (hasKey(josn, key, deepSearch)) return true;
+  return false:
+}
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(json.hasAnyKey("a"));
+  assert(json.hasAnyKey("d", true));
+}
+
 /// Searching key in json, if depth = true also in subnodes  
 bool hasKey(Json json, string key, bool deepSearch = false) {
   if (json.type == Json.Type.object) {
@@ -43,10 +54,18 @@ unittest {
 }
 
 bool hasAllValues(Json json, Json[] values, bool deepSearch = false) {
-  foreach(value; values) {
-    if (!hasValue(json, value, deepSearch)) return false;
-  }
+  foreach(value; values) if (!hasValue(json, value, deepSearch)) return false;
   return true;
+}
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
+  assert(json.hasAllValues([Json("b"), Json("j")]));
+  assert(json.hasAllValues([Json("h"), Json(1)], true));
+}
+
+bool hasAnyValue(Json json, Json[] values, bool deepSearch = false) {
+  foreach(value; values) if (hasValue(json, value, deepSearch)) return true;
+  return false;
 }
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
@@ -94,11 +113,19 @@ bool hasPath(Json json, string[] path) {
   return true;
 }
 
-Json reduce(Json json, string[] keys) {
+Json reduceKeys(Json json, string[] keys) {
   if (json.type == Json.Type.object) {
       Json result = Json.emptyObject;
-      foreach(key; keys) if (key in json) result[key] = json[key];
+      foreach(key; keys) if (json.hasKey(key)) result[key] = json[key];
       return result;
   }
   return Json(null);
+}
+
+Json removeKey(Json json, string removeKey) {
+  if (json.type != Json.Type.object) return json;
+
+  Json result = Json.emptyObject;
+  foreach(key; keys) if (key != removeKey) result[key] = json[key];
+  return result;
 }
