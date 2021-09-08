@@ -173,6 +173,11 @@ unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasKey("a"));
   assert(!json.removeKey("a").hasKey("a"));
+
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(!json.hasKey("x"));
+  assert(!json.removeKey("x").hasKey("x"));
+  assert(!json.removeKey("x").hasKey("a"));
 }
 
 /// Merge jsons objects to one
