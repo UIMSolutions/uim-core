@@ -15,15 +15,16 @@ unittest {
   assert(json.hasAllKeys(["a", "d"], true));
 }
 
+/// Check if Json has key
 bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) { 
   foreach(key; keys) 
-    if (hasKey(josn, key, deepSearch)) return true;
-  return false:
+    if (hasKey(json, key, deepSearch)) return true;
+  return false;
 }
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
-  assert(json.hasAnyKey("a"));
-  assert(json.hasAnyKey("d", true));
+  assert(json.hasAnyKey(["a"]));
+  assert(json.hasAnyKey(["d"], true));
 }
 
 /// Searching key in json, if depth = true also in subnodes  
@@ -73,7 +74,7 @@ unittest {
   assert(json.hasAllValues([Json("h"), Json(1)], true));
 }
 
-// Searching for value in Json
+/// Searching for value in Json
 bool hasValue(Json json, Json value, bool deepSearch = false) {
   if (json.type == Json.Type.object) {
     foreach(kv; json.byKeyValue) {
@@ -94,38 +95,100 @@ bool hasValue(Json json, Json value, bool deepSearch = false) {
   }
   return false;
 }
+///
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(json.hasValue(Json("b")));
+  assert(json.hasValue(Json("h"), true));
+  assert(!json.hasValue(Json("x")));
+  assert(!json.hasValue(Json("y"), true));
+}
+
+/// Check if jsonPath exists
+bool hasPath(Json json, string path) {
+  if (json.type != Json.Type.object) return false;
+
+  auto items = path.split("/");
+  if (items.length > 1) return hasPath(json, items[1..$]);
+  return false;
+}
+///
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(json.hasPath("/c/d"));
+}
+
+/// Check if jsonPath items exists
+bool hasPath(Json json, string[] pathItems) {
+  if (json.type != Json.Type.object) return false;
+
+  auto j = json;
+  foreach(pathItem; pathItems) {
+    if (pathItem in j)  {
+      if (pathItems.length > 1) return hasPath(j[pathItem], pathItems[1..$]); 
+      else return true; 
+    }
+    else return false;
+  }
+  return true;
+}
+///
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(json.hasPath(["c", "d"]));
+}
+
+/// Reduce Json Object to keys (remove others)
+Json reduceKeys(Json json, string[] keys) {
+  if (json.type == Json.Type.object) {
+    Json result = Json.emptyObject;
+    foreach(key; keys) if (json.hasKey(key)) result[key] = json[key];
+    return result;
+  }
+  return Json(null); // Not object or keys
+}
+
+/// Remove keys from Json Object
+Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys); }
+Json removeKeys(Json json, string[] delKeys) {
+  auto result = json;
+  foreach(delKey; delKeys) result.removeKey(delKey);
+  return result;
+}
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasValue(Json("b")));
   assert(json.hasValue(Json("h"), true));
 }
 
-bool hasPath(Json json, string path) {
-  return hasPath(json, path.split("/"));
-}
-
-bool hasPath(Json json, string[] path) {
-  auto j = json;
-  foreach(item; path) {
-    if (item in j) j = j[item];
-    else return false;
-  }
-  return true;
-}
-
-Json reduceKeys(Json json, string[] keys) {
-  if (json.type == Json.Type.object) {
-      Json result = Json.emptyObject;
-      foreach(key; keys) if (json.hasKey(key)) result[key] = json[key];
-      return result;
-  }
-  return Json(null);
-}
-
-Json removeKey(Json json, string removeKey) {
+/// Remove key from Json Object
+Json removeKey(Json json, string delKey) {
   if (json.type != Json.Type.object) return json;
 
   Json result = Json.emptyObject;
-  foreach(key; keys) if (key != removeKey) result[key] = json[key];
+  foreach(kv; json.byKeyValue) if (kv.key != delKey) result[kv.key] = kv.value;
   return result;
+}
+unittest {
+  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  assert(json.hasKey("a"));
+  assert(!json.removeKey("a").hasKey("a"));
+}
+
+/// Merge jsons objects to one
+Json mergeJsons(Json[] jsons...) { return mergeJsons(jsons); }
+/// Merge jsons objects in array to one
+Json mergeJsons(Json[] jsons) {
+  Json result = Json.emptyObject;
+  foreach(json; jsons) if (json.type == Json.Type.object) {
+    foreach (kv; json.byKeyValue) result[kv.key] = kv.value;
+  }
+  return result;
+}
+///
+unittest {
+  auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
+  auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
+  auto mergeJson = mergeJsons(json0, json1);
+  assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
 }
