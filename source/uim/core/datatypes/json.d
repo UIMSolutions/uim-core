@@ -177,7 +177,7 @@ unittest {
   assert(json.hasKey("a"));
   assert(!json.removeKey("a").hasKey("a"));
 
-  auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
+  json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(!json.hasKey("x"));
   assert(!json.removeKey("x").hasKey("x"));
   assert(!json.removeKey("x").hasKey("a"));
@@ -199,4 +199,51 @@ unittest {
   auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
   auto mergeJson = mergeJsons(json0, json1);
   assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
+}
+
+/// Load existing json files in directories
+Json[] loadJsonsFromDirectories(string[] dirNames) {
+  Json[] results;
+  foreach(dir; dirNames.filter!(a => a.exists)) if (dir.exists) results ~= loadJsonsFromDirectory(dir);
+  return results;
+}
+unittest {}
+
+/// Load existing json file in directories
+Json[] loadJsonsFromDirectory(string dirName) {
+  // debug writeln("In loadJsonsFromDirectory("~dirName~")");
+  // debug writeln("Found ", fileNames(dirName).length, " files");
+  return loadJsons(fileNames(dirName, true));
+}
+unittest {}
+
+Json[] loadJsons(string[] fileNames) {
+  debug writeln("Found ", fileNames.length, " names -> ", fileNames);
+  return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
+}
+unittest {}
+
+Json loadJson(string name) {
+  // debug writeln("In loadJson("~name~")");
+  // debug writeln(name, " exists? ", name.exists);
+  return name.exists ? parseJsonString(readText(name)) : Json(null); 
+}
+unittest {}
+
+Json maxJson(T)(Json[] jsons, string key) {
+  Json result = Json(null);
+  foreach(j; jsons) {
+    if (result == Json(null) && key in j) { result = j; break; }}
+  foreach(j; jsons) {
+    if (key in j && j[key].get!T > result[key].get!T) result = j;  }
+  return result;
+}
+
+Json minJson(T)(Json[] jsons, string key) {
+  Json result = Json(null);
+  foreach(j; jsons) {
+    if (result == Json(null) && key in j) { results = j; break; }}
+  foreach(j; jsons) {
+    if (key in j && j[key].get!T < result[key].get!T) result = j;  }
+  return result;
 }

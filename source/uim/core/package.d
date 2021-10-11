@@ -8,6 +8,7 @@ module uim.core;
 
 public import std.stdio;
 public import std.conv;
+public import std.file;
 public import std.string;
 public import std.array;
 public import std.algorithm;
@@ -19,11 +20,11 @@ public import vibe.d;
 
 public import uim.core.classes;
 public import uim.core.containers;
+public import uim.core.datatypes;
 public import uim.core.dlang;
 public import uim.core.io;
 public import uim.core.mixins;
 public import uim.core.web;
-public import uim.core.datatypes;
 
 alias STRINGAA = string[string];
 alias INTAA = int[int];

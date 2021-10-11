@@ -78,3 +78,29 @@ version(linux) {
 unittest {
 	
 }
+
+auto dirEntryInfos(string path) {
+  FileInfo[] results;
+  bool dirEntryInfo(FileInfo info) { results ~= info; return true; }
+  listDirectory(path, &dirEntryInfo);
+  return results;
+}
+
+auto dirNames(string path, bool fullName = false) {
+  string[] results = dirEntryInfos(path).filter!(a => a.isDirectory).map!(a => a.name).array;
+  if (fullName) results = results.map!(a => path~"/"~a).array;
+  return results;
+}
+
+auto linkNames(string path, bool fullName = false) {
+  string[] results = dirEntryInfos(path).filter!(a => a.isSymlink).map!(a => a.name).array;
+  if (fullName) results = results.map!(a => path~"/"~a).array;
+  return results;
+}
+  
+auto fileNames(string path, bool fullName = false) {
+  string[] results = dirEntryInfos(path).filter!(a => a.isFile).map!(a => a.name).array;
+  if (fullName) results = results.map!(a => path~"/"~a).array;
+  return results;
+}
+
