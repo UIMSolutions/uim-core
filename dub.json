@@ -10,5 +10,14 @@
     },
     "description": "Core D Library for UIM projects",
     "license": "MIT",
-    "targetType": "library"
+    "targetType": "library",
+    "configurations": [
+		{
+			"name": "default"
+		},
+		{
+			"name": "uim_core",
+			"versions": ["uim_core"]
+		}
+	]
 }
