@@ -180,7 +180,7 @@ unittest {
   json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(!json.hasKey("x"));
   assert(!json.removeKey("x").hasKey("x"));
-  assert(!json.removeKey("x").hasKey("a"));
+  assert(json.removeKey("x").hasKey("a"));
 }
 
 /// Merge jsons objects to one
@@ -218,7 +218,7 @@ Json[] loadJsonsFromDirectory(string dirName) {
 unittest {}
 
 Json[] loadJsons(string[] fileNames) {
-  debug writeln("Found ", fileNames.length, " names -> ", fileNames);
+  // debug writeln("Found ", fileNames.length, " names -> ", fileNames);
   return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
 }
 unittest {}
@@ -246,4 +246,16 @@ Json minJson(T)(Json[] jsons, string key) {
   foreach(j; jsons) {
     if (key in j && j[key].get!T < result[key].get!T) result = j;  }
   return result;
+}
+
+Json toJson(STRINGAA data) {
+  Json json = Json.emptyObject;
+  foreach (k, v; data) json[k] = v;
+  return json;
+}
+
+Json toJson(string key, string value) {
+  Json json = Json.emptyObject;
+  json[key] = value;
+  return json;
 }
