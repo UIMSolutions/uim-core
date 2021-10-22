@@ -70,3 +70,126 @@ string toSqlTime(SysTime time, immutable TimeZone tz = null)
     return time.toOtherTZ(tz).toISOExtString().replaceFirst("T", " ");
 
 }
+class DBException : Exception
+
+{
+
+ 	this () { super("Unknown Error.");	}
+
+	this (string msg, uint _code, string _sql)
+
+  {
+
+		super(msg~" ("~to!string(_code)~"), SQL: \""~_sql~"\"");
+
+    code = _code;
+
+    sql = _sql;
+
+  }
+
+  uint code;
+
+  string sql;
+
+}
+
+struct Variables(Database)
+
+{
+
+  Database database;
+
+  string table;
+
+  private strstr values;
+
+  bool isSet(string name)
+
+  {
+
+    if (name in values)
+
+      return true;
+
+    else
+
+      return (database.queryValue("select count(*) from "~table~" where name='"~name~"'") != "0");
+
+  }
+
+  string get(T:string)(string name)
+
+  {
+
+    if (!(name in values))
+
+    {
+
+      auto s = database.queryValue("select value from "~table~" where name='"~name~"'");
+
+      if (s is null)
+
+        return null;
+
+      else
+
+      {
+
+        values[name] = s;
+
+      }
+
+    }
+
+    return values[name];
+
+  }
+
+  T get(T)(string name)
+
+  {
+
+    auto s = get!string(name);
+
+    return (s is null)?T.init:unserialize!T(s);
+
+  }
+
+  void set(T:string)(string name, string value)
+
+  {
+
+    values[name] = value;
+
+    database.query("replace "~table~" set name='"~name~"', value="~database.quote(value));
+
+  }
+
+  void set(T)(string name, T value)
+
+  {
+
+    set!string(name,serialize!(T)(value));
+
+  }
+
+  void unset(string name)
+
+  {
+
+    database.query("delete from "~table~" where name='"~name~"'");
+
+    values.remove(name);
+
+  }
+
+  alias set!ulong  setInt;
+
+  alias set!string setStr;
+
+  alias get!ulong  getInt;
+
+  alias get!string getStr;
+
+}
