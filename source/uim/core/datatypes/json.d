@@ -51,6 +51,7 @@ bool hasKey(Json json, string key, bool deepSearch = false) {
   }
   return false;
 }
+///
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasKey("a"));
@@ -61,6 +62,7 @@ bool hasAllValues(Json json, Json[] values, bool deepSearch = false) {
   foreach(value; values) if (!hasValue(json, value, deepSearch)) return false;
   return true;
 }
+///
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
   assert(json.hasAllValues([Json("b"), Json("j")]));
@@ -71,6 +73,7 @@ bool hasAnyValue(Json json, Json[] values, bool deepSearch = false) {
   foreach(value; values) if (hasValue(json, value, deepSearch)) return true;
   return false;
 }
+///
 unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
   assert(json.hasAllValues([Json("b"), Json("j")]));
@@ -150,6 +153,11 @@ Json reduceKeys(Json json, string[] keys) {
   }
   return Json(null); // Not object or keys
 }
+unittest {
+  version(uim_core) {     /// TODO
+    writeln("test uim_core");
+  }
+}
 
 /// Remove keys from Json Object
 Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys); }
@@ -207,7 +215,11 @@ Json[] loadJsonsFromDirectories(string[] dirNames) {
   foreach(dir; dirNames.filter!(a => a.exists)) if (dir.exists) results ~= loadJsonsFromDirectory(dir);
   return results;
 }
-unittest {}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 /// Load existing json file in directories
 Json[] loadJsonsFromDirectory(string dirName) {
@@ -215,20 +227,32 @@ Json[] loadJsonsFromDirectory(string dirName) {
   // debug writeln("Found ", fileNames(dirName).length, " files");
   return loadJsons(fileNames(dirName, true));
 }
-unittest {}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 Json[] loadJsons(string[] fileNames) {
   // debug writeln("Found ", fileNames.length, " names -> ", fileNames);
   return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
 }
-unittest {}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 Json loadJson(string name) {
   // debug writeln("In loadJson("~name~")");
   // debug writeln(name, " exists? ", name.exists);
   return name.exists ? parseJsonString(readText(name)) : Json(null); 
 }
-unittest {}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 Json maxJson(T)(Json[] jsons, string key) {
   Json result = Json(null);
@@ -237,6 +261,11 @@ Json maxJson(T)(Json[] jsons, string key) {
   foreach(j; jsons) {
     if (key in j && j[key].get!T > result[key].get!T) result = j;  }
   return result;
+}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
 }
 
 Json minJson(T)(Json[] jsons, string key) {
@@ -247,15 +276,43 @@ Json minJson(T)(Json[] jsons, string key) {
     if (key in j && j[key].get!T < result[key].get!T) result = j;  }
   return result;
 }
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 Json toJson(STRINGAA data) {
   Json json = Json.emptyObject;
   foreach (k, v; data) json[k] = v;
   return json;
 }
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
 
 Json toJson(string key, string value) {
   Json json = Json.emptyObject;
   json[key] = value;
   return json;
+}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
+}
+
+/// Special case for managing entities
+Json toJson(UUID id, size_t versionNumber = 0LU) {
+  Json json = Json.emptyObject;
+  json["id"] = id.toString;
+  json["versionNumber"] = versionNumber > 0 ? versionNumber : 1;
+  return json;
+}
+unittest {
+  version(uim_core) {
+    /// TODO
+  }
 }
