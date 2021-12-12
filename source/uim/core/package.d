@@ -6,6 +6,8 @@
 ************************************************************************************************/
 module uim.core;
 
+@safe:
+
 public import std.stdio;
 public import std.conv;
 public import std.datetime;
@@ -16,7 +18,7 @@ public import std.algorithm;
 public import std.traits;
 public import std.uuid;
 
-// public import colored;
+public import colored;
 public import vibe.d;
 
 public import uim.core.classes;
@@ -168,3 +170,14 @@ unittest {
 	assert(stringAA2Array(["A":"B", "C":"D"], "/")==["A/B", "C/D"]);
 }
 
+void debugFunctionCall(string text) {
+	debug writeln(StyledString(text)
+		.setForeground(AnsiColor.black)
+		.setBackground(AnsiColor.yellow));
+}
+
+void debugMethodCall(string text) {
+	debug writeln(StyledString(text)
+		.setForeground(AnsiColor.black)
+		.setBackground(AnsiColor.white));
+}
