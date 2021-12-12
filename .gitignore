@@ -48,3 +48,5 @@ uim-core-test-uim_core
 .dub/build/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.097.2-8432DB100EE8E2FB1F5E9308CEBC4CAA/uim-core-test-uim_core.o
 .dub/code/uim-core-test-default-unittest-linux.posix-x86_64-dmd_v2.097.2-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
 .dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.097.2-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+.dub/code/uim-core-test-default-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+.dub/build/uim-core-test-default-unittest-linux.posix-x86_64-dmd_v2.098.0-8D7343A8763BD65AEE20242EADE2A65E/uim-core-test-default.o
