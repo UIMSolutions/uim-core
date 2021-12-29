@@ -216,10 +216,10 @@ Json[] loadJsonsFromDirectories(string[] dirNames) {
   return results;
 }
 unittest {
-  version(uim_core) {
-    /// TODO
-  }
-}
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 /// Load existing json file in directories
 Json[] loadJsonsFromDirectory(string dirName) {
@@ -228,20 +228,20 @@ Json[] loadJsonsFromDirectory(string dirName) {
   return loadJsons(fileNames(dirName, true));
 }
 unittest {
-  version(uim_core) {
-    /// TODO
-  }
-}
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 Json[] loadJsons(string[] fileNames) {
   // debug writeln("Found ", fileNames.length, " names -> ", fileNames);
   return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
 }
 unittest {
-  version(uim_core) {
-    /// TODO
-  }
-}
+	version(uim_core) {
+		/// TODO(John) Add Tests
+}}
+
 
 Json loadJson(string name) {
   // debug writeln("In loadJson("~name~")");
@@ -249,10 +249,10 @@ Json loadJson(string name) {
   return name.exists ? parseJsonString(readText(name)) : Json(null); 
 }
 unittest {
-  version(uim_core) {
-    /// TODO
-  }
-}
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 T minValue(T)(Json[] jsons, string key) {
   T result;

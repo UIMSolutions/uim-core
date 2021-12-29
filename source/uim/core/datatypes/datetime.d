@@ -66,9 +66,11 @@ unittest{
 /// Convert timestamp to DateTime 
 @safe string timestampToDateTimeDE(string timeStamp) { return timestampToDateTimeDE(to!size_t(timeStamp)); }
 @safe string timestampToDateTimeDE(size_t timeStamp) { return SysTime(timeStamp).toISOExtString.split(".")[0].replace("T", " "); }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 /// Convert now to Javascript	
 @safe long nowForJs() {
@@ -76,9 +78,11 @@ unittest{
 	auto dTime = cast(DateTime)now();
 	return (dTime - jsTime).total!"msecs";
 }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 /// Convert DateTime to Javascript
 @safe long datetimeForJs(string dt) {
@@ -86,18 +90,21 @@ unittest{
 	auto dTime = cast(DateTime)SysTime.fromISOExtString(dt);
 	return (dTime-jsTime).total!"msecs";
 }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 /// Convert Javascript to dateTime
 @safe DateTime jsToDatetime(long jsTime) {
 	auto result = DateTime(1970, 1, 1, 0, 0, 0)+msecs(jsTime);
 	return cast(DateTime)result;
 }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
 
 /// Convert dateTime to german Date string 
 @safe string germanDate(long dt) {
@@ -113,9 +120,11 @@ unittest{
 	auto strYear = to!string(dt.year); 
 	return "%s.%s.%s".format(strDay, strMonth, strYear);
 }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 // Convert dateTime to ISO string
 @safe string isoDate(DateTime dt) {
@@ -123,9 +132,11 @@ unittest{
 	auto d = (dt.day < 10 ? "0"~to!string(dt.day) : to!string(dt.day));
 	return "%s-%s-%s".format(dt.year, m, d);
 }
-unittest{
-	/// TODO	
-}
+unittest {
+	version(uim_core) {
+		/// TODO Add Tests
+}}
+
 
 /// Convert dateTiem to german Date string 
 @safe string toYYYYMMDD(SysTime datetime, string separator = "") {

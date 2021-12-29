@@ -71,7 +71,7 @@ unittest {
 }
 
 /// adding items into array
-@safe T[] add(T)(in T[] baseArray, in T[] newItems...) {
+T[] add(T)(in T[] baseArray, in T[] newItems...) {
 	return add(baseArray, newItems);
 }
 unittest {
@@ -81,8 +81,8 @@ unittest {
 	assert(["1","2","3"].add("4","5") == ["1","2","3","4","5"]);
 }
 
-/// adding items into array
-@safe T[] add(T)(in T[] baseArray, in T[] newItems) {
+/// Adds items into array - same like "baseArray~newItems"
+T[] add(T)(in T[] baseArray, in T[] newItems) {
 	T[] results = baseArray.dup;
 	results ~= newItems;
 	return results;
@@ -93,14 +93,14 @@ unittest {
 	assert(["1","2","3"].add(["4","5"]) == ["1","2","3","4","5"]);
 }
 
-/// change positions
-@safe void change(T)(ref T left, ref T right) {
+/// Changes positions
+void change(T)(ref T left, ref T right) {
 	T buffer = left;
 	left = right;
 	right = buffer;
 } 
-/// Changing positions of elements in array
-@safe T[] change(T)(T[] values, size_t firstPosition, size_t secondPosition) {
+/// Changs positions of elements in array
+T[] change(T)(T[] values, size_t firstPosition, size_t secondPosition) {
 	if ((firstPosition >= values.length) || (secondPosition >= values.length) || (firstPosition == secondPosition)) return values;
 
 	T[] results = values.dup;
@@ -116,8 +116,8 @@ unittest{
 	assert(change(["a", "b", "c", "d"], 1, 9) == ["a", "b", "c", "d"]);
 }
 
-// sub
-@safe T[] sub(T)(T[] lhs, T rhs, bool multiple = false) {
+/// Removes
+T[] sub(T)(T[] lhs, T rhs, bool multiple = false) {
 	auto result = lhs.dup;
 	if (multiple) { while(rhs.isIn(result)) result = result.sub(rhs); }
 	else foreach(i, value; result) { 
@@ -134,7 +134,7 @@ unittest {
 }
 
 // sub(T)(T[] lhs, T[] rhs, bool multiple = false)
-@safe T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
+T[] sub(T)(T[] lhs, T[] rhs, bool multiple = false) {
 	auto result = lhs.dup;
 	foreach(v; rhs) lhs = lhs.sub(v, multiple);
 	return lhs;
@@ -147,7 +147,7 @@ unittest {
 }
 
 // filters(T)(T[] lhs, T[] rhs, bool multiple = false)
-@safe T[] filters(T)(T[] baseArray, T[] filterValues...) {
+T[] filters(T)(T[] baseArray, T[] filterValues...) {
 	return filters(baseArray, filterValues);
 }
 unittest {
@@ -156,7 +156,7 @@ unittest {
 	assert([1, 2, 3].filters(1, 2) == [1, 2]); 
 }
 
-@safe T[] filters(T)(T[] baseArray, T[] filterValues) {
+T[] filters(T)(T[] baseArray, T[] filterValues) {
 	T[] results;
 	foreach(v; baseArray) if (filterValues.has(v)) results ~= v;
 	return results;
@@ -166,7 +166,7 @@ unittest {
 	assert([1, 2, 3].filters([]) == []); 
 }
 
-@safe OUT[] castTo(OUT, IN)(IN[] values) {
+OUT[] castTo(OUT, IN)(IN[] values) {
 	OUT[] results; results.length = values.length;
 	foreach(i, value; value) result[i] = to!OUT(value);
 	return results;
