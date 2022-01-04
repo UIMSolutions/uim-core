@@ -67,7 +67,7 @@ unittest{
 @safe string timestampToDateTimeDE(string timeStamp) { return timestampToDateTimeDE(to!size_t(timeStamp)); }
 @safe string timestampToDateTimeDE(size_t timeStamp) { return SysTime(timeStamp).toISOExtString.split(".")[0].replace("T", " "); }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -79,7 +79,7 @@ unittest {
 	return (dTime - jsTime).total!"msecs";
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -91,7 +91,7 @@ unittest {
 	return (dTime-jsTime).total!"msecs";
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -102,7 +102,7 @@ unittest {
 	return cast(DateTime)result;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -121,7 +121,7 @@ unittest {
 	return "%s.%s.%s".format(strDay, strMonth, strYear);
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -133,7 +133,7 @@ unittest {
 	return "%s-%s-%s".format(dt.year, m, d);
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 

@@ -20,7 +20,7 @@ K[] getKeys(K, V)(V[K] aa, bool sorted = NOTSORTED) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		// Examples by value
 		assert([1:4, 2:5, 3:6].getKeys(SORTED) == [1, 2, 3]);
 		assert([1:"4", 2:"5", 3:"6"].getKeys(SORTED) == [1, 2, 3]);
@@ -43,7 +43,7 @@ V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert([1:4, 2:5, 3:6].getValues(SORTED) == [4, 5, 6]);
 		assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
 		assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
@@ -57,7 +57,7 @@ T[S] add(T, S)(T[S] baseItems, T[S] addItems) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert([1:"b", 2:"d"].add([3:"f"]) == [1:"b", 2:"d", 3:"f"]);
 		assert(["a":"b", "c":"d"].add(["e":"f"]) == ["a":"b", "c":"d", "e":"f"]);
 		assert(["a":"b", "c":"d"].add(["e":"f"]).add(["g":"h"]) == ["a":"b", "c":"d", "e":"f", "g":"h"]);
@@ -71,7 +71,7 @@ T[S] sub(T, S)(T[S] baseItems, T[S] subItems) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 	 	assert([1:"4", 2:"5", 3:"6"].sub([1:"5", 2:"5", 3:"6"]) == [1:"4"]);
 }}
 
@@ -80,7 +80,7 @@ T[S] subKeys(T, S)(T[S] baseItems, S[] subItems...) {
 	return subKeys(baseItems, subItems);
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
  		assert([1:"4", 2:"5", 3:"6"].subKeys(2, 3) == [1:"4"]);
 }}
 
@@ -91,7 +91,7 @@ T[S] subKeys(T, S)(T[S] baseItems, S[] subItems) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 	 	assert([1:"4", 2:"5", 3:"6"].subKeys([2, 3]) == [1:"4"]);
 }}
 
@@ -102,7 +102,7 @@ T[S] subKeys(T, S)(T[S] baseItems, T[S] subItems) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 	 	assert([1:"4", 2:"5", 3:"6"].subKeys([2:"x", 3:"y"]) == [1:"4"]);
 }}
 
@@ -130,7 +130,7 @@ pure size_t[T] indexAA(T)(T[] values, size_t startPos = 0) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a", "b", "c"].indexAA == ["a":0UL, "b":1UL, "c":2UL]);
 		assert(["a", "b", "c"].indexAA(1) == ["a":1UL, "b":2UL, "c":3UL]);
 }}
@@ -141,7 +141,7 @@ pure size_t[T] indexAAReverse(T)(T[] values, size_t startPos = 0) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		// Add Test
 }}
 
@@ -160,7 +160,7 @@ bool hasValue(T, S)(T[S] base, S value...) { foreach(v; base.getValues) if (v ==
 bool hasValues(T, S)(T[S] base, S[] values...) { return base.hasValues(values); }
 bool hasValues(T, S)(T[S] base, S[] values) { foreach(value; values) if (!base.hasValue(value)) return false; return true; }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":"b", "c":"d"].hasValue("b"));
 		assert(["a":"b", "c":"d"].hasValues("b"));
 		assert(["a":"b", "c":"d"].hasValues("b", "d"));
@@ -176,7 +176,7 @@ pure string toJSONString(T)(T[string] values, bool sorted = NOTSORTED) {
 	return "{"~result.join(",")~"}";
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
 }}
 
@@ -188,7 +188,7 @@ pure string toHTML(T)(T[string] values, bool sorted = NOTSORTED) {
 	return results.join(" ");
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
 }}
 
@@ -198,7 +198,7 @@ pure string toSqlUpdate(T)(T[string] values, bool sorted = NOTSORTED) {
 	return results.join(",");
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":1, "b":2].toSqlUpdate(SORTED) == `a=1,b=2`);
 }}
 
@@ -210,7 +210,7 @@ pure bool isValue(T, S)(T[S] base, S key, T value) {
 	return false;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":1, "b":2].isValue("a", 1));
 		assert(!["a":2, "b":2].isValue("a", 1));
 		assert(["a":1, "b":1].isValue("a", 1));
@@ -227,7 +227,7 @@ pure bool isValues(T, S)(T[S] base, T[S] values) {
 	return true;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":1, "b":2].isValues(["a":1, "b":2]));
 		assert(!["a":1, "b":2].isValues(["a":1, "b":3]));
 		assert(!["a":1, "b":2].isValues(["a":1, "c":2]));

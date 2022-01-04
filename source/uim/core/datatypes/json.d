@@ -154,7 +154,7 @@ Json reduceKeys(Json json, string[] keys) {
   return Json(null); // Not object or keys
 }
 unittest {
-  version(uim_core) {     /// TODO
+  version(test_uim_core) {     /// TODO
     writeln("test uim_core");
   }
 }
@@ -216,7 +216,7 @@ Json[] loadJsonsFromDirectories(string[] dirNames) {
   return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -228,7 +228,7 @@ Json[] loadJsonsFromDirectory(string dirName) {
   return loadJsons(fileNames(dirName, true));
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -238,7 +238,7 @@ Json[] loadJsons(string[] fileNames) {
   return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO(John) Add Tests
 }}
 
@@ -249,7 +249,7 @@ Json loadJson(string name) {
   return name.exists ? parseJsonString(readText(name)) : Json(null); 
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -269,7 +269,7 @@ T minValue(T)(Json[] jsons, string key) {
     if (value < result) result = value;  }
   return result; }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     assert(minValue!string(
       [["a":"5"].toJson,
       ["a":"2"].toJson,
@@ -292,7 +292,7 @@ T maxValue(T)(Json[] jsons, string key) {
     if (value > result) result = value;  }
   return result; }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     assert(maxValue!string(
       [["a":"5"].toJson,
       ["a":"2"].toJson,
@@ -307,7 +307,7 @@ Json toJson(string[] data) {
   return json;
 }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     assert(["a", "b", "c"].toJson.length == 3);
     assert(["a", "b", "c"].toJson[0] == "a");
     }}
@@ -318,7 +318,7 @@ Json toJson(STRINGAA data) {
   return json;
 }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     assert(["a":"1", "b":"2", "c":"3"].toJson.length == 3);
     assert(["a":"1", "b":"2", "c":"3"].toJson["a"] == "1");
     }}
@@ -328,7 +328,7 @@ Json toJson(string key, string value) {
   json[key] = value;
   return json; }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     assert(toJson("a", "3")["a"] == "3");
     }}
 
@@ -337,7 +337,7 @@ Json toJson(string key, UUID value) {
   json[key] = value.toString;
   return json; }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     auto id = randomUUID; 
     assert(toJson("id", id)["id"].get!string == id.toString);
     }}
@@ -349,7 +349,7 @@ Json toJson(UUID id, size_t versionNumber = 0LU) {
   if (versionNumber > 0) json["versionNumber"] = versionNumber;
   return json; }
 unittest {
-  version(uim_core) {
+  version(test_uim_core) {
     auto id = randomUUID; 
     assert(toJson(id)["id"].get!string == id.toString);
     assert("versionNumber" !in toJson(id));

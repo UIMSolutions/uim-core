@@ -50,7 +50,7 @@ STRINGAA allEndsWith(STRINGAA entries, string postfix) {  // right will overrigh
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO #test Add Tests
 }}
 
@@ -60,7 +60,7 @@ STRINGAA allEndsNotWith(STRINGAA entries, string postfix) {  // right will overr
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
@@ -74,7 +74,7 @@ STRINGAA withKeys(STRINGAA entries, string[] keys) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":"1", "b":"2"].withKeys("a") == ["a":"1"]);
 	}
 }
@@ -87,7 +87,7 @@ STRINGAA notWithKeys(STRINGAA entries, string[] keys) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":"1", "b":"2"].notWithKeys("a") == ["b":"2"]);
 	}
 }
@@ -106,7 +106,7 @@ STRINGAA withValues(STRINGAA entries, string[] values) {
 	return results;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		assert(["a":"1", "b":"2"].withValues("1") == ["a":"1"]);
 		assert(["a":"1", "b":"2"].withValues("0").empty);
 }}
@@ -116,7 +116,7 @@ string toString(string[string] aa) {
 	return "%s".format(aa);
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 	/// Add Tests
 }}
 
@@ -126,7 +126,7 @@ string aa2String(STRINGAA atts, string sep = "=") {
 	return strings.join(" ");
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 	/// Add Tests
 }}
 
@@ -135,7 +135,7 @@ string getValue(STRINGAA keyValues, string[] keys...) {
 	return null;
 }
 unittest {
-	version(uim_core) {
+	version(test_uim_core) {
 		/// TODO Add Tests
 }}
 
