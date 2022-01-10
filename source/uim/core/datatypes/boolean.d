@@ -1,9 +1,9 @@
-﻿/***********************************************************************************************
-*	Copyright: © 2017-2021 UI Manufaktur UG
-*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
-*	Authors: UI Manufaktur Team
-*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/boolean
-************************************************************************************************/
+﻿/*****************************************************************************************************
+*	Copyright: © 2017-2021 UI Manufaktur UG / Since 2022 Ozan Nurettin Süel (sicherheitsschmiede)      *
+*	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.     *
+*	Authors: Before 2022 UI Manufaktur UG Team / Since 2022 - Ozan Nurettin Süel (sicherheitsschmiede) * 
+*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/boolean                     *
+*****************************************************************************************************/
 module uim.core.datatypes.boolean;
 
 @safe: 

@@ -1,7 +1,7 @@
 ﻿/***********************************************************************************************
 *	Copyright: © 2017-2021 UI Manufaktur UG
 *	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
-*	Authors: UI Manufaktur Team
+*	Authors: Before 2022 UI Manufaktur UG Team / Since 2022 - Ozan Nurettin Süel (sicherheitsschmiede) 
 *	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/uuid
 ************************************************************************************************/
 module uim.core.datatypes.uuid;
@@ -13,9 +13,9 @@ import std.uuid;
 enum NULLID = "00000000-0000-0000-0000-000000000000";
 enum NULLUUID = UUID(NULLID);
 
-@safe auto isNull(UUID id) { return (NULLUUID == id); }
+auto isNull(UUID id) { return (NULLUUID == id); }
 
-@safe bool isUUID(string uuid, bool stripInput = true) {
+bool isUUID(string uuid, bool stripInput = true) {
 	import std.meta;
 	alias skipSeq = AliasSeq!(8, 13, 18, 23);
 	alias byteSeq = AliasSeq!(0,2,4,6,9,11,14,16,19,21,24,26,28,30,32,34);
@@ -57,7 +57,7 @@ unittest {
 	assert(!isUUID(randomUUID.toString[0..4]));
 }
 
-@safe string[] toString(UUID[] ids) {
+string[] toString(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toString;
 	return result;
@@ -66,22 +66,22 @@ unittest {
 	/// TODO
 }
 
-@safe string[] toStringCompact(UUID[] ids) {
+string[] toStringCompact(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toStringCompact;
 	return result;
 }
-@safe string toStringCompact(UUID id) { return id.toString.replace("_", ""); }
+string toStringCompact(UUID id) { return id.toString.replace("_", ""); }
 unittest {
 	/// TODO
 }
 
-@safe UUID[] toUUID(string[] ids) {
+UUID[] toUUID(string[] ids) {
 	auto result = new UUID[ids.length];
 	foreach(i, id; ids) result[i] = toUUID(id);
 	return result;
 }
-@safe UUID toUUID(string id) {
+UUID toUUID(string id) {
 	import std.string;
 	// TODO strip quotes
 	// if ((id.indexOf("'") == 0) || (id.indexOf(`"`) == 0)) 
