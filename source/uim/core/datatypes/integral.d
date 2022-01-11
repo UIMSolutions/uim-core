@@ -2,7 +2,7 @@
 *	Copyright: © 2017-2021 UI Manufaktur UG
 *	License: Subject to the terms of the MIT license, as written in the included LICENSE.txt file.
 *	Authors: Before 2022 UI Manufaktur UG Team / Since 2022 - Ozan Nurettin Süel (sicherheitsschmiede) 
-*	Documentation [DE]: https://ui-manufaktur.com/docu/uim-core/dataytypes/integral
+*	Documentation [DE]: https://www.sicherheitsschmiede.de/docus/uim-core/dataytypes/integral
 ************************************************************************************************/
 module uim.core.datatypes.integral;
 
