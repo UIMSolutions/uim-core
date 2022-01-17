@@ -1,7 +1,7 @@
 {
     "name": "uim-core",
     "authors": [ "The great UI Manufaktur Team" ],
-    "copyright": "Copyright © 2017-2022, UI Manufaktur UG",
+    "copyright": "Copyright © 2017-2022, UI Manufaktur UG, 2022 Ozan Nurettin Süel",
     "dependencies": {
         "colored": "~>0.0.23",
         "vibe-d": "==0.9.4"
@@ -11,11 +11,11 @@
     "targetType": "library",
     "configurations": [
         {
-			"name": "offline"
-		},
-		{
-			"name": "test_offline",
-			"versions": ["test_uim_core"]
-		}
+            "name": "offline"
+        },
+        {
+            "name": "test_offline",
+            "versions": ["test_uim_core"]
+        }
 	]
 }

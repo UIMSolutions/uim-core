@@ -50,3 +50,7 @@ uim-core-test-uim_core
 .dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.097.2-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
 .dub/code/uim-core-test-default-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
 .dub/build/uim-core-test-default-unittest-linux.posix-x86_64-dmd_v2.098.0-8D7343A8763BD65AEE20242EADE2A65E/uim-core-test-default.o
+.dub/build/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.098.0-04CFBB0A1F2FEF83439E64A4AB5CC0E5/uim-core-test-uim_core.o
+.dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+.dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.098.0-9407977C358DAE0C24915FFF521F8E45_dub_test_root.d
+.vscode/settings.json
