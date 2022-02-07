@@ -54,3 +54,6 @@ uim-core-test-uim_core
 .dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
 .dub/code/uim-core-test-uim_core-unittest-linux.posix-x86_64-dmd_v2.098.0-9407977C358DAE0C24915FFF521F8E45_dub_test_root.d
 .vscode/settings.json
+uim-core-test-offline
+.dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.098.0-9253798A3C3C860663E79C942BE30987/uim-core-test-offline.o
+.dub/code/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d

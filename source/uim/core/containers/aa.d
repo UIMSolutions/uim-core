@@ -18,8 +18,8 @@ K[] getKeys(K, V)(V[K] aa, bool sorted = NOTSORTED) {
 	if (sorted) return results.sort.array;
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) {
+	unittest {
 		// Examples by value
 		assert([1:4, 2:5, 3:6].getKeys(SORTED) == [1, 2, 3]);
 		assert([1:"4", 2:"5", 3:"6"].getKeys(SORTED) == [1, 2, 3]);
@@ -41,8 +41,7 @@ V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {
 	if (sorted) return results.sort.array;
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+c
 		assert([1:4, 2:5, 3:6].getValues(SORTED) == [4, 5, 6]);
 		assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
 		assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
