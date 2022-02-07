@@ -1,6 +1,6 @@
 {
     "name": "uim-core",
-    "authors": [ "The great UI Manufaktur Team" ],
+    "authors": [ "UI Manufaktur Team", "Ozan Nurettin Süel" ],
     "copyright": "Copyright © 2017-2022, UI Manufaktur UG, 2022 Ozan Nurettin Süel",
     "dependencies": {
         "colored": "~>0.0.23",
@@ -14,7 +14,7 @@
             "name": "offline"
         },
         {
-            "name": "test_offline",
+            "name": "test",
             "versions": ["test_uim_core"]
         }
 	]
