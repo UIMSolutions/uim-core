@@ -41,7 +41,8 @@ V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {
 	if (sorted) return results.sort.array;
 	return results;
 }
-c
+unittest {
+	version(test_uim_core) {
 		assert([1:4, 2:5, 3:6].getValues(SORTED) == [4, 5, 6]);
 		assert([1:"4", 2:"5", 3:"6"].getValues(SORTED) == ["4", "5", "6"]);
 		assert(["1":4, "2":5, "3":6].getValues(SORTED) == [4, 5, 6]);
