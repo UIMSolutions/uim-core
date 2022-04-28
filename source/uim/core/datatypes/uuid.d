@@ -65,6 +65,15 @@ unittest {
 	/// TODO
 }
 
+Json toJson(UUID id) {
+	return Json(id.toString);
+}
+
+/// TODO
+/* Json toJson(UUID[] ids) {
+	return Json(ids.map!(id => id.toString).array);
+}
+ */
 string[] toStringCompact(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toStringCompact;
