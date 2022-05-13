@@ -7,7 +7,7 @@
         "vibe-d": "==0.9.4"
     },
     "description": "Core D Library for UIM projects",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "targetType": "library",
     "configurations": [
         {

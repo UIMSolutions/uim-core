@@ -45,7 +45,7 @@ unittest {
 	assert(!"ABC".endsWith(""));	
 }
 
-bool has(string base, string[] values...)  { return has(base, values); }
+/* bool has(string base, string[] values...)  { return has(base, values); }
 bool has(string base, string[] values)  {
 	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
 	return false;
@@ -66,7 +66,7 @@ unittest {
   assert(["One Two Three", "Eight Seven Six"].has("Five", "Four", "Six"));
   assert(!["One Two Three"].has("Five", "Four"));
 }
-
+ */
 /// remove all string values from a array of strings
 string[] remove(string[] values, string[] removeValues...) {
 	string[] results = values;
