@@ -17,7 +17,6 @@ public import std.algorithm;
 public import std.traits;
 public import std.uuid;
 
-public import colored;
 public import vibe.d;
 
 public import uim.core.classes;
@@ -170,13 +169,15 @@ unittest {
 }
 
 void debugFunctionCall(string text) {
-	debug writeln(StyledString(text)
+/* 	debug writeln(StyledString(text)
 		.setForeground(AnsiColor.black)
-		.setBackground(AnsiColor.yellow));
+		.setBackground(AnsiColor.yellow)); */
+	debug writeln(text);
 }
 
 void debugMethodCall(string text) {
-	debug writeln(StyledString(text)
+/* 	debug writeln(StyledString(text)
 		.setForeground(AnsiColor.black)
-		.setBackground(AnsiColor.white));
+		.setBackground(AnsiColor.white)); */
+	debug writeln(text);
 }
