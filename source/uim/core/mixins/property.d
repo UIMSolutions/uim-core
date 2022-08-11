@@ -116,6 +116,6 @@ template TXProperty(string dataType, string propertyName, string defaultValue = 
 	@property O "~propertyName~"(this O)("~dataType~" newValue) { "~setFkt~" return cast(O)this; }";
 }
 
-unittest {
+version(test_uim_core) { unittest {
 
-}
+}}

@@ -74,9 +74,9 @@ version(linux) {
 		return true;
 	}
 }
-unittest {
-	
-}
+version(test_uim_core) { unittest {
+	// Todo
+}}
 
 auto dirEntryInfos(string path) {
   FileInfo[] results;

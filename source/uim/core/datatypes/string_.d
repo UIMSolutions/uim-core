@@ -19,10 +19,10 @@ string fill(size_t length = 0, string txt = "0") {
 	}
   return result;
 }
-unittest {
+version(test_uim_core) { unittest {
   assert(fill(10, "0") == "0000000000");
   assert(fill(10, "TXT") == "TXTTXTTXTT");
-}
+}}
 
 string bind(string source, string[string] values, string limiter = "%") {
 	import std.string; 
@@ -30,27 +30,27 @@ string bind(string source, string[string] values, string limiter = "%") {
 	foreach(k, v; values) { result = result.replace(limiter~k~limiter, v); }
 	return result;
 }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}
 
 bool endsWith(string str, string txt) {
 	if (str.length == 0) return false;
 	if (txt.length == 0) return false;
 	return (lastIndexOf(str, txt) == str.length-1);
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert("ABC".endsWith("C"));	
 	assert(!"".endsWith("C"));	
 	assert(!"ABC".endsWith(""));	
-}
+}}
 
 /* bool has(string base, string[] values...)  { return has(base, values); }
 bool has(string base, string[] values)  {
 	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
 	return false;
 }
-unittest {
+version(test_uim_core) { unittest {
   assert("One Two Three".has("One"));
   assert("One Two Three".has("Five", "Four", "Three"));
   assert(!"One Two Three".has("Five", "Four"));
@@ -61,11 +61,11 @@ bool has(string[] bases, string[] values)  {
 	foreach(base; bases) if (base.has(values)) return true;
 	return false;
 }
-unittest {
+version(test_uim_core) { unittest {
   assert(["One Two Three"].has("One"));
   assert(["One Two Three", "Eight Seven Six"].has("Five", "Four", "Six"));
   assert(!["One Two Three"].has("Five", "Four"));
-}
+}}
  */
 /// remove all string values from a array of strings
 string[] remove(string[] values, string[] removeValues...) {
@@ -77,13 +77,13 @@ string[] remove(string[] values, string[] removeValues...) {
 	}
 	return results;
 }
-unittest{
+version(test_uim_core) { unittest {
 	assert(remove(["a", "b", "c"], "b") == ["a", "c"]);
 	assert(remove(["a", "b", "c", "b"], "b") == ["a", "c"]);
 
 	assert(remove(["a", "b", "c"], "a", "b") == ["c"]);
 	assert(remove(["a", "b", "c", "b"], "a", "b") == ["c"]);
-}
+}}
 
 /// Unique - Reduce duplicates in array
 string[] unique(string[] values) {
@@ -92,10 +92,10 @@ string[] unique(string[] values) {
 	results.length = counter;
 	return results;
 }
-unittest{
+version(test_uim_core) { unittest {
 	assert(["a", "b", "c"].unique == ["a", "b", "c"]);
 	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
-}
+}}
 
 size_t[string] countValues(string[] values) {
 	size_t[string] results;
@@ -105,9 +105,9 @@ size_t[string] countValues(string[] values) {
 	}
 	return results;
 }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}
 
 
 bool startsWith(string str, string txt) {
@@ -115,11 +115,11 @@ bool startsWith(string str, string txt) {
 	if (txt.length == 0) return false;
 	return (indexOf(str, txt) == 0);
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert("ABC".startsWith("A"));	
 	assert(!"".startsWith("A"));	
 	assert(!"ABC".startsWith(""));	
-}
+}}
 
 string toString(string[] values) {
 	import std.string; 
@@ -138,19 +138,19 @@ string[] toStrings(T...)(T tt){
 	foreach(t; tt) results ~= "%s".format(t);
 	return results;
 }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}
 
 string indent(in string txt, int indent = 2) {	
 	string result = txt;
 	for(auto i = 0; i < indent; i++) result = " "~result;
 	return result; 
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert(indent("Hallo") == "  Hallo");
 	assert(indent("Hallo", 3) == "   Hallo");
-}
+}}
 
 size_t[] indexOfAll(string text, string searchTxt) {
 	if (text.indexOf(searchTxt) == -1) return [];
@@ -167,5 +167,5 @@ size_t[] indexOfAll(string text, string searchTxt) {
 
 	return results;
 }
-unittest {
-}	
+version(test_uim_core) { unittest {
+}	}

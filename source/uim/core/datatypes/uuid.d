@@ -51,19 +51,19 @@ bool isUUID(string uuid, bool stripInput = true) {
 	}
 	return true;
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert(isUUID(randomUUID.toString));
 	assert(!isUUID(randomUUID.toString[0..4]));
-}
+}}
 
 string[] toString(UUID[] ids) {
 	auto result = new string[ids.length];
 	foreach(i, id; ids) result[i] = id.toString;
 	return result;
 }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}
 
 Json toJson(UUID id) {
 	return Json(id.toString);
@@ -80,9 +80,9 @@ string[] toStringCompact(UUID[] ids) {
 	return result;
 }
 string toStringCompact(UUID id) { return id.toString.replace("_", ""); }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}
 
 UUID[] toUUID(string[] ids) {
 	auto result = new UUID[ids.length];
@@ -96,6 +96,6 @@ UUID toUUID(string id) {
 
 	return UUID(id.strip);
 }
-unittest {
+version(test_uim_core) { unittest {
 	/// TODO
-}
+}}

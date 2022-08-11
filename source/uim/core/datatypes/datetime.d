@@ -34,18 +34,18 @@ SysTime fromJSTimestamp(long jsTimestamp) {
 // Current SysTime based on System Clock
 auto now() {
 	return Clock.currTime(); }
-unittest {
+version(test_uim_core) { unittest {
 	auto now1 = now; auto now2 = now;
 	assert(now2 >= now1);
-}
+}}
 
 // Current DateTime based on System Clock
 DateTime nowDateTime() {
 	return cast(DateTime)now; }
-unittest {
+version(test_uim_core) { unittest {
 	auto dt1 = nowDateTime; auto dt2 = nowDateTime;
 	assert(dt2 >= dt1);
-}
+}}
 
 /// convert time to region format using SysTime
 string timeToDateString(size_t time, string regionFormat = "DE") {
@@ -66,15 +66,14 @@ string timeToDateString(size_t time, string regionFormat = "DE") {
 			return "%s. %s. %s - %s:%s:%s".format(day, mon, year, hour, min, sec);
 	}
 }
-unittest{
+version(test_uim_core) { unittest {
 		
-}
+}}
 
 /// Convert timestamp to DateTime 
 string timestampToDateTimeDE(string timeStamp) { return timestampToDateTimeDE(to!size_t(timeStamp)); }
 string timestampToDateTimeDE(size_t timeStamp) { return SysTime(timeStamp).toISOExtString.split(".")[0].replace("T", " "); }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -85,8 +84,7 @@ long nowForJs() {
 	auto dTime = cast(DateTime)now();
 	return (dTime - jsTime).total!"msecs";
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -97,8 +95,7 @@ long datetimeForJs(string dt) {
 	auto dTime = cast(DateTime)SysTime.fromISOExtString(dt);
 	return (dTime-jsTime).total!"msecs";
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -108,8 +105,7 @@ DateTime jsToDatetime(long jsTime) {
 	auto result = DateTime(1970, 1, 1, 0, 0, 0)+msecs(jsTime);
 	return cast(DateTime)result;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -127,8 +123,7 @@ string germanDate(DateTime dt) {
 	auto strYear = to!string(dt.year); 
 	return "%s.%s.%s".format(strDay, strMonth, strYear);
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -139,8 +134,7 @@ string isoDate(DateTime dt) {
 	auto d = (dt.day < 10 ? "0"~to!string(dt.day) : to!string(dt.day));
 	return "%s-%s-%s".format(dt.year, m, d);
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -156,6 +150,6 @@ string toYYYYMMDD(DateTime datetime, string separator = "") {
 	results ~= (datetime.day < 10 ? "0" : "")~to!string(datetime.day);
 	return results.join(separator);
 }
-unittest{
+version(test_uim_core) { unittest {
 	assert(DateTime(Date(1999, 7, 6)).toYYYYMMDD("-") == "1999-07-06");
-}
+}}

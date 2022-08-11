@@ -14,9 +14,9 @@ T fuzzy(T)(T value, T minLimit, T maxLimit, T minFactor = 0, T maxFactor = 1) if
   
   return minFactor + (maxFactor - minFactor)*(value - minLimit)/(maxLimit - minLimit);   
 }
-unittest {
-	
-}
+version(test_uim_core) { unittest {
+	// TODO
+}}
 
 string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isFloatingPoint!T) {
   string result = fill(length, fillTxt);
@@ -30,9 +30,9 @@ string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isFloat
 
   return result;
 }
-unittest {
+version(test_uim_core) { unittest {
   // writeln((1.01).toString);
 //   assert((1.0).toString == "1.0");
 //   assert((1.0).toString == "1.0");
 //   assert((1.0).toString(10, "X") == "XXXXXXX1.0");
- }
+ }}

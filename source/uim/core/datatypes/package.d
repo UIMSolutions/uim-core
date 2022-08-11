@@ -24,7 +24,7 @@ T toogle(T)(T value, T checkValue, T changeValue) if (!isBoolean!T) {
     if (value == changeValue) return checkValue;
     return value;
 }
-unittest {
+version(test_uim_core) { unittest {
     assert(1.toggle(1, 2) == 2);
     assert(2.toggle(1, 2) == 1);
     assert(3.toggle(1, 2) == 3);
@@ -46,7 +46,7 @@ T rotate(T)(T value, T[] values, bool directionRight = true) {
     }
     return value;
 }
-unittest {
+version(test_uim_core) { unittest {
     assert(1.rotate([2,3,1,4,5]) == 4);
-}
+}}
 

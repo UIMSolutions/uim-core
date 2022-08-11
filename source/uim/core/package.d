@@ -164,9 +164,9 @@ template CascadeNotNull(alias A, alias B, alias C, alias D) {
 	const bool CascadeNotNull = (CascadeNotNull!(A, B, C)) ? (CascadeNotNull!(A.B.C, D)) : false; 
 }
 
-unittest {
+version(test_uim_core) { unittest {
 	assert(stringAA2Array(["A":"B", "C":"D"], "/")==["A/B", "C/D"]);
-}
+}}
 
 void debugFunctionCall(string text) {
 /* 	debug writeln(StyledString(text)

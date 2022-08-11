@@ -21,11 +21,11 @@ string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isInteg
 
   return result;
 }
-unittest {
+version(test_uim_core) { unittest {
   assert(1.toString == "1");
   assert(1.toString == "1");
   assert(1.toString(10, "X") == "XXXXXXXXX1");
-}
+}}
 
 /// limits the value on the min or max 
 T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T) 
@@ -38,12 +38,12 @@ T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T)
     
     return result;
   }
-unittest {
+version(test_uim_core) { unittest {
   assert(10.limit(2, 8) == 8);
   assert(10.limit(12, 13) == 12);
   assert(10.limit(13, 13) > 0);
   assert(10.limit(14, 13) > 0);
-}
+}}
 
 /// transform value minOld/maxOld to newMin/newMax 
 T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T) 
@@ -58,26 +58,26 @@ T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T
     
     return result;
   }
-unittest {
+version(test_uim_core) { unittest {
   assert(8.transform(0, 10, 0, 100) == 80);
   assert(80.transform(0, 100, 0, 10) == 8);
-}
+}}
 
 pure bool isLess(T)(T base, T[] values...) {
   foreach(value;values) if (value <= base) return false;
   return true;  
 }
-unittest {
+version(test_uim_core) { unittest {
   assert(8.isLess(10, 100));
   assert(!80.isLess(10, 100));
-}
+}}
 
 pure bool isGreater(T)(T base, T[] values...) {
   foreach(value; values) if (value >= base) return false;
   return true; // base is always greater
 }
-unittest {
+version(test_uim_core) { unittest {
   assert(800.isGreater(10, 100));
   assert(!80.isGreater(10, 100));
-}
+}}
 

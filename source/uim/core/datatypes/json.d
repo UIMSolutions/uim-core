@@ -16,11 +16,11 @@ bool hasAllKeys(Json json, string[] keys, bool deepSearch = false) {
   return true;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasAllKeys(["a", "c"]));
   assert(json.hasAllKeys(["a", "d"], true));
-}
+}}
 
 /// Check if Json has key
 bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) { 
@@ -29,11 +29,11 @@ bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) {
   return false;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasAnyKey(["a"]));
   assert(json.hasAnyKey(["d"], true));
-}
+}}
 
 /// Searching key in json, if depth = true also in subnodes  
 bool hasKey(Json json, string key, bool deepSearch = false) {
@@ -57,33 +57,33 @@ bool hasKey(Json json, string key, bool deepSearch = false) {
   return false;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasKey("a"));
   assert(json.hasKey("d", true));
-}
+}}
 
 bool hasAllValues(Json json, Json[] values, bool deepSearch = false) {
   foreach(value; values) if (!hasValue(json, value, deepSearch)) return false;
   return true;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
   assert(json.hasAllValues([Json("b"), Json("j")]));
   assert(json.hasAllValues([Json("h"), Json(1)], true));
-}
+}}
 
 bool hasAnyValue(Json json, Json[] values, bool deepSearch = false) {
   foreach(value; values) if (hasValue(json, value, deepSearch)) return true;
   return false;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}], "i":"j"}`);
   assert(json.hasAllValues([Json("b"), Json("j")]));
   assert(json.hasAllValues([Json("h"), Json(1)], true));
-}
+}}
 
 /// Searching for value in Json
 bool hasValue(Json json, Json value, bool deepSearch = false) {
@@ -107,13 +107,13 @@ bool hasValue(Json json, Json value, bool deepSearch = false) {
   return false;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasValue(Json("b")));
   assert(json.hasValue(Json("h"), true));
   assert(!json.hasValue(Json("x")));
   assert(!json.hasValue(Json("y"), true));
-}
+}}
 
 /// Check if jsonPath exists
 bool hasPath(Json json, string path) {
@@ -124,10 +124,10 @@ bool hasPath(Json json, string path) {
   return false;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasPath("/c/d"));
-}
+}}
 
 /// Check if jsonPath items exists
 bool hasPath(Json json, string[] pathItems) {
@@ -144,10 +144,10 @@ bool hasPath(Json json, string[] pathItems) {
   return true;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasPath(["c", "d"]));
-}
+}}
 
 /// Reduce Json Object to keys (remove others)
 Json reduceKeys(Json json, string[] keys) {
@@ -158,11 +158,9 @@ Json reduceKeys(Json json, string[] keys) {
   }
   return Json(null); // Not object or keys
 }
-unittest {
-  version(test_uim_core) {     /// TODO
+version(test_uim_core) { unittest {
     writeln("test uim_core");
-  }
-}
+}}
 
 /// Remove keys from Json Object
 Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys); }
@@ -171,11 +169,11 @@ Json removeKeys(Json json, string[] delKeys) {
   foreach(delKey; delKeys) result.removeKey(delKey);
   return result;
 }
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasValue(Json("b")));
   assert(json.hasValue(Json("h"), true));
-}
+}}
 
 /// Remove key from Json Object
 Json removeKey(Json json, string delKey) {
@@ -185,7 +183,7 @@ Json removeKey(Json json, string delKey) {
   foreach(kv; json.byKeyValue) if (kv.key != delKey) result[kv.key] = kv.value;
   return result;
 }
-unittest {
+version(test_uim_core) { unittest {
   auto json = parseJsonString(`{"a":"b", "c":{"d":1}, "e":["f", {"g":"h"}]}`);
   assert(json.hasKey("a"));
   assert(!json.removeKey("a").hasKey("a"));
@@ -194,7 +192,7 @@ unittest {
   assert(!json.hasKey("x"));
   assert(!json.removeKey("x").hasKey("x"));
   assert(json.removeKey("x").hasKey("a"));
-}
+}}
 
 /// Merge jsons objects to one
 Json mergeJsons(Json[] jsons...) { return mergeJsons(jsons); }
@@ -207,12 +205,12 @@ Json mergeJsons(Json[] jsons) {
   return result;
 }
 ///
-unittest {
+version(test_uim_core) { unittest {
   auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
   auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
   auto mergeJson = mergeJsons(json0, json1);
   assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
-}
+}}
 
 /// Load existing json files in directories
 Json[] loadJsonsFromDirectories(string[] dirNames) {
@@ -220,8 +218,7 @@ Json[] loadJsonsFromDirectories(string[] dirNames) {
   foreach(dir; dirNames.filter!(a => a.exists)) if (dir.exists) results ~= loadJsonsFromDirectory(dir);
   return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -232,8 +229,7 @@ Json[] loadJsonsFromDirectory(string dirName) {
   // debug writeln("Found ", fileNames(dirName).length, " files");
   return loadJsons(fileNames(dirName, true));
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -242,8 +238,7 @@ Json[] loadJsons(string[] fileNames) {
   // debug writeln("Found ", fileNames.length, " names -> ", fileNames);
   return fileNames.map!(a => loadJson(a)).filter!(a => a != Json(null)).array; 
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO(John) Add Tests
 }}
 
@@ -253,8 +248,7 @@ Json loadJson(string name) {
   // debug writeln(name, " exists? ", name.exists);
   return name.exists ? parseJsonString(readText(name)) : Json(null); 
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -273,8 +267,7 @@ T minValue(T)(Json[] jsons, string key) {
     T value = j[key].get!T; 
     if (value < result) result = value;  }
   return result; }
-unittest {
-  version(test_uim_core) {
+version(test_uim_core) { unittest {
     assert(minValue!string(
       [["a":"5"].toJson,
       ["a":"2"].toJson,
@@ -296,8 +289,7 @@ T maxValue(T)(Json[] jsons, string key) {
     T value = j[key].get!T; 
     if (value > result) result = value;  }
   return result; }
-unittest {
-  version(test_uim_core) {
+version(test_uim_core) { unittest {
     assert(maxValue!string(
       [["a":"5"].toJson,
       ["a":"2"].toJson,
@@ -311,8 +303,7 @@ Json toJson(string[] data) {
   foreach (v; data) json ~= v;
   return json;
 }
-unittest {
-  version(test_uim_core) {
+version(test_uim_core) { unittest {
     assert(["a", "b", "c"].toJson.length == 3);
     assert(["a", "b", "c"].toJson[0] == "a");
     }}
@@ -322,30 +313,27 @@ Json toJson(STRINGAA data) {
   foreach (k, v; data) json[k] = v;
   return json;
 }
-unittest {
-  version(test_uim_core) {
+version(test_uim_core) { unittest {
     assert(["a":"1", "b":"2", "c":"3"].toJson.length == 3);
     assert(["a":"1", "b":"2", "c":"3"].toJson["a"] == "1");
-    }}
+}}
 
 Json toJson(string key, string value) {
   Json json = Json.emptyObject;
   json[key] = value;
   return json; }
-unittest {
-  version(test_uim_core) {
-    assert(toJson("a", "3")["a"] == "3");
-    }}
+version(test_uim_core) { unittest {
+  assert(toJson("a", "3")["a"] == "3");
+}}
 
 Json toJson(string key, UUID value) {
   Json json = Json.emptyObject;
   json[key] = value.toString;
   return json; }
-unittest {
-  version(test_uim_core) {
-    auto id = randomUUID; 
-    assert(toJson("id", id)["id"].get!string == id.toString);
-    }}
+version(test_uim_core) { unittest {
+  auto id = randomUUID; 
+  assert(toJson("id", id)["id"].get!string == id.toString);
+}}
 
 /// Special case for managing entities
 Json toJson(UUID id, size_t versionNumber = 0LU) {
@@ -353,12 +341,10 @@ Json toJson(UUID id, size_t versionNumber = 0LU) {
   json["id"] = id.toString;
   if (versionNumber > 0) json["versionNumber"] = versionNumber;
   return json; }
-unittest {
-  version(test_uim_core) {
+version(test_uim_core) { unittest {
     auto id = randomUUID; 
     assert(toJson(id)["id"].get!string == id.toString);
     assert("versionNumber" !in toJson(id));
     assert(toJson(id, 1)["id"].get!string == id.toString);
     assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
-  }
-}
+}}

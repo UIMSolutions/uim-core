@@ -15,10 +15,10 @@ STRINGAA addKeyPrefix(STRINGAA entries, string prefix) {
 	foreach(key, value; entries) results[prefix~key] = value;
 	return results;
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert(["a":"1"].addKeyPrefix("x") == ["xa":"1"]);
 	assert(["a":"1", "b":"2"].addKeyPrefix("x").hasKey("xb"));
-}
+}}
 
 /// Selects only entries, where key starts with prefix. Creates a new STRINGAA
 STRINGAA allStartsWith(STRINGAA entries, string prefix) {  
@@ -26,10 +26,10 @@ STRINGAA allStartsWith(STRINGAA entries, string prefix) {
 	foreach(k, v; entries) if (k.startsWith(prefix)) results[k] = v;
 	return results;
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert(allStartsWith(["preA":"a", "b":"b"], "pre") == ["preA":"a"]);
 	assert(["preA":"a", "b":"b"].allStartsWith("pre") == ["preA":"a"]);
-}
+}}
 
 /// Opposite of selectStartsWith: Selects only entries, where key starts not with prefix. Creates a new STRINGAA
 STRINGAA allStartsNotWith(STRINGAA entries, string prefix) {  // right will overright left
@@ -37,10 +37,10 @@ STRINGAA allStartsNotWith(STRINGAA entries, string prefix) {  // right will over
 	foreach(k, v; entries) if (!k.startsWith(prefix)) results[k] = v;
 	return results;
 }
-unittest {
+version(test_uim_core) { unittest {
 	assert(allStartsNotWith(["preA":"a", "b":"b"], "pre") == ["b":"b"]);
 	assert(["preA":"a", "b":"b"].allStartsNotWith("pre") == ["b":"b"]);
-}
+}}
 
 
 STRINGAA allEndsWith(STRINGAA entries, string postfix) {  // right will overright left
@@ -48,8 +48,7 @@ STRINGAA allEndsWith(STRINGAA entries, string postfix) {  // right will overrigh
 	foreach(k, v; entries) if (k.endsWith(postfix)) results[k] = v;
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO #test Add Tests
 }}
 
@@ -58,8 +57,7 @@ STRINGAA allEndsNotWith(STRINGAA entries, string postfix) {  // right will overr
 	foreach(k, v; entries) if (!k.endsWith(postfix)) results[k] = v;
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
@@ -72,11 +70,9 @@ STRINGAA withKeys(STRINGAA entries, string[] keys) {
 	foreach(k; keys) if (k in entries) results[k] = entries[k];
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		assert(["a":"1", "b":"2"].withKeys("a") == ["a":"1"]);
-	}
-}
+}}
 STRINGAA notWithKeys(STRINGAA entries, string[] keys...) {
 	return notWithKeys(entries, keys);
 }
@@ -85,11 +81,9 @@ STRINGAA notWithKeys(STRINGAA entries, string[] keys) {
 	foreach(k; keys) if (k in entries) results.remove(k);
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		assert(["a":"1", "b":"2"].notWithKeys("a") == ["b":"2"]);
-	}
-}
+}}
 
 // Gets STRINGAA with values
 STRINGAA withValues(STRINGAA entries, string[] values...) {
@@ -104,8 +98,7 @@ STRINGAA withValues(STRINGAA entries, string[] values) {
 	}
 	return results;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		assert(["a":"1", "b":"2"].withValues("1") == ["a":"1"]);
 		assert(["a":"1", "b":"2"].withValues("0").empty);
 }}
@@ -114,8 +107,7 @@ string toString(string[string] aa) {
 	import std.string; 
 	return "%s".format(aa);
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 	/// Add Tests
 }}
 
@@ -124,8 +116,7 @@ string aa2String(STRINGAA atts, string sep = "=") {
 	foreach(k, v; atts) strings ~= k~sep~"\""~v~"\"";
 	return strings.join(" ");
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 	/// Add Tests
 }}
 
@@ -133,8 +124,7 @@ string getValue(STRINGAA keyValues, string[] keys...) {
 	foreach(k; keys) if (k in keyValues) return keyValues[k];
 	return null;
 }
-unittest {
-	version(test_uim_core) {
+version(test_uim_core) { unittest {
 		/// TODO Add Tests
 }}
 
