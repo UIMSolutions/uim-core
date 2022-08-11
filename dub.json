@@ -1,30 +1,29 @@
 {
-  "name": "uim-core",
-  "authors": [
-    "UI Manufaktur Team",
-    "Ozan Nurettin Süel"
-  ],
-  "copyright": "Copyright © 2017-2022, UI Manufaktur UG, 2022 Ozan Nurettin Süel",
-  "description": "Core D Library for UIM projects",
-  "license": "Apache-2.0",
-  "targetType": "library",
-  "dependencies": {
-    "colored": "~>0.0.23",
-    "vibe-d": "==0.9.4",
-    "vibe-d:tls": "*"
-  },
-  "subConfigurations": {
-    "vibe-d:tls": "notls"
-  },
-  "configurations": [
-    {
-      "name": "offline"
-    },
-    {
-      "name": "test",
-      "versions": [
-        "test_uim_core"
-      ]
-    }
-  ]
+	"authors": [
+		"UI Manufaktur Team",
+		"Ozan Nurettin Süel"
+	],
+	"configurations": [
+		{
+			"name": "offline",
+			"targetType": "library"
+		},
+		{
+			"name": "test",
+			"targetType": "library",
+			"versions": [
+				"test_uim_core"
+			]
+		}
+	],
+	"copyright": "Copyright © 2017-2022, UI Manufaktur UG, 2022 Ozan Nurettin Süel",
+	"dependencies": {
+		"colored": "~>0.0.27",
+		"silly": "~>1.1.1",
+		"vibe-d": "0.9.5"
+	},
+	"description": "Core D Library for UIM projects",
+	"license": "Apache-2.0",
+	"name": "uim-core",
+	"targetType": "library"
 }
