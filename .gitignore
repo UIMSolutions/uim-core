@@ -57,3 +57,16 @@ uim-core-test-uim_core
 uim-core-test-offline
 .dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.098.0-9253798A3C3C860663E79C942BE30987/uim-core-test-offline.o
 .dub/code/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.098.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+uim-core-test-test
+uim-core-test-testUnit
+.dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.098.0-8266A794E7A8EAADF8E4B9211DE6FBC1/uim-core-test-offline.o
+.dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-06EAD489562034A88A0E25D21875D9B5/uim-core-test-offline.o
+.dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-287EDF1696AEF74EDF8A88CF8996A00A/uim-core-test-offline.o
+.dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-BF56B5E4A19DA7FE0D8657F33772F927/uim-core-test-offline.o
+.dub/build/uim-core-test-test-unittest-linux.posix-x86_64-dmd_v2.100.0-D5CB6F0D105855D49CD2BCCB06807A7A/uim-core-test-test
+.dub/build/uim-core-test-test-unittest-linux.posix-x86_64-dmd_v2.100.0-D5CB6F0D105855D49CD2BCCB06807A7A/uim-core-test-test.o
+.dub/build/uim-core-test-testUnit-unittest-linux.posix-x86_64-dmd_v2.100.0-0D7D4004147A37A95E462D305561BAF3/uim-core-test-testUnit
+.dub/build/uim-core-test-testUnit-unittest-linux.posix-x86_64-dmd_v2.100.0-0D7D4004147A37A95E462D305561BAF3/uim-core-test-testUnit.o
+.dub/code/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+.dub/code/uim-core-test-test-unittest-linux.posix-x86_64-dmd_v2.100.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
+.dub/code/uim-core-test-testUnit-unittest-linux.posix-x86_64-dmd_v2.100.0-2FCC4A7F27A8008502663F4DC6A0E2B1_dub_test_root.d
