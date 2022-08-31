@@ -12,8 +12,9 @@ import uim.core;
 
 /// Toggle boolean value (from true to false, false to true) -> in this function it's !value
 pure bool toggle(bool value) { 
-	return !value; }
-///
+	return !value; 
+}
+
 version(test_uim_core) { unittest {
 	assert(toggle(true) == false, "Error in toggle(bool)");
 	assert(toggle(toggle(true)) == true, "Error in toggle(bool)");
@@ -21,8 +22,8 @@ version(test_uim_core) { unittest {
 
 /// Translates boolean to defined values
 pure T translate(T)(bool value, T ifTrue, T ifFalse) { 
-	return (value) ? ifTrue : ifFalse; }
-///
+	return (value) ? ifTrue : ifFalse; 
+}
 version(test_uim_core) { unittest {
 	assert(translate(true, "YES", "NO") == "YES", "Error in translate(bool, T, T)");
 	assert(translate(false, "YES", "NO") == "NO", "Error in translate(bool, T, T)");

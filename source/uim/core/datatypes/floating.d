@@ -12,10 +12,14 @@ T fuzzy(T)(T value, T minLimit, T maxLimit, T minFactor = 0, T maxFactor = 1) if
   if (value < minLimit) return minFactor;
   if (value > maxLimit) return maxFactor;
   
-  return minFactor + (maxFactor - minFactor)*(value - minLimit)/(maxLimit - minLimit);   
+  return to!T(minFactor + (maxFactor - minFactor)*(value - minLimit)/(maxLimit - minLimit));   
 }
 version(test_uim_core) { unittest {
-	// TODO
+	assert(fuzzy(0, 0, 1) == 0);
+	assert(fuzzy(1, 0, 1) == 1);
+	assert(fuzzy(0, 1, 2) == 1);
+	assert(fuzzy(2, 0, 1) == 1);
+	assert(fuzzy(0.5, 0.0, 1.0) == 0.5);
 }}
 
 string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isFloatingPoint!T) {
