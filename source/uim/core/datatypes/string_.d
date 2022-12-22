@@ -168,4 +168,56 @@ size_t[] indexOfAll(string text, string searchTxt) {
 	return results;
 }
 version(test_uim_core) { unittest {
-}	}
+}}
+
+// subString() - returns a part of a string.
+// aText - String value
+// startPos - Required. Specifies where to start in the string. Starting with 0 (first letter)
+// -- A positive number - Start at a specified position in the string
+// -- A negative number - Start at a specified position from the end of the string
+// -- 0 - Start at the first character in string
+string subString(string aText, long startPos) {
+	if (startPos == 0) return aText;
+
+	if (startPos > 0) {
+		if (startPos >= aText.length) { return null; }
+		return aText[startPos..$];
+	}
+	else { // startPos < 0
+		if (-startPos >= aText.length) { return null; }	
+		return aText[0..$+startPos];
+	}
+}
+version(test_uim_core) { unittest {
+	assert("This is a test".subString(4) == " is a test");
+	assert("This is a test".subString(-4) == "This is a ");
+}}
+
+// same like subString(), with additional parameter length
+// length	- Specifies the length of the returned string. Default is to the end of the string.
+// A positive number - The length to be returned from the start parameter
+// Negative number - The length to be returned from the end of the string
+// If the length parameter is 0, NULL, or FALSE - it return an empty string
+string subString(string aText, size_t startPos, long aLength) {
+	auto myText = subString(aText, startPos);
+	if (aLength > 0) {
+		return myText.length >= aLength ? myText[0..aLength] : null;
+	}
+	else { // aLength < 0
+		return myText.length >= -aLength ? myText[$+aLength..$] : null;
+	} 
+}
+version(test_uim_core) { unittest {
+	assert("0123456789".subString(4, 2) == "45");
+	assert("0123456789".subString(-4, 2) == "01");
+	assert("0123456789".subString(-4, -2) == "45");
+}}
+
+string capitalizeWords(string aText) {
+	auto words = aText.split(" ");
+	return words.map!(w => w.capitalize).array.join(" "); 
+}
+version(test_uim_core) { unittest {
+	assert("this is a test".capitalizeWords == "This Is A Test");
+	assert("this  is  a  test".capitalizeWords == "This  Is  A  Test");
+}}

@@ -81,3 +81,16 @@ version(test_uim_core) { unittest {
   assert(!80.isGreater(10, 100));
 }}
 
+bool isInt(string aValue) {
+  if (aValue.isNumeric) {
+    return (to!string(to!int(aValue)) == aValue);
+  }
+  return false;
+}
+
+bool isLong(string aValue) {
+  if (aValue.isNumeric) {
+    return (to!string(to!long(aValue)) == aValue);
+  }
+  return false;
+}
