@@ -221,3 +221,17 @@ version(test_uim_core) { unittest {
 	assert("this is a test".capitalizeWords == "This Is A Test");
 	assert("this  is  a  test".capitalizeWords == "This  Is  A  Test");
 }}
+
+size_t[string] countWords(string aText) {
+	size_t[string] results;
+
+	foreach(word; aText.split(" ")) {
+		if (word !in results) { results[word] = 0; }
+ 		results[word]++;
+ 	}
+
+	return results;
+}
+version(test_uim_core) { unittest {
+	assert(countWords("this is a test")["this"] == 1);
+}}
