@@ -192,6 +192,7 @@ version(test_uim_core) { unittest {
 	assert(![1,2,3,4].has(5, 1));
 }}
 
+// will be sdeprecated
 bool has(T)(in T[] values, in T[] checkValues) {
 	bool result = false;
 	foreach (cv; checkValues) {		
@@ -206,6 +207,28 @@ version(test_uim_core) { unittest {
 	assert(![1,2,3,4].has([5]));
 	assert([1,2,3,4].has([1, 2]));
 	assert(![1,2,3,4].has([5, 1]));
+}}
+
+// similar to has
+bool hasAllValues(T)(in T[] source, in T[] values...) {
+	bool found = false;
+	foreach (value; values) {
+		found = false;
+		foreach (sourceValue; source) {
+			if (sourceValue == value) {
+				 found = true; 
+				 break;
+			}
+		}
+		if (!found) return false;
+	}
+	return found;
+}
+version(test_uim_core) { unittest {
+	assert([1,2,3,4].hasAllValues(1));
+	assert(![1,2,3,4].hasAllValues(5));
+	assert([1,2,3,4].hasAllValues(1, 2));
+	assert(![1,2,3,4].hasAllValues(5, 1));
 }}
 
 size_t index(T)(T[] values, T value) {
