@@ -348,3 +348,24 @@ version(test_uim_core) { unittest {
     assert(toJson(id, 1)["id"].get!string == id.toString);
     assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
 }}
+
+Json mergeJsonObject(Json baseJson, Json mergeJson) {
+  Json result;
+  
+  if (mergeJson == Json(null) || mergeJson.type != Json.Object) {
+    return baseJson;
+  }
+
+  result = Json.emptyObject;
+  if (baseJson != Json(null) && baseJson.type == Json.Object) {
+    foreach(k, v; baseJson) {
+      result[k] = v;
+    }
+  }
+
+  foreach(k, v; mergeJson) {
+    result[k] = v;
+  }
+
+  return result;
+}

@@ -5,6 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.containers.general;
 
+@safe:
+import uim.core;
+  
 bool isSet(V)(V value) {
   return !(value is null);
 }
@@ -18,23 +21,27 @@ bool isSet(V)(V[] values) {
 }
 
 bool isSet(V)(V[] values, size_t[] index...) {
-  if (index.length == 0) then { return false; }
+  return isSet(values, index);
 
-  foreach (i in index) {
-    if (index >= values.length) then { return false; }
+}
+bool isSet(V)(V[] values, size_t[] index) {
+  if (index.length == 0) { return false; }
+
+  foreach (i; index) {
+    if (index >= values.length) { return false; }
   }
   return true;
 }
 
-bool isSet(V, K)(V[K] values) {
-  return !values.empty;
+bool isSet(V, K)(V[K] values, K[] keys...) {
+  return isSet(values, keys);
 }
 
 bool isSet(V, K)(V[K] values, K[] keys...) {
-  if (keys.length == 0) then { return false; }
+  if (keys.length == 0) { return false; }
 
-  foreach (k in keys) {
-    if (k !in values) then { return false; }
+  foreach (k; keys) {
+    if (k !in values) { return false; }
   }
   return true;
 }
