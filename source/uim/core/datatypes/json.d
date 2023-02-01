@@ -352,18 +352,18 @@ version(test_uim_core) { unittest {
 Json mergeJsonObject(Json baseJson, Json mergeJson) {
   Json result;
   
-  if (mergeJson == Json(null) || mergeJson.type != Json.Object) {
+  if (mergeJson == Json(null) || mergeJson.type != Json.Type.Object) {
     return baseJson;
   }
 
   result = Json.emptyObject;
-  if (baseJson != Json(null) && baseJson.type == Json.Object) {
-    foreach(k, v; baseJson) {
+  if (baseJson != Json(null) && baseJson.type == Json.Type.Object) {
+    foreach(k, v; baseJson.byKeyValue) {
       result[k] = v;
     }
   }
 
-  foreach(k, v; mergeJson) {
+  foreach(k, v; mergeJson.byKeyValue) {
     result[k] = v;
   }
 
