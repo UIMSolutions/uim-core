@@ -235,3 +235,15 @@ size_t[string] countWords(string aText) {
 version(test_uim_core) { unittest {
 	assert(countWords("this is a test")["this"] == 1);
 }}
+
+string repeat(string text, size_t times) {
+	auto result = "";
+	for(auto i = 0; i < times; i++) {
+		result ~= text;
+	}
+	return result;
+}
+version(test_uim_core) { unittest {
+	assert(repeat("bla", 0) == "");
+	assert(repeat("bla", 2) == "blabla");
+}}

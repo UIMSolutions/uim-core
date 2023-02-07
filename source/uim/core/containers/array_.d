@@ -260,3 +260,11 @@ version(test_uim_core) { unittest {
 	assert([1,2,3,4].indexes([1]) == [1:[0UL]]);
 	assert([1,2,3,4,1].indexes([1]) == [1:[0UL, 4UL]]);
 }}
+
+bool isEmpty(T)(T[] values) {
+	return (values.length == 0);
+}
+version(test_uim_core) { unittest {
+	assert(![1,2,3,4].isEmpty);
+	assert([].isEmpty);
+}}
