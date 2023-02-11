@@ -1,7 +1,7 @@
 ﻿/***********************************************************************************************************************
-*	Copyright: © 2017-2022 UI Manufaktur UG / 2022 Ozan Nurettin Süel (sicherheitsschmiede)                              *
-*	License: Licensed under Apache 2 [https://apache.org/licenses/LICENSE-2.0.txt]                                       *
-*	Authors: UI Manufaktur UG Team, Ozan Nurettin Süel (Sicherheitsschmiede)										                         * 
+	Copyright: © 2017-2023 Ozan Nurettin Süel (sicherheitsschmiede)                              
+	License: Licensed under Apache 2 [https://apache.org/licenses/LICENSE-2.0.txt]                                       
+	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)										                          
 ***********************************************************************************************************************/
 module uim.core.containers.aa;
 
@@ -12,26 +12,29 @@ enum SORTED = true;
 enum NOTSORTED = false;
 
 /// get keys of an associative array
-K[] getKeys(K, V)(V[K] aa, bool sorted = NOTSORTED) {
-	K[] results;
-	foreach(k, v; aa) results ~= k;
+/// sorted = false (default) returns an unsorted array, sorted = true returns a sorted array
+K[] getKeys(K, V)(V[K] aa, bool sorted = false) {
+	K[] results = aa.keys;
 	if (sorted) return results.sort.array;
 	return results;
 }
-version(test_uim_core) { unittest {
-		// Examples by value
-		assert([1:4, 2:5, 3:6].getKeys(SORTED) == [1, 2, 3]);
-		assert([1:"4", 2:"5", 3:"6"].getKeys(SORTED) == [1, 2, 3]);
-		assert(["1":4, "2":5, "3":6].getKeys(SORTED) == ["1", "2", "3"]);
-		assert(["1":"4", "2":"5", "3":"6"].getKeys(SORTED) == ["1", "2", "3"]);
-		
-		// Examples by reference
-		class Test {}
-		auto a = new Test;
-		auto b = new Test;
-		auto c = new Test;
-		assert([1:a, 2:b, 3:c].getKeys(SORTED) == [1, 2, 3]);
-}}
+///
+unittest {
+	// getKeys(aa) == aa.keys; getKeys(aa, true) == aa.keys.sort.array	
+
+	// Using scalars
+	assert([1:4, 2:5, 3:6].getKeys(true) == [1, 2, 3]);
+	assert([1:"4", 2:"5", 3:"6"].getKeys(true) == [1, 2, 3]);
+	assert(["1":4, "2":5, "3":6].getKeys(true) == ["1", "2", "3"]);
+	assert(["1":"4", "2":"5", "3":"6"].getKeys(true) == ["1", "2", "3"]);
+	
+	// Using objects
+	class Test {}
+	auto a = new Test;
+	auto b = new Test;
+	auto c = new Test;
+	assert([1:a, 2:b, 3:c].getKeys(true) == [1, 2, 3]);
+}
 
 /// get values of an associative array - currently not working für objects
 V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {

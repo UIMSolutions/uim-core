@@ -247,3 +247,11 @@ version(test_uim_core) { unittest {
 	assert(repeat("bla", 0) == "");
 	assert(repeat("bla", 2) == "blabla");
 }}
+
+bool isEmpty(string text) {
+	return (text.length == 0);
+}
+version(test_uim_core) { unittest {
+	assert(!isEmpty("bla"));
+	assert(isEmpty(""));
+}}
