@@ -6,7 +6,9 @@
 module uim.core.mixins;
 
 public import uim.core.mixins.function_;
+public import uim.core.mixins.phobos;
 public import uim.core.mixins.properties;
+
 
 template PropertyOverride(string dataType, string propertyName, string defaultValue = null) {
 	const char[] PropertyOverride = "
