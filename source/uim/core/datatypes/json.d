@@ -163,7 +163,7 @@ version(test_uim_core) { unittest {
 }}
 
 /// Remove keys from Json Object
-Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys); }
+Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys.dup); }
 Json removeKeys(Json json, string[] delKeys) {
   auto result = json;
   foreach(delKey; delKeys) result.removeKey(delKey);
@@ -195,7 +195,7 @@ version(test_uim_core) { unittest {
 }}
 
 /// Merge jsons objects to one
-Json mergeJsons(Json[] jsons...) { return mergeJsons(jsons); }
+Json mergeJsons(Json[] jsons...) { return mergeJsons(jsons.dup); }
 /// Merge jsons objects in array to one
 Json mergeJsons(Json[] jsons) {
   Json result = Json.emptyObject;
@@ -352,12 +352,12 @@ version(test_uim_core) { unittest {
 Json mergeJsonObject(Json baseJson, Json mergeJson) {
   Json result;
   
-  if (mergeJson == Json(null) || mergeJson.type != Json.Type.Object) {
+  if (mergeJson == Json(null) || mergeJson.type != Json.Type.object) {
     return baseJson;
   }
 
   result = Json.emptyObject;
-  if (baseJson != Json(null) && baseJson.type == Json.Type.Object) {
+  if (baseJson != Json(null) && baseJson.type == Json.Type.object) {
     foreach(k, v; baseJson.byKeyValue) {
       result[k] = v;
     }

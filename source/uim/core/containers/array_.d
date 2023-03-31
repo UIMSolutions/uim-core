@@ -268,3 +268,22 @@ version(test_uim_core) { unittest {
 	assert(![1,2,3,4].isEmpty);
 	assert([].isEmpty);
 }}
+
+T shiftFirst(T)(ref T[] values) {
+	if (values.length == 0) { return null; }
+	auto value = values[0];
+
+	if (values.length > 1) {
+		values = values[1..$];
+	} else {
+		values = null;
+	}
+
+	return value;
+}
+///
+unittest {
+	string[] anArray = ["x", "y", "z"];
+	assert(anArray.shiftFirst == "x");
+	assert(anArray == ["y", "z"]);
+}

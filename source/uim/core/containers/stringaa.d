@@ -62,34 +62,34 @@ version(test_uim_core) { unittest {
 }}
 
 
-STRINGAA withKeys(STRINGAA entries, string[] keys...) {
-	return withKeys(entries, keys);
+STRINGAA filterByKeys(STRINGAA entries, string[] keys...) {
+	return filterByKeys(entries, keys.dup);
 }
-STRINGAA withKeys(STRINGAA entries, string[] keys) {
+STRINGAA filterByKeys(STRINGAA entries, string[] keys) {
 	STRINGAA results;
 	foreach(k; keys) if (k in entries) results[k] = entries[k];
 	return results;
 }
 version(test_uim_core) { unittest {
-		assert(["a":"1", "b":"2"].withKeys("a") == ["a":"1"]);
+		assert(["a":"1", "b":"2"].filterByKeys("a") == ["a":"1"]);
 }}
-STRINGAA notWithKeys(STRINGAA entries, string[] keys...) {
-	return notWithKeys(entries, keys);
+STRINGAA notFilterByKeys(STRINGAA entries, string[] keys...) {
+	return notFilterByKeys(entries, keys.dup);
 }
-STRINGAA notWithKeys(STRINGAA entries, string[] keys) {
+STRINGAA notFilterByKeys(STRINGAA entries, string[] keys) {
 	STRINGAA results = entries.dup;
 	foreach(k; keys) if (k in entries) results.remove(k);
 	return results;
 }
 version(test_uim_core) { unittest {
-		assert(["a":"1", "b":"2"].notWithKeys("a") == ["b":"2"]);
+		assert(["a":"1", "b":"2"].notFilterByKeys("a") == ["b":"2"]);
 }}
 
 // Gets STRINGAA with values
-STRINGAA withValues(STRINGAA entries, string[] values...) {
-	return withValues(entries, values);
+STRINGAA filterByValues(STRINGAA entries, string[] values...) {
+	return filterByValues(entries, values.dup);
 }
-STRINGAA withValues(STRINGAA entries, string[] values) {
+STRINGAA filterByValues(STRINGAA entries, string[] values) {
 	STRINGAA results;
 	foreach(val; values) {
 		foreach(key, v; entries) {
@@ -99,8 +99,8 @@ STRINGAA withValues(STRINGAA entries, string[] values) {
 	return results;
 }
 version(test_uim_core) { unittest {
-		assert(["a":"1", "b":"2"].withValues("1") == ["a":"1"]);
-		assert(["a":"1", "b":"2"].withValues("0").empty);
+		assert(["a":"1", "b":"2"].filterByValues("1") == ["a":"1"]);
+		assert(["a":"1", "b":"2"].filterByValues("0").empty);
 }}
 
 string toString(string[string] aa) {
