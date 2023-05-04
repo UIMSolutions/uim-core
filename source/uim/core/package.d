@@ -5,17 +5,7 @@
 ***********************************************************************************************************************/
 module uim.core;
 
-@safe:
-
-public import std.stdio;
-public import std.conv;
-public import std.datetime;
-public import std.file;
-public import std.string;
-public import std.array;
-public import std.algorithm;
-public import std.traits;
-public import std.uuid;
+mixin(ImportPhobos!());
 
 public import vibe.d;
 
@@ -27,6 +17,7 @@ public import uim.core.io;
 public import uim.core.mixins;
 public import uim.core.web;
 
+@safe:
 alias STRINGAA = string[string];
 alias INTAA = int[int];
 alias DOUBLEAA = double[double];
