@@ -220,11 +220,15 @@ version(test_uim_core) { unittest {
 	assert(!["a":1, "b":2].isValues(["a":1, "c":2]));
 }}
 
-V[K] merge(K, V)(V[K] sourceValues, V[K] mergeValues) {
+V[K] merge(K, V)(V[K] sourceValues, V[K] mergeValues, bool overwrite = true) {	
 	auto result = sourceValues.dup;
-
+	if (mergeValues is null) return result;
+	
 	foreach(k, v; mergeValues) {
-		result[k] = v;
+		if (overwrite) result[k] = v;
+		else {
+			if (k !in result) result[k] = v;
+		}
 	}
 
 	return result;
