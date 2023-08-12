@@ -233,3 +233,7 @@ V[K] merge(K, V)(V[K] sourceValues, V[K] mergeValues, bool overwrite = true) {
 
 	return result;
 }
+
+bool isEmpty(V, K)(V[K] someValues) {
+	return (someValues.length == 0);
+}
