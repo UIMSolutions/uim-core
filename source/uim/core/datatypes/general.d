@@ -19,7 +19,7 @@ version(test_uim_core) { unittest {
 }}
 
 bool isIn(T)(T value, T[] values) {
-  foreach(i, ref v; values) if (v == value) return true;
+  foreach(i, ref v; values) if (v == value) { return true; }
   return false;
 }
 version(test_uim_core) { unittest {
@@ -30,7 +30,7 @@ version(test_uim_core) { unittest {
 }}
 
 bool has(T)(T[] values, T value) if (!isSomeString!T) {
-  foreach(i, ref v; values) if (v == value) return true;
+  foreach(i, ref v; values) if (v == value) { return true; }
   return false;
 }
 version(test_uim_core) { unittest {

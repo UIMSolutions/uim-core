@@ -64,7 +64,7 @@ version(test_uim_core) { unittest {
 }}
 
 pure bool isLess(T)(T base, T[] values...) {
-  foreach(value;values) if (value <= base) return false;
+  foreach(value;values) if (value <= base) { return false; }
   return true;  
 }
 version(test_uim_core) { unittest {
@@ -73,7 +73,7 @@ version(test_uim_core) { unittest {
 }}
 
 pure bool isGreater(T)(T base, T[] values...) {
-  foreach(value; values) if (value >= base) return false;
+  foreach(value; values) if (value >= base) { return false; }
   return true; // base is always greater
 }
 version(test_uim_core) { unittest {

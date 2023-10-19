@@ -10,14 +10,14 @@ import uim.core;
 
 version(linux) {
 	bool copy(string fileName, string fromDir, string toDir, bool createMissingDirs = true, bool overwriteExistingFile = true) {
-		if (fileName.length == 0) return false;
-		if (fromDir.length == 0) return false;
-		if (toDir.length == 0) return false;
+		if (fileName.length == 0) { return false; }
+		if (fromDir.length == 0) { return false; }
+		if (toDir.length == 0) { return false; }
 
 		string from = fromDir;
 		if (from[$-1] != '/') from ~= "/";
 
-		if (!exists(from~fileName)) return false;
+		if (!exists(from~fileName)) { return false; }
 
 		string to = toDir; 
 		if (to[$-1] != '/') to ~= "/";
@@ -27,11 +27,11 @@ version(linux) {
 			if (!exists(to)) mkdir(to);
 		}
 		else {
-			if (!exists(from)) return false;
-			if (!exists(to)) return false;
+			if (!exists(from)) { return false; }
+			if (!exists(to)) { return false; }
 		}
 
-		if (!overwriteExistingFile && exists(to~fileName)) return false;
+		if (!overwriteExistingFile && exists(to~fileName)) { return false; }
 
 		try { std.file.copy(from~fileName, to~fileName); }
 		catch(Exception e) { return false; }
@@ -42,14 +42,14 @@ version(linux) {
 
 version(linux) {
 	bool move(string fileName, string fromDir, string toDir, bool createMissingDirs = true, bool overwriteExistingFile = true) {
-		if (fileName.length == 0) return false;
-		if (fromDir.length == 0) return false;
-		if (toDir.length == 0) return false;
+		if (fileName.length == 0) { return false; }
+		if (fromDir.length == 0) { return false; }
+		if (toDir.length == 0) { return false; }
 		
 		string from = fromDir;
 		if (from[$-1] != '/') from ~= "/";
 		
-		if (!exists(from~fileName)) return false;
+		if (!exists(from~fileName)) { return false; }
 		
 		string to = toDir; 
 		if (to[$-1] != '/') to ~= "/";
@@ -59,11 +59,11 @@ version(linux) {
 			if (!exists(to)) mkdir(to);
 		}
 		else {
-			if (!exists(from)) return false;
-			if (!exists(to)) return false;
+			if (!exists(from)) { return false; }
+			if (!exists(to)) { return false; }
 		}
 		
-		if (!overwriteExistingFile && exists(to~fileName)) return false;
+		if (!overwriteExistingFile && exists(to~fileName)) { return false; }
 		
 		try { fileName.copy(from, to); }
 		catch(Exception e) { return false; }
