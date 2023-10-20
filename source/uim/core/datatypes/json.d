@@ -463,6 +463,13 @@ version (test_uim_core) {
     assert("versionNumber" !in toJson(id));
     assert(toJson(id, 1)["id"].get!string == id.toString);
     assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
+}}
+
+Json mergeJsonObject(Json baseJson, Json mergeJson) {
+  Json result;
+  
+  if (mergeJson.isEmpty || mergeJson.type != Json.Type.object) {
+    return baseJson;
   }
 }
 // #endregion convert
@@ -514,5 +521,10 @@ unittest {
 // #endregion merge
 
 bool isEmpty(Json aJson) {
+<<<<<<< HEAD
   return aJson == Json(null);
 }
+=======
+  return aJson.isEmpty;
+}
+>>>>>>> 5d739b4 (Updates)

@@ -232,9 +232,9 @@ size_t[string] countWords(string aText) {
 
 	return results;
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(countWords("this is a test")["this"] == 1);
-}}
+}
 
 string repeat(string text, size_t times) {
 	auto result = "";

@@ -33,19 +33,21 @@ SysTime fromJSTimestamp(long jsTimestamp) {
 
 // Current SysTime based on System Clock
 auto now() {
-	return Clock.currTime(); }
-version(test_uim_core) { unittest {
+	return Clock.currTime(); 
+}
+unittest {
 	auto now1 = now; auto now2 = now;
 	assert(now2 >= now1);
-}}
+}
 
 // Current DateTime based on System Clock
 DateTime nowDateTime() {
-	return cast(DateTime)now; }
-version(test_uim_core) { unittest {
+	return cast(DateTime)now; 
+}
+unittest {
 	auto dt1 = nowDateTime; auto dt2 = nowDateTime;
 	assert(dt2 >= dt1);
-}}
+}
 
 /// convert time to region format using SysTime
 string timeToDateString(size_t time, string regionFormat = "DE") {
