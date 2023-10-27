@@ -1,4 +1,4 @@
-name: D
+name: uim-core-action
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 2
-    - uses: dlang-community/setup-dlang@v1
+    - uses: dlang-community/setup-dlang@v2
       with:
         compiler: ${{ matrix.dc }}
     - name: 'Test'
