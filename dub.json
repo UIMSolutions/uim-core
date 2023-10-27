@@ -9,14 +9,14 @@
 	"targetType": "library",
 	"dependencies": {
 		"colored": "~>0.0.27",
-		"vibe-d": "~>0.9.6"
+		"vibe-d": "~>0.9.7"
 	},
 	"configurations": [
 		{
-			"name": "default"
+			"name": "default",
 		},
 		{
-			"name": "testUnit",
+			"name": "testLib",
 			"versions": [
 				"test_uim_core"
 			]

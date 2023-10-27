@@ -78,28 +78,57 @@ version(test_uim_core) { unittest {
 	// Todo
 }}
 
-auto dirEntryInfos(string path) {
+auto dirEntryInfos(string aPath) {
+	debug writeln(__MODULE__~" - dirEntryInfos(path: %s)".format(aPath));
+
   FileInfo[] results;
-  bool dirEntryInfo(FileInfo info) { results ~= info; return true; }
-  listDirectory(path, &dirEntryInfo);
+/*   bool dirEntryInfo(FileInfo info) { 
+		debug writeln(__MODULE__~" - Info %s".format(info));
+		results ~= info; return true; 
+	}
+
+	debug writeln(__MODULE__~" - listDirectory(aPath, &dirEntryInfo))");
+  listDirectory(aPath, &dirEntryInfo);
+
+	debug writeln(__MODULE__~" - Results %s)".format(results)); */
   return results;
 }
 
-auto dirNames(string path, bool fullName = false) {
-  string[] results = dirEntryInfos(path).filter!(a => a.isDirectory).map!(a => a.name).array;
-  if (fullName) results = results.map!(a => path~"/"~a).array;
+// read directories (subfolders) in path 
+auto dirNames(string aPath, bool aFullName = false) {
+	debug writeln(__MODULE__~" - dirNames(string %s, bool fullName = false)".format(aPath));
+
+	string[] results;
+/*   string[] results = dirEntryInfos(aPath).filter!(a => a.isDirectory).map!(a => a.name).array;
+  if (aFullName) results = results.map!(a => aPath~"/"~a).array;
+ */
+
+	foreach (string name; dirEntries(aPath, SpanMode.breadth)) {
+		writeln(name);
+	}
+
+	debug writeln(__MODULE__~" - Results %s)".format(results));
   return results;
 }
 
-auto linkNames(string path, bool fullName = false) {
+// read links in path 
+auto linkNames(string path, bool aFullName = false) {
   string[] results = dirEntryInfos(path).filter!(a => a.isSymlink).map!(a => a.name).array;
-  if (fullName) results = results.map!(a => path~"/"~a).array;
+  if (aFullName) results = results.map!(a => path~"/"~a).array;
   return results;
 }
   
-auto fileNames(string path, bool fullName = false) {
-  string[] results = dirEntryInfos(path).filter!(a => a.isFile).map!(a => a.name).array;
-  if (fullName) results = results.map!(a => path~"/"~a).array;
+// read filenames in path 
+auto fileNames(string aPath, bool aFullName = false) {
+  string[] results = dirEntryInfos(aPath).filter!(a => a.isFile).map!(a => a.name).array;
+  if (aFullName) results = results.map!(a => aPath~"/"~a).array;
   return results;
 }
 
+unittest {
+/* 	debug writeln("1");	
+	debug writeln(dirNames("."));
+	debug writeln("2");	
+	debug writeln(dirNames(".", true));
+	debug writeln("3");	 */
+}
