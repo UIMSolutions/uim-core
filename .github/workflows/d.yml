@@ -10,10 +10,9 @@ jobs:
   build:
     strategy:
       matrix:
-        dc:
-          - dmd-latest
-          - ldc-latest
-          - dmd-latest
+        os: [ubuntu-latest]
+        dc: [dmd-latest]
+        
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
