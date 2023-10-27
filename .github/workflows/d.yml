@@ -16,12 +16,6 @@ jobs:
           - dmd-latest
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 2
-    - uses: dlang-community/setup-dlang@v1
-      with:
-        compiler: ${{ matrix.dc }}
     - name: 'Test'
       run: |
         dub test
