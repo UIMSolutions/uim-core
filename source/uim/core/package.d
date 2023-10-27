@@ -16,6 +16,7 @@ public import uim.core.dlang;
 public import uim.core.io;
 public import uim.core.mixins;
 public import uim.core.web;
+public import uim.core.tests;
 
 @safe:
 alias STRINGAA = string[string];
