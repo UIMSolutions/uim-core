@@ -13,10 +13,15 @@ jobs:
         os: [ubuntu-latest]
         dc: [dmd-latest]
         
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v2
+
+    - name: Install D compiler
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.dc }}
+          
     - name: 'Test'
       run: |
         dub test
