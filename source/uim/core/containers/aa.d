@@ -161,25 +161,22 @@ version(test_uim_core) { unittest {
 }}
 
 pure string toJSONString(T)(T[string] values, bool sorted = NOTSORTED) {
-	string[] result; 
-
-	foreach(k; values.getKeys(sorted)) result ~= `"%s":%s`.format(k, values[k]);
-
-	return "{"~result.join(",")~"}";
+	return "{"~values
+		.getKeys(sorted)
+		.map!v => `"%s":%s`.format(k, values[k])
+		.join(",")~"}";
 }
 version(test_uim_core) { unittest {
-		assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
+	assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
 }}
 
 pure string toHTML(T)(T[string] values, bool sorted = NOTSORTED) {
-	string[] results; 
-	foreach(k; values.getKeys(sorted)) {
-		results ~= `%s="%s"`.format(k, values[k]);
-	}
-	return results.join(" ");
+	return values
+		.getKeys(sorted)
+		.map!(v => `%s="%s"`.format(k, values[k])).join(" ");
 }
 version(test_uim_core) { unittest {
-		assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
+	assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
 }}
 
 pure string toSqlUpdate(T)(T[string] values, bool sorted = NOTSORTED) {

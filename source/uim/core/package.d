@@ -26,8 +26,9 @@ alias DOUBLEAA = double[double];
 /+  +/
 T toggle(T, S)(S value) if (isBoolean!S) { return !S; }
 T toggle(T, S)(S value, T defValue = 1, T zeroValue = 0) if (isNumeric!S) { 
-	if (value != zeroValue) return zeroValue;
-	return defValue;
+	return (value != zeroValue 
+		? zeroValue 
+		: defValue);
 }
 
 /+ toggle between values +/
@@ -37,39 +38,40 @@ T toggle(T)(T value, T value0, T value1) { return (value == value0) ? value1 : v
 /// select values in array
 // get all values in array are equal to value
 T[] eqValues(T)(T value, T[] values) {
-	T[] result;
-	foreach(v; values) if (value == v) result ~= v;
-	return result;
+	return values
+		.filter!(v => value == v)
+		.array;
 } 
 // get all values in array are not equal to value
-T[] neqValues(T)(T value, T[] values) {
-	T[] result;
-	foreach(v; values) if (value != v) result ~= v;
-	return result;
+T[] neqValues(T)(T checkValue, T[] values) {
+	return values
+		.filter!(v => checkValue != v)
+		.array;
 } 
+
 // get all values in array are greater then value
 T[]  gtValues(T)(T value, T[] values) if (isNumeric!T) {
-	T[] result;
-	foreach(v; values) if (value > v) result ~= v;
-	return result;
+	return values
+		.filter!(v => value > v)
+		.array;
 } 
 // get all values in array are greater equal value
 T[] geValues(T)(T value, T[] values) if (isNumeric!T) {
-	T[] result;
-	foreach(v; values) if (value >= v) result ~= v;
-	return result;
+	return values
+		.filter!(v => value >= v)
+		.array;
 } 
 // get all values in array are less then value
 T[] ltValues(T)(T value, T[] values) if (isNumeric!T) {
-	T[] result;
-	foreach(v; values) if (value < v) result ~= v;
-	return result;
+	return values
+		.filter!(v => value < v)
+		.array;
 } 
 // get all values in array are less equal value
 T[] leValues(T)(T value, T[] values) if (isNumeric!T) {
-	T[] result;
-	foreach(v; values) if (value <= v) result ~= v;
-	return result;
+	return values
+		.filter!(v => value <= v)
+		.array;
 } 
 
 /// compare values in array
