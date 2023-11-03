@@ -8,6 +8,10 @@ module uim.core.datatypes.json;
 @safe:
 import uim.core;
 
+bool isNull(Json json) {
+  return (json == Json(null));
+}
+
 bool isArray(Json json) {
   return (json.isArray);
 }
@@ -266,7 +270,7 @@ version (test_uim_core) {
 }
 
 Json readJson(Json target, Json source, bool overwrite = false) {
-  if (!target.isObject || !source.isObjec) {
+  if (!target.isObject || !source.isObject) {
     return target;
   }
 
@@ -282,31 +286,6 @@ Json readJson(Json target, Json source, bool overwrite = false) {
   }
 
   return result;
-}
-
-/// Merge jsons objects to one
-Json mergeJsons(Json[] jsons...) {
-  return mergeJsons(jsons.dup);
-}
-/// Merge jsons objects in array to one
-Json mergeJsons(Json[] jsons) {
-  Json result = Json.emptyObject;
-
-  jsons
-    .filter!(j => j.isObject)
-    .each!(j => result.copy(j))
-    .array;
-
-  return result;
-}
-///
-version (test_uim_core) {
-  unittest {
-    auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
-    auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
-    auto mergeJson = mergeJsons(json0, json1);
-    assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
-  }
 }
 
 /// Load existing json files in directories
@@ -476,19 +455,18 @@ Json toJson(string key, UUID value) {
   return json;
 }
 
-version (test_uim_core) {
-  unittest {
-    auto id = randomUUID;
-    assert(toJson("id", id)["id"].get!string == id.toString);
-  }
+unittest {
+  auto id = randomUUID;
+  assert(toJson("id", id)["id"].get!string == id.toString);
 }
 
 /// Special case for managing entities
 Json toJson(UUID id, size_t versionNumber = 0LU) {
   Json json = Json.emptyObject;
   json["id"] = id.toString;
-  if (versionNumber > 0)
+  if (versionNumber > 0) {
     json["versionNumber"] = versionNumber;
+  }
   return json;
 }
 
@@ -504,24 +482,38 @@ version (test_uim_core) {
 // #endregion convert
 
 // #region merge
-Json mergeJsonObjects(Json baseJson, Json mergeJson, bool overwrite = true) {
-  // In check
-  if (mergeJson.isNull || !mergeJson.isObject) {
-    return baseJson;
-  }
-
-  if (!baseJson.isNull && baseJson.isObject) {
-    baseJson.byKeyValue
-      .each!(kv => result[kv.key] = kv.value);
-  }
-
-  // Body
+/// Merge jsons objects to one
+Json mergeJsons(Json[] jsons...) {
+  return mergeJsons(jsons.dup);
+}
+/// Merge jsons objects in array to one
+Json mergeJsons(Json[] jsons, bool overwrite = true) {
   Json result = Json.emptyObject;
-  auto kvRange = mergeJson.byKeyValue;
-  if (!overwrite) {
-    kvRange = kvRange.filter!(kv => !result.hasKey(kv.key));
+
+  jsons
+    .filter!(json => json.isObject)
+    .each!(json => result = result.mergeJsonObjects(json, overwrite))
+    .array;
+
+  return result;
+}
+///
+version (test_uim_core) {
+  unittest {
+    auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
+    auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
+    auto mergeJson = mergeJsons(json0, json1);
+    assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
   }
-  kvRange.each!(kv => result[kv.key] = kv.value);
+}
+
+Json mergeJsonObjects(Json baseJson, Json mergeJson, bool overwrite = true) {
+  Json result = Json.emptyObject;
+  if (baseJson.isNull && !baseJson.isObject) { return result; } 
+  result = result.readJson(baseJson, overwrite);
+
+  if (mergeJson.isNull && !mergeJson.isObject) { return result; } 
+  mergeJson.readJson(mergeJson, overwrite);
 
   // Out
   return result;
