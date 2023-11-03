@@ -74,3 +74,5 @@ uim-core-test-testUnit
 .dub/code/uim-core-test-testUnit-unittest-linux.posix-x86_64-dmd_v2.100.0-EBD381561C60327F310BF841C6C7AC7E_dub_test_root.d
 .dub/code/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-C9E72475AF08D5E5073F79DA5FF26F4E_dub_test_root.d
 .dub/build/uim-core-test-offline-unittest-linux.posix-x86_64-dmd_v2.100.0-443C56C9A6544B8DEDF1EA67A645D53A/uim-core-test-offline.o
+uim-core-test-default.pdb
+.dub/version.json
