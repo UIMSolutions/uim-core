@@ -68,3 +68,6 @@ uim-core-test-testUnit
 uim-core-test-default.pdb
 .dub/version.json
 libcrypto-1_1-x64.dll
+libssl-1_1-x64.dll
+.dub/version.json
+.dub/version.json
