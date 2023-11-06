@@ -140,7 +140,7 @@ version(test_uim_core) { unittest {
 
 bool hasKey(T, S)(T[S] base, S key) { return (key in base) ? true : false; }
 bool hasKeys(T, S)(T[S] base, S[] keys...) { return base.hasKeys(keys); }
-bool hasKeys(T, S)(T[S] base, S[] keys) { bool result; foreach(key; keys) if (key !in base) return false; return true; }
+bool hasKeys(T, S)(T[S] base, S[] keys) { bool result; foreach(key; keys) if (key !in base) { return false; } return true; }
 version(test_uim_core) { unittest {
 	assert(["a":"b", "c":"d"].hasKey("a"));
 	assert(["a":"b", "c":"d"].hasKeys("a"));
@@ -149,9 +149,9 @@ version(test_uim_core) { unittest {
 	assert(["a":"b", "c":"d"].hasKeys(["a", "c"]));
 }}
 
-bool hasValue(T, S)(T[S] base, S value...) { foreach(v; base.getValues) if (v == value) return true; return false; }
+bool hasValue(T, S)(T[S] base, S value...) { foreach(v; base.getValues) if (v == value) { return true; } return false; }
 bool hasValues(T, S)(T[S] base, S[] values...) { return base.hasValues(values); }
-bool hasValues(T, S)(T[S] base, S[] values) { foreach(value; values) if (!base.hasValue(value)) return false; return true; }
+bool hasValues(T, S)(T[S] base, S[] values) { foreach(value; values) if (!base.hasValue(value)) { return false; } return true; }
 version(test_uim_core) { unittest {
 	assert(["a":"b", "c":"d"].hasValue("b"));
 	assert(["a":"b", "c":"d"].hasValues("b"));
@@ -161,25 +161,22 @@ version(test_uim_core) { unittest {
 }}
 
 pure string toJSONString(T)(T[string] values, bool sorted = NOTSORTED) {
-	string[] result; 
-
-	foreach(k; values.getKeys(sorted)) result ~= `"%s":%s`.format(k, values[k]);
-
-	return "{"~result.join(",")~"}";
+	return "{"~values
+		.getKeys(sorted)
+		.map!v => `"%s":%s`.format(k, values[k])
+		.join(",")~"}";
 }
 version(test_uim_core) { unittest {
-		assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
+	assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
 }}
 
 pure string toHTML(T)(T[string] values, bool sorted = NOTSORTED) {
-	string[] results; 
-	foreach(k; values.getKeys(sorted)) {
-		results ~= `%s="%s"`.format(k, values[k]);
-	}
-	return results.join(" ");
+	return values
+		.getKeys(sorted)
+		.map!(v => `%s="%s"`.format(k, values[k])).join(" ");
 }
 version(test_uim_core) { unittest {
-		assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
+	assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
 }}
 
 pure string toSqlUpdate(T)(T[string] values, bool sorted = NOTSORTED) {
@@ -209,8 +206,8 @@ version(test_uim_core) { unittest {
 // Checks if values exist in base
 pure bool isValues(T, S)(T[S] base, T[S] values) {
 	foreach(k; values.getKeys) {
-		if (k !in base) return false;
-		if (base[k] != values[k]) return false;
+		if (k !in base) { return false; }
+		if (base[k] != values[k]) { return false; }
 	}
 	return true;
 }

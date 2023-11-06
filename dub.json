@@ -16,7 +16,7 @@
 			"name": "default",
 		},
 		{
-			"name": "testLib",
+			"name": "testUnit",
 			"versions": [
 				"test_uim_core"
 			]

@@ -8,12 +8,12 @@ module uim.core.datatypes.json;
 @safe:
 import uim.core;
 
-bool isNull(Json json) {
-  return (json == Json(null));
-}
-
-bool isArray(Json json) {
-  return (json.isArray);
+/// Checks if every key is in json object
+bool hasAllKeys(Json json, string[] keys, bool deepSearch = false) {
+  foreach(key; keys) {
+    if (!hasKey(json, key, deepSearch)) { return false; } 
+  }
+  return true;
 }
 ///
 unittest {
@@ -44,10 +44,10 @@ unittest {
 }
 
 /// Check if Json has key
-bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) {
-  return keys
-    .filter!(k => hasKey(json, k, deepSearch))
-    .array.length > 0;
+bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) { 
+  foreach(key; keys) 
+    if (hasKey(json, key, deepSearch)) { return true; }
+  return false;
 }
 ///
 unittest {
@@ -58,16 +58,12 @@ unittest {
 
 /// Searching key in json, if depth = true also in subnodes  
 bool hasKey(Json json, string key, bool deepSearch = false) {
-  if (json.isObject) {
-    foreach (kv; json.byKeyValue) {
-      if (kv.key == key) {
-        return true;
-      }
+  if (json.type == Json.Type.object) {
+    foreach(kv; json.byKeyValue) {
+      if (kv.key == key) { return true; }
       if (deepSearch) {
         auto result = kv.value.hasKey(key, deepSearch);
-        if (result) {
-          return true;
-        }
+        if (result) { return true; }
       }
     }
   }
@@ -75,8 +71,7 @@ bool hasKey(Json json, string key, bool deepSearch = false) {
     if (json.isArray) {
       for (size_t i = 0; i < json.length; i++) {
         const result = json[i].hasKey(key, deepSearch);
-        if (result)
-          return true;
+        if (result) { return true; } 
       }
     }
   }
@@ -92,9 +87,7 @@ version (test_uim_core) {
 }
 
 bool hasAllValues(Json json, Json[] values, bool deepSearch = false) {
-  foreach (value; values)
-    if (!hasValue(json, value, deepSearch))
-      return false;
+  foreach(value; values) if (!hasValue(json, value, deepSearch)) { return false; }
   return true;
 }
 ///
@@ -107,9 +100,7 @@ version (test_uim_core) {
 }
 
 bool hasAnyValue(Json json, Json[] values, bool deepSearch = false) {
-  foreach (value; values)
-    if (hasValue(json, value, deepSearch))
-      return true;
+  foreach(value; values) if (hasValue(json, value, deepSearch)) { return true; }
   return false;
 }
 ///
@@ -123,14 +114,12 @@ version (test_uim_core) {
 
 /// Searching for value in Json
 bool hasValue(Json json, Json value, bool deepSearch = false) {
-  if (json.isObject) {
-    foreach (kv; json.byKeyValue) {
-      if (kv.value == value)
-        return true;
+  if (json.type == Json.Type.object) {
+    foreach(kv; json.byKeyValue) {
+      if (kv.value == value) { return true; }
       if (deepSearch) {
         auto result = kv.value.hasValue(value, deepSearch);
-        if (result)
-          return true;
+        if (result) { return true; }
       }
     }
   }
@@ -138,8 +127,7 @@ bool hasValue(Json json, Json value, bool deepSearch = false) {
     if (json.isArray) {
       for (size_t i = 0; i < json.length; i++) {
         const result = json[i].hasValue(value, deepSearch);
-        if (result)
-          return true;
+        if (result) { return true; } 
       }
     }
   }
@@ -177,9 +165,7 @@ unittest {
 
 /// Check if jsonPath items exists
 bool hasPath(Json json, string[] pathItems) {
-  if (!json.isObject) {
-    return false;
-  }
+  if (json.type != Json.Type.object) { return false; }
 
   auto j = json;
   foreach (pathItem; pathItems) {
@@ -222,14 +208,10 @@ version (test_uim_core) {
 }
 
 /// Remove keys from Json Object
-Json removeKeys(Json json, string[] delKeys...) {
-  return removeKeys(json, delKeys.dup);
-}
-
-Json removeKeys(Json json, string[] keys) {
-  auto result = json;
-  keys.each!(key => result.removeKey(key));
-
+Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys.dup); }
+Json removeKeys(Json aJson, string[] delKeys) {
+  auto result = aJson;
+  delKeys.each!(k => result.removeKey(k));
   return result;
 }
 
@@ -477,6 +459,13 @@ version (test_uim_core) {
     assert("versionNumber" !in toJson(id));
     assert(toJson(id, 1)["id"].get!string == id.toString);
     assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
+}}
+
+Json mergeJsonObject(Json baseJson, Json mergeJson) {
+  Json result;
+  
+  if (mergeJson.isEmpty || mergeJson.type != Json.Type.object) {
+    return baseJson;
   }
 }
 // #endregion convert
@@ -526,3 +515,12 @@ unittest {
   // TODO add test
 }
 // #endregion merge
+
+bool isEmpty(Json aJson) {
+<<<<<<< HEAD
+  return aJson == Json(null);
+}
+=======
+  return aJson.isEmpty;
+}
+>>>>>>> 5d739b4 (Updates)

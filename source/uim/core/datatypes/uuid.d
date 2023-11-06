@@ -22,28 +22,28 @@ bool isUUID(string uuid, bool stripInput = true) {
 
 	auto u = uuid;
 	if (stripInput) u = u.strip;
-	if (u.length < 36) return false; // "Insufficient Input"
-	if (u.length > 36) return false; // "Input is too long, need exactly 36 characters";
+	if (u.length < 36) { return false; } // "Insufficient Input"
+	if (u.length > 36) { return false; } // "Input is too long, need exactly 36 characters";
 
 	static immutable skipInd = [skipSeq];
-	foreach (pos; skipInd) if (u[pos] != '-') return false; // Expected '-'
+	foreach (pos; skipInd) if (u[pos] != '-') { return false; } // Expected '-'
 	
 	foreach (i, p; byteSeq) {
 		enum uint s = 'a'-10-'0';
 		uint h = u[p];
 		uint l = u[p+1];
-		if (h < '0') return false;
-		if (l < '0') return false;
+		if (h < '0') { return false; }
+		if (l < '0') { return false; }
 		if (h > '9') {
 			h |= 0x20; //poorman's tolower
-			if (h < 'a') return false;
-			if (h > 'f') return false;
+			if (h < 'a') { return false; }
+			if (h > 'f') { return false; }
 			h -= s;
 		}
 		if (l > '9') {
 			l |= 0x20; //poorman's tolower
-			if (l < 'a') return false;
-			if (l > 'f') return false;
+			if (l < 'a') { return false; }
+			if (l > 'f') { return false; }
 			l -= s;
 		}
 		h -= '0';

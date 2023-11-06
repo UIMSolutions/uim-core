@@ -48,7 +48,7 @@ bool isSet(V, K)(V[K] values, K[] keys...) {
 
 bool isSet(Json values, string key) { // TODO string -> string[]
   foreach(k, value; values.byKeyValue) {
-    if (k == key) return true;
+    if (k == key) { return true; }
   }
   return false;
 }

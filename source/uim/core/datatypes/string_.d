@@ -35,8 +35,8 @@ version(test_uim_core) { unittest {
 }}
 
 bool endsWith(string str, string txt) {
-	if (str.length == 0) return false;
-	if (txt.length == 0) return false;
+	if (str.length == 0) { return false; }
+	if (txt.length == 0) { return false; }
 	return (lastIndexOf(str, txt) == str.length-1);
 }
 version(test_uim_core) { unittest {
@@ -47,7 +47,7 @@ version(test_uim_core) { unittest {
 
 /* bool has(string base, string[] values...)  { return has(base, values); }
 bool has(string base, string[] values)  {
-	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) return true;
+	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) { return true; }
 	return false;
 }
 version(test_uim_core) { unittest {
@@ -58,7 +58,7 @@ version(test_uim_core) { unittest {
 
 bool has(string[] bases, string[] values...)  { return has(bases, values); }
 bool has(string[] bases, string[] values)  {
-	foreach(base; bases) if (base.has(values)) return true;
+	foreach(base; bases) if (base.has(values)) { return true; }
 	return false;
 }
 version(test_uim_core) { unittest {
@@ -111,8 +111,8 @@ version(test_uim_core) { unittest {
 
 
 bool startsWith(string str, string txt) {
-	if (str.length == 0) return false;
-	if (txt.length == 0) return false;
+	if (str.length == 0) { return false; }
+	if (txt.length == 0) { return false; }
 	return (indexOf(str, txt) == 0);
 }
 version(test_uim_core) { unittest {
@@ -232,9 +232,9 @@ size_t[string] countWords(string aText) {
 
 	return results;
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(countWords("this is a test")["this"] == 1);
-}}
+}
 
 string repeat(string text, size_t times) {
 	auto result = "";
@@ -248,10 +248,4 @@ version(test_uim_core) { unittest {
 	assert(repeat("bla", 2) == "blabla");
 }}
 
-bool isEmpty(string text) {
-	return (text.length == 0);
-}
-version(test_uim_core) { unittest {
-	assert(!isEmpty("bla"));
-	assert(isEmpty(""));
-}}
+

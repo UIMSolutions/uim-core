@@ -14,12 +14,9 @@ string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isInteg
   
   import std.conv;
   string convert = to!string(value);
-  if (convert.length < length) {
-    result = result[0..$-convert.length] ~ convert;
-  }
-  else result = convert;  
-
-  return result;
+  return convert.length < length 
+    ? result[0..$-convert.length] ~ convert
+    : convert;  
 }
 version(test_uim_core) { unittest {
   assert(1.toString == "1");
@@ -38,12 +35,12 @@ T limits(T)(T value, T minLimit, T maxLimit) if (isIntegral!T)
     
     return result;
   }
-version(test_uim_core) { unittest {
+unittest {
   assert(10.limit(2, 8) == 8);
   assert(10.limit(12, 13) == 12);
   assert(10.limit(13, 13) > 0);
   assert(10.limit(14, 13) > 0);
-}}
+}
 
 /// transform value minOld/maxOld to newMin/newMax 
 T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T) 
@@ -58,39 +55,60 @@ T transform(T)(T value, T minOld, T maxOld, T newMin, T newMax) if (isIntegral!T
     
     return result;
   }
-version(test_uim_core) { unittest {
+unittest {
   assert(8.transform(0, 10, 0, 100) == 80);
   assert(80.transform(0, 100, 0, 10) == 8);
-}}
+}
 
 pure bool isLess(T)(T base, T[] values...) {
-  foreach(value;values) if (value <= base) return false;
-  return true;  
+  return isLess(base, values.dup);
 }
-version(test_uim_core) { unittest {
+pure bool isLess(T)(T base, T[] values) {
+  return values.filter!(v => base >= v).count == 0;  
+}
+unittest {
   assert(8.isLess(10, 100));
   assert(!80.isLess(10, 100));
-}}
+
+  assert(8.isLess([10, 100]));
+  assert(!80.isLess([10, 100]));
+}
 
 pure bool isGreater(T)(T base, T[] values...) {
-  foreach(value; values) if (value >= base) return false;
-  return true; // base is always greater
+  return isGreater(base, values.dup);  
 }
-version(test_uim_core) { unittest {
+pure bool isGreater(T)(T base, T[] values) {
+  return values.filter!(v => base <= v).count == 0;  
+}
+unittest {
   assert(800.isGreater(10, 100));
   assert(!80.isGreater(10, 100));
-}}
+
+  assert(800.isGreater([10, 100]));
+  assert(!80.isGreater([10, 100]));
+}
 
 bool isInt(string aValue) {
-  if (aValue.isNumeric) {
-    return (to!string(to!int(aValue)) == aValue);
+  try {
+    return aValue.isNumeric
+      ? to!string(to!int(to!double(aValue))) == aValue
+      : false;
   }
-  return false;
+  catch(Exception e) {
+    return false;
+  }
+}
+unittest {
+  assert(isInt("0"));
+  assert(!isInt("0.0"));
 }
 
 bool isLong(string aValue) {
-  if (aValue.isNumeric) {
-    return (to!string(to!long(aValue)) == aValue);
-  }
-  return false;
+  return aValue.isNumeric 
+    ? to!string(to!long(to!double(aValue))) == aValue
+    : false;
+}
+unittest {
+  assert(isLong("0"));
+  assert(!isLong("0.0"));
 }

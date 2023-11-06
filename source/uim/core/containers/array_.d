@@ -261,11 +261,8 @@ bool has(T)(in T[] values, in T[] checkValues) {
 	bool result = false;
 	foreach (cv; checkValues) {
 		result = false;
-		foreach (value; values)
-			if (value == cv)
-				result = true;
-		if (!result)
-			return false;
+		foreach (value; values) if (value == cv) result = true;		
+		if (!result) { return false; } 
 	}
 	return result;
 }
@@ -290,8 +287,12 @@ bool hasAllValues(T)(in T[] source, in T[] values...) {
 				break;
 			}
 		}
+<<<<<<< HEAD
 		if (!found)
 			return false;
+=======
+		if (!found) { return false; }
+>>>>>>> a49e36a (update)
 	}
 	return found;
 }
