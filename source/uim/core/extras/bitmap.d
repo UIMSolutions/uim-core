@@ -131,7 +131,7 @@ struct RGB {
     static immutable white = typeof(this)(255, 255, 255);
 }
 
-
+/*
 Image!RGB loadPPM6(ref Image!RGB img, in string fileName) {
     if (img is null)
         img = new Image!RGB;
@@ -153,7 +153,7 @@ Image!RGB loadPPM6(ref Image!RGB img, in string fileName) {
             img.image[i++] = RGB(l[x * 3], l[x * 3 + 1], l[x * 3 + 2]);
     }
     return img;
-}
+} */
 
 
 void savePPM6(in Image!RGB img, in string fileName)

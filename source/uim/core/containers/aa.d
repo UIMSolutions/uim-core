@@ -161,32 +161,39 @@ version(test_uim_core) { unittest {
 }}
 
 pure string toJSONString(T)(T[string] values, bool sorted = NOTSORTED) {
-	return "{"~values
+	string result = "{"~values
 		.getKeys(sorted)
-		.map!v => `"%s":%s`.format(k, values[k])
+		.map!(key => `"%s":%s`.format(key, values[key]))
 		.join(",")~"}";
+
+  return result;
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(["a":1, "b":2].toJSONString(SORTED) == `{"a":1,"b":2}`);
-}}
+}
 
 pure string toHTML(T)(T[string] values, bool sorted = NOTSORTED) {
-	return values
+	string result = values
 		.getKeys(sorted)
-		.map!(v => `%s="%s"`.format(k, values[k])).join(" ");
+		.map!(key => `%s="%s"`.format(key, values[key])).join(" ");
+
+  return result;
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(["a":1, "b":2].toHTML(SORTED) == `a="1" b="2"`);
-}}
+}
 
 pure string toSqlUpdate(T)(T[string] values, bool sorted = NOTSORTED) {
-	string[] results; 
-	foreach(k; values.getKeys(sorted)) results ~= `%s=%s`.format(k, values[k]);
-	return results.join(",");
+	string result = values
+    .getKeys(sorted)
+    .map!(key => `%s=%s`.format(key, values[key]))
+    .join(",");
+
+  return result;
 }
-version(test_uim_core) { unittest {
+unittest {
 		assert(["a":1, "b":2].toSqlUpdate(SORTED) == `a=1,b=2`);
-}}
+}
 
 /// Checks if key exists and has values
 pure bool isValue(T, S)(T[S] base, S key, T value) {

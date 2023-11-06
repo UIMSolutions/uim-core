@@ -8,21 +8,9 @@ module uim.core.datatypes.json;
 @safe:
 import uim.core;
 
-/// Checks if every key is in json object
-bool hasAllKeys(Json json, string[] keys, bool deepSearch = false) {
-  foreach(key; keys) {
-    if (!hasKey(json, key, deepSearch)) { return false; } 
-  }
-  return true;
-}
-///
-unittest {
-  assert(parseJsonString(`["a", "b", "c"]`).isArray);
-  assert(!parseJsonString(`{"a":"b"}`).isArray);
-}
-
-bool isObject(Json json) {
-  return (json.type == Json.Type.object);
+// #region Check json value
+bool isObject(Json aJson) {
+  return aJson.type == Json.Type.object;
 }
 ///
 unittest {
@@ -30,10 +18,85 @@ unittest {
   assert(!parseJsonString(`["a", "b", "c"]`).isObject);
 }
 
+bool isArray(Json aJson) {
+  return (aJson.type == Json.Type.array);
+}
+///
+unittest {
+  assert(parseJsonString(`["a", "b", "c"]`).isArray);
+  assert(!parseJsonString(`{"a":"b"}`).isArray);
+}
+
+bool isBigInt(Json aJson) {
+  return (aJson.type == Json.Type.bigInt);
+}
+///
+unittest {
+  assert(parseJsonString(`10000000000000`).isBigInt);
+  assert(!parseJsonString(`1`).isBigInt);
+}
+
+bool isBool(Json aJson) {
+  return (aJson.type == Json.Type.bool_);
+}
+///
+unittest {
+  assert(parseJsonString(`true`).isBool);
+  assert(parseJsonString(`false`).isBool);
+  assert(!parseJsonString(`1`).isBool);
+}
+
+bool isFloat(Json aJson) {
+  return (aJson.type == Json.Type.float_);
+}
+///
+unittest {
+  assert(parseJsonString(`1.1`).isFloat);
+  assert(!parseJsonString(`1`).isFloat);
+}
+
+bool isInt(Json aJson) {
+  return (aJson.type == Json.Type.int_);
+}
+///
+unittest {
+  assert(parseJsonString(`1`).isInt);
+  assert(!parseJsonString(`1.1`).isInt);
+}
+
+bool isNull(Json aJson) {
+  return aJson == Json(null);
+}
+
+unittest {
+  assert(Json(null).isNull);
+  assert(!Json.emptyObject.isNull);
+  assert(!Json.emptyArray.isNull);
+}
+
+bool isString(Json aJson) {
+  return (aJson.type == Json.Type.string);
+}
+
+unittest {
+  assert(parseJsonString(`"a"`).isString);
+  assert(!parseJsonString(`1.1`).isString);
+}
+
+bool isUndefined(Json aJson) {
+  return (aJson.type == Json.Type.undefined);
+}
+
+unittest {
+  assert(parseJsonString(`#12abc`).isUndefined);
+  assert(!parseJsonString(`1.1`).isUndefined);
+}
+// #endregion
+
 /// Checks if every key is in json object
-bool hasAllKeys(Json json, string[] keys, bool deepSearch = false) {
+bool hasAllKeys(Json aJson, string[] keys, bool deepSearch = false) {
   return keys
-    .filter!(k => hasKey(json, k, deepSearch))
+    .filter!(k => hasKey(aJson, k, deepSearch))
     .array.length == keys.length;
 }
 ///
@@ -44,9 +107,11 @@ unittest {
 }
 
 /// Check if Json has key
-bool hasAnyKey(Json json, string[] keys, bool deepSearch = false) { 
-  foreach(key; keys) 
-    if (hasKey(json, key, deepSearch)) { return true; }
+bool hasAnyKey(Json aJson, string[] keys, bool deepSearch = false) {
+  foreach (key; keys)
+    if (hasKey(aJson, key, deepSearch)) {
+      return true;
+    }
   return false;
 }
 ///
@@ -57,21 +122,27 @@ unittest {
 }
 
 /// Searching key in json, if depth = true also in subnodes  
-bool hasKey(Json json, string key, bool deepSearch = false) {
-  if (json.type == Json.Type.object) {
-    foreach(kv; json.byKeyValue) {
-      if (kv.key == key) { return true; }
+bool hasKey(Json aJson, string key, bool deepSearch = false) {
+  if (aJson.isObject) {
+    foreach (kv; aJson.byKeyValue) {
+      if (kv.key == key) {
+        return true;
+      }
       if (deepSearch) {
         auto result = kv.value.hasKey(key, deepSearch);
-        if (result) { return true; }
+        if (result) {
+          return true;
+        }
       }
     }
   }
   if (deepSearch) {
-    if (json.isArray) {
-      for (size_t i = 0; i < json.length; i++) {
-        const result = json[i].hasKey(key, deepSearch);
-        if (result) { return true; } 
+    if (aJson.isArray) {
+      for (size_t i = 0; i < aJson.length; i++) {
+        const result = aJson[i].hasKey(key, deepSearch);
+        if (result) {
+          return true;
+        }
       }
     }
   }
@@ -86,8 +157,11 @@ version (test_uim_core) {
   }
 }
 
-bool hasAllValues(Json json, Json[] values, bool deepSearch = false) {
-  foreach(value; values) if (!hasValue(json, value, deepSearch)) { return false; }
+bool hasAllValues(Json aJson, Json[] values, bool deepSearch = false) {
+  foreach (value; values)
+    if (!hasValue(aJson, value, deepSearch)) {
+      return false;
+    }
   return true;
 }
 ///
@@ -99,8 +173,11 @@ version (test_uim_core) {
   }
 }
 
-bool hasAnyValue(Json json, Json[] values, bool deepSearch = false) {
-  foreach(value; values) if (hasValue(json, value, deepSearch)) { return true; }
+bool hasAnyValue(Json aJson, Json[] values, bool deepSearch = false) {
+  foreach (value; values)
+    if (hasValue(aJson, value, deepSearch)) {
+      return true;
+    }
   return false;
 }
 ///
@@ -113,21 +190,27 @@ version (test_uim_core) {
 }
 
 /// Searching for value in Json
-bool hasValue(Json json, Json value, bool deepSearch = false) {
-  if (json.type == Json.Type.object) {
-    foreach(kv; json.byKeyValue) {
-      if (kv.value == value) { return true; }
+bool hasValue(Json aJson, Json value, bool deepSearch = false) {
+  if (aJson.isObject) {
+    foreach (kv; aJson.byKeyValue) {
+      if (kv.value == value) {
+        return true;
+      }
       if (deepSearch) {
         auto result = kv.value.hasValue(value, deepSearch);
-        if (result) { return true; }
+        if (result) {
+          return true;
+        }
       }
     }
   }
   if (deepSearch) {
-    if (json.isArray) {
-      for (size_t i = 0; i < json.length; i++) {
-        const result = json[i].hasValue(value, deepSearch);
-        if (result) { return true; } 
+    if (aJson.isArray) {
+      for (size_t i = 0; i < aJson.length; i++) {
+        const result = aJson[i].hasValue(value, deepSearch);
+        if (result) {
+          return true;
+        }
       }
     }
   }
@@ -143,8 +226,8 @@ unittest {
 }
 
 /// Check if jsonPath exists
-bool hasPath(Json json, string path) {
-  if (!json.isObject) {
+bool hasPath(Json aJson, string path) {
+  if (!aJson.isObject) {
     return false;
   }
 
@@ -152,9 +235,7 @@ bool hasPath(Json json, string path) {
   if (items.length > 1) {
     return hasPath(json, items[1 .. $]);
   }
-  {
-    return false;
-  }
+  return false;
 }
 ///
 unittest {
@@ -165,7 +246,9 @@ unittest {
 
 /// Check if jsonPath items exists
 bool hasPath(Json json, string[] pathItems) {
-  if (json.type != Json.Type.object) { return false; }
+  if (json.type != Json.Type.object) {
+    return false;
+  }
 
   auto j = json;
   foreach (pathItem; pathItems) {
@@ -208,7 +291,10 @@ version (test_uim_core) {
 }
 
 /// Remove keys from Json Object
-Json removeKeys(Json json, string[] delKeys...) { return removeKeys(json, delKeys.dup); }
+Json removeKeys(Json json, string[] delKeys...) {
+  return removeKeys(json, delKeys.dup);
+}
+
 Json removeKeys(Json aJson, string[] delKeys) {
   auto result = aJson;
   delKeys.each!(k => result.removeKey(k));
@@ -459,11 +545,12 @@ version (test_uim_core) {
     assert("versionNumber" !in toJson(id));
     assert(toJson(id, 1)["id"].get!string == id.toString);
     assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
-}}
+  }
+}
 
 Json mergeJsonObject(Json baseJson, Json mergeJson) {
   Json result;
-  
+
   if (mergeJson.isEmpty || mergeJson.type != Json.Type.object) {
     return baseJson;
   }
@@ -498,10 +585,14 @@ version (test_uim_core) {
 
 Json mergeJsonObjects(Json baseJson, Json mergeJson, bool overwrite = true) {
   Json result = Json.emptyObject;
-  if (baseJson.isNull && !baseJson.isObject) { return result; } 
+  if (baseJson.isNull && !baseJson.isObject) {
+    return result;
+  }
   result = result.readJson(baseJson, overwrite);
 
-  if (mergeJson.isNull && !mergeJson.isObject) { return result; } 
+  if (mergeJson.isNull && !mergeJson.isObject) {
+    return result;
+  }
   mergeJson.readJson(mergeJson, overwrite);
 
   // Out
@@ -517,10 +608,5 @@ unittest {
 // #endregion merge
 
 bool isEmpty(Json aJson) {
-<<<<<<< HEAD
   return aJson == Json(null);
 }
-=======
-  return aJson.isEmpty;
-}
->>>>>>> 5d739b4 (Updates)
