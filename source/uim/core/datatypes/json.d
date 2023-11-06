@@ -233,7 +233,7 @@ bool hasPath(Json aJson, string path) {
 
   auto items = path.split("/");
   if (items.length > 1) {
-    return hasPath(json, items[1 .. $]);
+    return hasPath(aJson, items[1 .. $]);
   }
   return false;
 }
@@ -246,7 +246,7 @@ unittest {
 
 /// Check if jsonPath items exists
 bool hasPath(Json json, string[] pathItems) {
-  if (json.type != Json.Type.object) {
+  if (!json.isObjectbject) {
     return false;
   }
 
@@ -276,7 +276,7 @@ Json reduceKeys(Json json, string[] keys) {
     Json result = Json.emptyObject;
     keys
       .filter!(key => json.hasKey(key))
-      .each(key => result[key] = json[key]);
+      .each!(key => result[key] = json[key]);
 
     return result;
   }

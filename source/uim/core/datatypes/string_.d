@@ -88,7 +88,7 @@ version(test_uim_core) { unittest {
 /// Unique - Reduce duplicates in array
 string[] unique(string[] values) {
 	string[] results; results.length = values.length; size_t counter = 0;
-	foreach(value; values) { if (!has(results, value)) { results[counter] = value; counter++; }}
+	foreach(value; values) { if (!results.hasValue(value)) { results[counter] = value; counter++; }}
 	results.length = counter;
 	return results;
 }
@@ -99,10 +99,8 @@ version(test_uim_core) { unittest {
 
 size_t[string] countValues(string[] values) {
 	size_t[string] results;
-	foreach(v; values) {
-		if (v in results) results[v] += 1; 
-		else results[v] = 1;    
-	}
+	values.each!(value => results[value] = value in results ? results[value] + 1 : 1);    
+	
 	return results;
 }
 version(test_uim_core) { unittest {
