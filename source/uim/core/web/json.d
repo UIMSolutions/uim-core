@@ -35,9 +35,9 @@ version(test_uim_core) { unittest {
 string toJSONValue(string value) {
 	return "\""~value~"\"";
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert("Test".toJSONValue == `"Test"`);
-}}
+}
 
 /// Convert keypair to a JsonValue
 string toJSONObjectItem(T)(string key, T value) {

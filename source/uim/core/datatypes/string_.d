@@ -5,10 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.datatypes.string_;
 
-@safe:
-import std.stdio; 
-import std.string; 
 import uim.core;
+
+@safe:
 
 /// create a string with defined length and content
 string fill(size_t length = 0, string txt = "0") {
@@ -45,67 +44,106 @@ version(test_uim_core) { unittest {
 	assert(!"ABC".endsWith(""));	
 }}
 
-/* bool has(string base, string[] values...)  { return has(base, values); }
-bool has(string base, string[] values)  {
-	foreach(value; values) if ((base.indexOf(value) >= 0) && (base.indexOf(value) < base.length)) { return true; }
-	return false;
-}
-version(test_uim_core) { unittest {
-  assert("One Two Three".has("One"));
-  assert("One Two Three".has("Five", "Four", "Three"));
-  assert(!"One Two Three".has("Five", "Four"));
-}
+// #region has
 
-bool has(string[] bases, string[] values...)  { return has(bases, values); }
-bool has(string[] bases, string[] values)  {
-	foreach(base; bases) if (base.has(values)) { return true; }
-	return false;
-}
-version(test_uim_core) { unittest {
-  assert(["One Two Three"].has("One"));
-  assert(["One Two Three", "Eight Seven Six"].has("Five", "Four", "Six"));
-  assert(!["One Two Three"].has("Five", "Four"));
-}}
- */
-/// remove all string values from a array of strings
-string[] remove(string[] values, string[] removeValues...) {
-	string[] results = values;
-	foreach(removeValue; removeValues) {
-		auto existingValues = results;
-		results = null;
-		foreach(value; existingValues) { if (value != removeValue) results ~= value; }
-	}
-	return results;
-}
-version(test_uim_core) { unittest {
-	assert(remove(["a", "b", "c"], "b") == ["a", "c"]);
-	assert(remove(["a", "b", "c", "b"], "b") == ["a", "c"]);
 
-	assert(remove(["a", "b", "c"], "a", "b") == ["c"]);
-	assert(remove(["a", "b", "c", "b"], "a", "b") == ["c"]);
-}}
+  bool hasValues(string[] bases, string[] values...)  { 
+    return hasValues(bases, values.dup); 
+  }
+  bool hasValues(string[] bases, string[] values)  {
+    foreach(base; bases) if (base.hasValues(values)) { return true; }
+    return false;
+  }
+  unittest {
+    assert(["One Two Three"].hasValues("One"));
+    assert(["One Two Three", "Eight Seven Six"].hasValues("Five", "Four", "Six"));
+    assert(!["One Two Three"].hasValues("Five", "Four"));
+  }
+
+  bool hasValues(string base, string[] values...)  { 
+    return hasValues(base, values.dup); 
+  }
+
+  bool hasValues(string base, string[] values)  {
+    foreach(value; values) if ((base.hasValue(value))) { return true; }
+    return false;
+  }
+  unittest {
+    assert("One Two Three".hasValues("One"));
+    assert("One Two Three".hasValues("Five", "Four", "Three"));
+    assert(!"One Two Three".hasValues("Five", "Four"));
+  }
+
+  bool hasValue(string base, string aValue)  {
+    return ((base.indexOf(aValue) >= 0) && (base.indexOf(aValue) < base.length));
+  }
+// #endregion has
+
+// #region remove
+  pure string[] removeValues(string[] values, string[] removingValues...) {
+    return removeValues(values, removingValues.dup);
+  }
+
+  pure string[] removeValues(string[] values, string[] removingValues) {
+    string[] results = values;
+    removingValues
+      .each!(value => results = results.removeValue(value));
+
+    return results;
+  }
+  version(test_uim_core) { unittest {
+    assert(removeValues(["a", "b", "c"], "b") == ["a", "c"]);
+    assert(removeValues(["a", "b", "c", "b"], "b") == ["a", "c"]);
+
+    assert(removeValues(["a", "b", "c"], "a", "b") == ["c"]);
+    assert(removeValues(["a", "b", "c", "b"], "a", "b") == ["c"]);
+  }}
+
+  pure string[] removeValue(string[] values, string removeValue) {
+    string[] results = values
+      .filter!(value => value != removeValue)
+      .array;
+
+    return results;
+  }
+   unittest {
+    assert(removeValue(["a", "b", "c"], "b") == ["a", "c"]);
+    assert(removeValue(["a", "b", "c", "b"], "b") == ["a", "c"]);
+  }
+// #endregion remove
 
 /// Unique - Reduce duplicates in array
-string[] unique(string[] values) {
-	string[] results; results.length = values.length; size_t counter = 0;
-	foreach(value; values) { if (!results.hasValue(value)) { results[counter] = value; counter++; }}
-	results.length = counter;
-	return results;
+string[] unique(string[] someValues) {
+  STRINGAA results; 
+	foreach(value; someValues) { results[value] = value; }
+	return results.keys.array;
 }
 version(test_uim_core) { unittest {
 	assert(["a", "b", "c"].unique == ["a", "b", "c"]);
 	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
 }}
 
-size_t[string] countValues(string[] values) {
-	size_t[string] results;
-	values.each!(value => results[value] = value in results ? results[value] + 1 : 1);    
-	
-	return results;
-}
-version(test_uim_core) { unittest {
-	/// TODO
-}}
+// #region count
+  size_t[string] countValues(string[] someValues) {
+    size_t[string] results;
+    someValues.each!(value => results[value] = value in results ? results[value] + 1 : 1);    
+    
+    return results;
+  }
+  version(test_uim_core) { unittest {
+    /// TODO
+  }}
+
+  size_t countValue(string[] someValues, string aValue) {
+    size_t result;
+    result = someValues.filter!(value => value == aValue).count;    
+    
+    return result;
+  }
+  version(test_uim_core) { unittest {
+    /// TODO
+  }}
+// #endregion count
 
 
 bool startsWith(string str, string txt) {

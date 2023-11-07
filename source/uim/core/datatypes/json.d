@@ -9,88 +9,94 @@ module uim.core.datatypes.json;
 import uim.core;
 
 // #region Check json value
-bool isObject(Json aJson) {
-  return aJson.type == Json.Type.object;
-}
-///
-unittest {
-  assert(parseJsonString(`{"a":"b"}`).isObject);
-  assert(!parseJsonString(`["a", "b", "c"]`).isObject);
-}
+  bool isObject(Json aJson) {
+    return aJson.type == Json.Type.object;
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`{"a":"b"}`).isObject);
+    assert(!parseJsonString(`["a", "b", "c"]`).isObject);
+  }
 
-bool isArray(Json aJson) {
-  return (aJson.type == Json.Type.array);
-}
-///
-unittest {
-  assert(parseJsonString(`["a", "b", "c"]`).isArray);
-  assert(!parseJsonString(`{"a":"b"}`).isArray);
-}
+  bool isArray(Json aJson) {
+    return (aJson.type == Json.Type.array);
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`["a", "b", "c"]`).isArray);
+    assert(!parseJsonString(`{"a":"b"}`).isArray);
+  }
 
-bool isBigInt(Json aJson) {
-  return (aJson.type == Json.Type.bigInt);
-}
-///
-unittest {
-  assert(parseJsonString(`10000000000000`).isBigInt);
-  assert(!parseJsonString(`1`).isBigInt);
-}
+  bool isBigInt(Json aJson) {
+    return (aJson.type == Json.Type.bigInt);
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`10000000000000`).isBigInt);
+    assert(!parseJsonString(`1`).isBigInt);
+  }
 
-bool isBool(Json aJson) {
-  return (aJson.type == Json.Type.bool_);
-}
-///
-unittest {
-  assert(parseJsonString(`true`).isBool);
-  assert(parseJsonString(`false`).isBool);
-  assert(!parseJsonString(`1`).isBool);
-}
+  bool isBool(Json aJson) {
+    return (aJson.type == Json.Type.bool_);
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`true`).isBool);
+    assert(parseJsonString(`false`).isBool);
+    assert(!parseJsonString(`1`).isBool);
+  }
 
-bool isFloat(Json aJson) {
-  return (aJson.type == Json.Type.float_);
-}
-///
-unittest {
-  assert(parseJsonString(`1.1`).isFloat);
-  assert(!parseJsonString(`1`).isFloat);
-}
+  bool isFloat(Json aJson) {
+    return (aJson.type == Json.Type.float_);
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`1.1`).isFloat);
+    assert(!parseJsonString(`1`).isFloat);
+  }
 
-bool isInt(Json aJson) {
-  return (aJson.type == Json.Type.int_);
-}
-///
-unittest {
-  assert(parseJsonString(`1`).isInt);
-  assert(!parseJsonString(`1.1`).isInt);
-}
+  bool isInt(Json aJson) {
+    return (aJson.type == Json.Type.int_);
+  }
+  ///
+  unittest {
+    assert(parseJsonString(`1`).isInt);
+    assert(!parseJsonString(`1.1`).isInt);
+  }
 
-bool isNull(Json aJson) {
-  return aJson == Json(null);
-}
+  bool isNull(Json aJson) {
+    return aJson == Json(null);
+  }
 
-unittest {
-  assert(Json(null).isNull);
-  assert(!Json.emptyObject.isNull);
-  assert(!Json.emptyArray.isNull);
-}
+  unittest {
+    assert(Json(null).isNull);
+    assert(!Json.emptyObject.isNull);
+    assert(!Json.emptyArray.isNull);
+  }
 
-bool isString(Json aJson) {
-  return (aJson.type == Json.Type.string);
-}
+  bool isString(Json aJson) {
+    return (aJson.type == Json.Type.string);
+  }
 
-unittest {
-  assert(parseJsonString(`"a"`).isString);
-  assert(!parseJsonString(`1.1`).isString);
-}
+  unittest {
+    assert(parseJsonString(`"a"`).isString);
+    assert(!parseJsonString(`1.1`).isString);
+  }
 
-bool isUndefined(Json aJson) {
-  return (aJson.type == Json.Type.undefined);
-}
+  bool isUndefined(Json aJson) {
+    return (aJson.type == Json.Type.undefined);
+  }
 
-unittest {
-  assert(parseJsonString(`#12abc`).isUndefined);
-  assert(!parseJsonString(`1.1`).isUndefined);
-}
+  unittest {
+    assert(parseJsonString(`#12abc`).isUndefined);
+    assert(!parseJsonString(`1.1`).isUndefined);
+  }
+
+  bool isEmpty(Json aJson) {
+    return aJson == Json(null);
+
+    // TODO add not null, but empty
+  }
 // #endregion
 
 /// Checks if every key is in json object
@@ -246,10 +252,12 @@ unittest {
 
 /// Check if jsonPath items exists
 bool hasPath(Json json, string[] pathItems) {
-  if (!json.isObjectbject) {
+  // In Check
+  if (!json.isObject) {
     return false;
   }
 
+  // Body
   auto j = json;
   foreach (pathItem; pathItems) {
     if (pathItem in j) {
@@ -343,7 +351,7 @@ Json readJson(Json target, Json source, bool overwrite = false) {
   }
 
   auto result = target;
-  foreach (kv; json.byKeyValue) {
+  foreach (kv; source.byKeyValue) {
     if (overwrite) {
       result[kv.key] = kv.value;
     } else {
@@ -477,76 +485,72 @@ version (test_uim_core) {
   }
 }
 
-// #region convert
-// Convert string[] data to Json array
-Json toJson(string[] values) {
-  Json result = Json.emptyArray;
-  values.each!(value => json ~= value);
-  return result;
-}
-
-version (test_uim_core) {
+// #region toJson
+  Json toJson(string[] someValues) {
+    Json result = Json.emptyArray;
+    someValues.each!(value => result ~= value);
+    return result;
+  }
+  ///
   unittest {
     assert(["a", "b", "c"].toJson.length == 3);
     assert(["a", "b", "c"].toJson[0] == "a");
   }
-}
 
-Json toJson(STRINGAA data) {
-  Json json = Json.emptyObject;
-  values.byKeyValue.each!(kv => json[kv.key] = kv.value);
-  return result;
-}
-
-version (test_uim_core) {
-  unittest {
-    assert(["a": "1", "b": "2", "c": "3"].toJson.length == 3);
-    assert(["a": "1", "b": "2", "c": "3"].toJson["a"] == "1");
+  Json toJson(STRINGAA someKeyValues) {
+    Json result = Json.emptyObject;
+    someKeyValues.byKeyValue.each!(kv => result[kv.key] = kv.value);
+    return result;
   }
-}
-
-Json toJson(string key, string value) {
-  Json json = Json.emptyObject;
-  json[key] = value;
-  return json;
-}
-
-version (test_uim_core) {
-  unittest {
-    assert(toJson("a", "3")["a"] == "3");
+  version (test_uim_core) {
+    unittest {
+      assert(["a": "1", "b": "2", "c": "3"].toJson.length == 3);
+      assert(["a": "1", "b": "2", "c": "3"].toJson["a"] == "1");
+    }
   }
-}
 
-Json toJson(string key, UUID value) {
-  Json json = Json.emptyObject;
-  json[key] = value.toString;
-  return json;
-}
-
-unittest {
-  auto id = randomUUID;
-  assert(toJson("id", id)["id"].get!string == id.toString);
-}
-
-/// Special case for managing entities
-Json toJson(UUID id, size_t versionNumber = 0LU) {
-  Json json = Json.emptyObject;
-  json["id"] = id.toString;
-  if (versionNumber > 0) {
-    json["versionNumber"] = versionNumber;
+  Json toJson(string aKey, string aValue) {
+    Json result = Json.emptyObject;
+    result[aKey] = aValue;
+    return result;
   }
-  return json;
-}
 
-version (test_uim_core) {
+  version (test_uim_core) {
+    unittest {
+      assert(toJson("a", "3")["a"] == "3");
+    }
+  }
+
+  Json toJson(string aKey, UUID aValue) {
+    Json result = Json.emptyObject;
+    result[aKey] = aValue.toString;
+    return result;
+  }
+
   unittest {
     auto id = randomUUID;
-    assert(toJson(id)["id"].get!string == id.toString);
-    assert("versionNumber" !in toJson(id));
-    assert(toJson(id, 1)["id"].get!string == id.toString);
-    assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
+    assert(UUID(toJson("id", id)["id"].get!string) == id);
   }
-}
+
+  /// Special case for managing entities
+  Json toJson(UUID id, size_t versionNumber = 0LU) {
+    Json result = "id".toJson(id);
+    if (versionNumber > 0) {
+      result["versionNumber"] = versionNumber;
+    }
+    return result;
+  }
+  ///
+  version (test_uim_core) {
+    unittest {
+      auto id = randomUUID;
+      assert(toJson(id)["id"].get!string == id.toString);
+      assert("versionNumber" !in toJson(id));
+      assert(toJson(id, 1)["id"].get!string == id.toString);
+      assert(toJson(id, 1)["versionNumber"].get!size_t == 1);
+    }
+  }
+// #endregion toJson
 
 Json mergeJsonObject(Json baseJson, Json mergeJson) {
   Json result;
@@ -554,13 +558,15 @@ Json mergeJsonObject(Json baseJson, Json mergeJson) {
   if (mergeJson.isEmpty || mergeJson.type != Json.Type.object) {
     return baseJson;
   }
+
+  // TODO not finished
+  return result;
 }
-// #endregion convert
 
 // #region merge
 /// Merge jsons objects to one
 Json mergeJsons(Json[] jsons...) {
-  return mergeJsons(jsons.dup);
+  return mergeJsons(jsons.dup, true);
 }
 /// Merge jsons objects in array to one
 Json mergeJsons(Json[] jsons, bool overwrite = true) {
@@ -568,19 +574,16 @@ Json mergeJsons(Json[] jsons, bool overwrite = true) {
 
   jsons
     .filter!(json => json.isObject)
-    .each!(json => result = result.mergeJsonObjects(json, overwrite))
-    .array;
+    .each!(json => result = result.mergeJsonObjects(json, overwrite));
 
   return result;
 }
 ///
-version (test_uim_core) {
-  unittest {
-    auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
-    auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
-    auto mergeJson = mergeJsons(json0, json1);
-    assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
-  }
+unittest {
+  auto json0 = parseJsonString(`{"a":"b", "c":{"d":1}}`);
+  auto json1 = parseJsonString(`{"e":["f", {"g":"h"}]}`);
+  auto mergeJson = mergeJsons(json0, json1);
+  assert(mergeJson.hasKey("a") && mergeJson.hasKey("e"));
 }
 
 Json mergeJsonObjects(Json baseJson, Json mergeJson, bool overwrite = true) {
@@ -607,6 +610,4 @@ unittest {
 }
 // #endregion merge
 
-bool isEmpty(Json aJson) {
-  return aJson == Json(null);
-}
+
