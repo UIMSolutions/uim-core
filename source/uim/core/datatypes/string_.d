@@ -123,27 +123,7 @@ version(test_uim_core) { unittest {
 	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
 }}
 
-// #region count
-  size_t[string] countValues(string[] someValues) {
-    size_t[string] results;
-    someValues.each!(value => results[value] = value in results ? results[value] + 1 : 1);    
-    
-    return results;
-  }
-  version(test_uim_core) { unittest {
-    /// TODO
-  }}
 
-  size_t countValue(string[] someValues, string aValue) {
-    size_t result;
-    result = someValues.filter!(value => value == aValue).count;    
-    
-    return result;
-  }
-  version(test_uim_core) { unittest {
-    /// TODO
-  }}
-// #endregion count
 
 
 bool startsWith(string str, string txt) {

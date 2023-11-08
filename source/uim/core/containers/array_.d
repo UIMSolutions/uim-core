@@ -13,40 +13,47 @@ size_t size(T)(T[] anArray) {
   return anArray.length;
 }
 
-/// Counts appearance of equal items
-auto countsEquals(T)(in T[] baseArray...) {
-  return countsEquals(baseArray, null);
+// #region count
+size_t[T] countDuplicates(T)(in T[] baseArray...) {
+  return countDuplicates(baseArray.dup);
 }
 
 version (test_uim_core) {
   unittest {
-    assert(countsEquals(1) == [1: 1uL]);
-    assert(countsEquals(1, 1) == [1: 2uL]);
-    assert(countsEquals(1, 2) == [1: 1U, 2: 1UL]);
+    assert(countDuplicates(1) == [1: 1uL]);
+    assert(countDuplicates(1, 1) == [1: 2uL]);
+    assert(countDuplicates(1, 2) == [1: 1U, 2: 1UL]);
   }
 }
 
 /// Counts the occourence of values in an array
-auto countsEquals(T)(in T[] baseArray, in T[] validValues = null) {
-  size_t[T] results;
-  auto checkValues = (validValues ? baseArray.filters(validValues) : baseArray);
-  foreach (v; checkValues) {
-    if (v in results)
-      results[v]++;
-    else
-      results[v] = 1;
+  size_t[T] countDuplicates(T)(in T[] someValues) {
+    size_t[T] results;
+    someValues
+      .each!(value => results[value] = value in results ? results[value] + 1 : 1);    
+    
+    return results;
   }
-  return results;
-}
-
-version (test_uim_core) {
+  ///
   unittest {
-    assert(countsEquals([1]) == [1: 1uL]);
-    assert(countsEquals([1, 1]) == [1: 2uL]);
-    assert(countsEquals([1, 2]) == [1: 1uL, 2: 1uL]);
-    assert(countsEquals([1, 2], [1]) == [1: 1uL]);
+    assert(countDuplicates([1]) == [1: 1uL]);
+    assert(countDuplicates([1, 1]) == [1: 2uL]);
+    assert(countDuplicates([1, 2]) == [1: 1uL, 2: 1uL]);
   }
-}
+
+  size_t countDuplicate(T)(T[] someValues, T aValue) {
+    size_t result;
+    result = someValues.filter!(value => value == aValue).count;    
+    
+    return result;
+  }
+  ///
+  unittest {
+    assert([1, 2, 3].countDuplicate(2) == 1);
+    assert([1, 2, 3].countDuplicate(4) == 0);
+    assert([1, 2, 2].countDuplicate(2) == 2);
+  }
+// #endregion count
 
 auto firstPosition(T)(in T[] baseArray, in T value) {
   foreach (index, item; baseArray)
