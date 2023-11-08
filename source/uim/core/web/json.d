@@ -7,44 +7,55 @@ module uim.core.web.json;
 
 import uim.core;
 
+@safe:
 /// Convert a boolean to a JsonValue
 string toJSONValue(T)(T value) if (isBoolean!T) {
-	return (value) ? "true" : "false"; 
+  return (value) ? "true" : "false";
 }
-version(test_uim_core) { unittest {
-	assert(true.toJSONValue == "true");
-	assert(false.toJSONValue == "false");
-	assert(true.toJSONValue != "false");
-	assert(false.toJSONValue != "true");
-}}
+
+version (test_uim_core) {
+  unittest {
+    assert(true.toJSONValue == "true");
+    assert(false.toJSONValue == "false");
+    assert(true.toJSONValue != "false");
+    assert(false.toJSONValue != "true");
+  }
+}
 
 /// Convert a numeric to a JsonValue
 string toJSONValue(T)(T value) if ((std.traits.isNumeric!T) && (!isBoolean!T)) {
-	return "%s".format(value);
+  return "%s".format(value);
 }
-version(test_uim_core) { unittest {
-	assert(0.toJSONValue == "0");
-	assert(100.toJSONValue == "100");
-	assert(100.toJSONValue != "0");
 
-	assert((1.1).toJSONValue == "1.1");
-	assert((100.1).toJSONValue == "100.1");
-}}
+version (test_uim_core) {
+  unittest {
+    assert(0.toJSONValue == "0");
+    assert(100.toJSONValue == "100");
+    assert(100.toJSONValue != "0");
+
+    assert((1.1).toJSONValue == "1.1");
+    assert((100.1).toJSONValue == "100.1");
+  }
+}
 
 /// Convert a string to a JsonValue
 string toJSONValue(string value) {
-	return "\""~value~"\"";
+  return "\"" ~ value ~ "\"";
 }
+
 unittest {
-	assert("Test".toJSONValue == `"Test"`);
+  assert("Test".toJSONValue == `"Test"`);
 }
 
 /// Convert keypair to a JsonValue
 string toJSONObjectItem(T)(string key, T value) {
-	return "\"%s\":%s".format(key, value.toJSONValue);
+  return "\"%s\":%s".format(key, value.toJSONValue);
 }
-version(test_uim_core) { unittest {
-	assert(toJSONObjectItem("name", true) == `"name":true`);
-	assert(toJSONObjectItem("name", 100) == `"name":100`);
-	assert(toJSONObjectItem("name", "value") == `"name":"value"`);
-}}
+
+version (test_uim_core) {
+  unittest {
+    assert(toJSONObjectItem("name", true) == `"name":true`);
+    assert(toJSONObjectItem("name", 100) == `"name":100`);
+    assert(toJSONObjectItem("name", "value") == `"name":"value"`);
+  }
+}

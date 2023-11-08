@@ -5,5 +5,7 @@
 ***********************************************************************************************************************/
 module uim.core.web;
 
-public import uim.core.web.html;
-public import uim.core.web.json;
+public {
+  import uim.core.web.html;
+  import uim.core.web.json;
+}

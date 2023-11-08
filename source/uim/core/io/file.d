@@ -8,81 +8,126 @@ module uim.core.io.file;
 import std.file;
 import uim.core;
 
-version(linux) {
+version (linux) {
 	bool copy(string fileName, string fromDir, string toDir, bool createMissingDirs = true, bool overwriteExistingFile = true) {
-		if (fileName.length == 0) { return false; }
-		if (fromDir.length == 0) { return false; }
-		if (toDir.length == 0) { return false; }
+		if (fileName.length == 0) {
+			return false;
+		}
+		if (fromDir.length == 0) {
+			return false;
+		}
+		if (toDir.length == 0) {
+			return false;
+		}
 
 		string from = fromDir;
-		if (from[$-1] != '/') from ~= "/";
+		if (from[$ - 1] != '/')
+			from ~= "/";
 
-		if (!exists(from~fileName)) { return false; }
+		if (!exists(from ~ fileName)) {
+			return false;
+		}
 
-		string to = toDir; 
-		if (to[$-1] != '/') to ~= "/";
+		string to = toDir;
+		if (to[$ - 1] != '/')
+			to ~= "/";
 
 		if (createMissingDirs) {
-			if (!exists(from)) mkdir(from);
-			if (!exists(to)) mkdir(to);
-		}
-		else {
-			if (!exists(from)) { return false; }
-			if (!exists(to)) { return false; }
+			if (!exists(from))
+				mkdir(from);
+			if (!exists(to))
+				mkdir(to);
+		} else {
+			if (!exists(from)) {
+				return false;
+			}
+			if (!exists(to)) {
+				return false;
+			}
 		}
 
-		if (!overwriteExistingFile && exists(to~fileName)) { return false; }
+		if (!overwriteExistingFile && exists(to ~ fileName)) {
+			return false;
+		}
 
-		try { std.file.copy(from~fileName, to~fileName); }
-		catch(Exception e) { return false; }
+		try {
+			std.file.copy(from ~ fileName, to ~ fileName);
+		} catch (Exception e) {
+			return false;
+		}
 
 		return true;
 	}
 }
 
-version(linux) {
+version (linux) {
 	bool move(string fileName, string fromDir, string toDir, bool createMissingDirs = true, bool overwriteExistingFile = true) {
-		if (fileName.length == 0) { return false; }
-		if (fromDir.length == 0) { return false; }
-		if (toDir.length == 0) { return false; }
-		
-		string from = fromDir;
-		if (from[$-1] != '/') from ~= "/";
-		
-		if (!exists(from~fileName)) { return false; }
-		
-		string to = toDir; 
-		if (to[$-1] != '/') to ~= "/";
-		
-		if (createMissingDirs) {
-			if (!exists(from)) mkdir(from);
-			if (!exists(to)) mkdir(to);
+		if (fileName.length == 0) {
+			return false;
 		}
-		else {
-			if (!exists(from)) { return false; }
-			if (!exists(to)) { return false; }
+		if (fromDir.length == 0) {
+			return false;
 		}
-		
-		if (!overwriteExistingFile && exists(to~fileName)) { return false; }
-		
-		try { fileName.copy(from, to); }
-		catch(Exception e) { return false; }
+		if (toDir.length == 0) {
+			return false;
+		}
 
-		try { std.file.remove(from~fileName); }
-		catch(Exception e) { return false; }
+		string from = fromDir;
+		if (from[$ - 1] != '/')
+			from ~= "/";
+
+		if (!exists(from ~ fileName)) {
+			return false;
+		}
+
+		string to = toDir;
+		if (to[$ - 1] != '/')
+			to ~= "/";
+
+		if (createMissingDirs) {
+			if (!exists(from))
+				mkdir(from);
+			if (!exists(to))
+				mkdir(to);
+		} else {
+			if (!exists(from)) {
+				return false;
+			}
+			if (!exists(to)) {
+				return false;
+			}
+		}
+
+		if (!overwriteExistingFile && exists(to ~ fileName)) {
+			return false;
+		}
+
+		try {
+			fileName.copy(from, to);
+		} catch (Exception e) {
+			return false;
+		}
+
+		try {
+			std.file.remove(from ~ fileName);
+		} catch (Exception e) {
+			return false;
+		}
 
 		return true;
 	}
 }
-version(test_uim_core) { unittest {
-	// Todo
-}}
+version (test_uim_core) {
+	unittest {
+		// Todo
+	}
+}
 
 auto dirEntryInfos(string aPath) {
-	debug writeln(__MODULE__~" - dirEntryInfos(path: %s)".format(aPath));
+	debug writeln(__MODULE__ ~ " - dirEntryInfos(path: %s)".format(aPath));
 
-  FileInfo[] results;
-/*   bool dirEntryInfo(FileInfo info) { 
+	FileInfo[] results;
+	/*   bool dirEntryInfo(FileInfo info) { 
 		debug writeln(__MODULE__~" - Info %s".format(info));
 		results ~= info; return true; 
 	}
@@ -91,15 +136,15 @@ auto dirEntryInfos(string aPath) {
   listDirectory(aPath, &dirEntryInfo);
 
 	debug writeln(__MODULE__~" - Results %s)".format(results)); */
-  return results;
+	return results;
 }
 
 // read directories (subfolders) in path 
 auto dirNames(string aPath, bool aFullName = false) {
-	debug writeln(__MODULE__~" - dirNames(string %s, bool fullName = false)".format(aPath));
+	debug writeln(__MODULE__ ~ " - dirNames(string %s, bool fullName = false)".format(aPath));
 
 	string[] results;
-/*   string[] results = dirEntryInfos(aPath).filter!(a => a.isDirectory).map!(a => a.name).array;
+	/*   string[] results = dirEntryInfos(aPath).filter!(a => a.isDirectory).map!(a => a.name).array;
   if (aFullName) results = results.map!(a => aPath~"/"~a).array;
  */
 
@@ -107,26 +152,32 @@ auto dirNames(string aPath, bool aFullName = false) {
 		writeln(name);
 	}
 
-	debug writeln(__MODULE__~" - Results %s)".format(results));
-  return results;
+	debug writeln(__MODULE__ ~ " - Results %s)".format(results));
+	return results;
 }
 
 // read links in path 
 auto linkNames(string path, bool aFullName = false) {
-  string[] results = dirEntryInfos(path).filter!(a => a.isSymlink).map!(a => a.name).array;
-  if (aFullName) results = results.map!(a => path~"/"~a).array;
-  return results;
+	string[] results = dirEntryInfos(path).filter!(a => a.isSymlink)
+		.map!(a => a.name)
+		.array;
+	if (aFullName)
+		results = results.map!(a => path ~ "/" ~ a).array;
+	return results;
 }
-  
+
 // read filenames in path 
 auto fileNames(string aPath, bool aFullName = false) {
-  string[] results = dirEntryInfos(aPath).filter!(a => a.isFile).map!(a => a.name).array;
-  if (aFullName) results = results.map!(a => aPath~"/"~a).array;
-  return results;
+	string[] results = dirEntryInfos(aPath).filter!(a => a.isFile)
+		.map!(a => a.name)
+		.array;
+	if (aFullName)
+		results = results.map!(a => aPath ~ "/" ~ a).array;
+	return results;
 }
 
 unittest {
-/* 	debug writeln("1");	
+	/* 	debug writeln("1");	
 	debug writeln(dirNames("."));
 	debug writeln("2");	
 	debug writeln(dirNames(".", true));

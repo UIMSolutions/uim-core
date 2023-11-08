@@ -6,17 +6,7 @@
 ************************************************************************************************/
 module uim.core.datatypes;
 
-import std.meta;
 import uim.core;
-
-public import uim.core.datatypes.boolean;
-public import uim.core.datatypes.datetime;
-public import uim.core.datatypes.integral;
-public import uim.core.datatypes.json;
-public import uim.core.datatypes.floating;
-public import uim.core.datatypes.general;
-public import uim.core.datatypes.string_;
-public import uim.core.datatypes.uuid;
 
 /*
 T toogle(T)(T value, T checkValue, T changeValue) if (!isBoolean!T) {

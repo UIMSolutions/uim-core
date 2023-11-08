@@ -5,9 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.datatypes.integral;
 
-@safe:
 import uim.core;
 
+@safe:
 /// convert integral values to string with defined length
 string toString(T)(T value, size_t length = 0, string fillTxt = "0") if (isIntegral!T) {
   string result = fill(length, fillTxt);

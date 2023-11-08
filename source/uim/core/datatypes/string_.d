@@ -135,7 +135,6 @@ version(test_uim_core) { unittest {
 }}
 
 string toString(string[] values) {
-	import std.string; 
 	return "%s".format(values);
 }
 
@@ -146,24 +145,27 @@ string quotes(string text, string left, string right) {
 	return left~text~right;
 }
 
-string[] toStrings(T...)(T tt){
+/* 
+string[] toStrings(T...)(T someValues...){
 	string[] results;
-	foreach(t; tt) results ~= "%s".format(t);
+	results = someValues.map!(value => "%s".format(value)).array;
 	return results;
 }
-version(test_uim_core) { unittest {
-	/// TODO
-}}
+unittest {
+	debug writeln(toStrings(1, 2));
+	debug writeln(toStrings(1, "a"));
+}
+*/ 
 
 string indent(in string txt, int indent = 2) {	
 	string result = txt;
 	for(auto i = 0; i < indent; i++) result = " "~result;
 	return result; 
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(indent("Hallo") == "  Hallo");
 	assert(indent("Hallo", 3) == "   Hallo");
-}}
+}
 
 size_t[] indexOfAll(string text, string searchTxt) {
 	if (text.indexOf(searchTxt) == -1) return [];
@@ -193,18 +195,16 @@ string subString(string aText, long startPos) {
 	if (startPos == 0) return aText;
 
 	if (startPos > 0) {
-		if (startPos >= aText.length) { return null; }
-		return aText[startPos..$];
+		return startPos >= aText.length ? null : aText[startPos..$];
 	}
 	else { // startPos < 0
-		if (-startPos >= aText.length) { return null; }	
-		return aText[0..$+startPos];
+		return -startPos >= aText.length ? null : aText[0..$+startPos];
 	}
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert("This is a test".subString(4) == " is a test");
 	assert("This is a test".subString(-4) == "This is a ");
-}}
+}
 
 // same like subString(), with additional parameter length
 // length	- Specifies the length of the returned string. Default is to the end of the string.
@@ -220,11 +220,11 @@ string subString(string aText, size_t startPos, long aLength) {
 		return myText.length >= -aLength ? myText[$+aLength..$] : null;
 	} 
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert("0123456789".subString(4, 2) == "45");
 	assert("0123456789".subString(-4, 2) == "01");
 	assert("0123456789".subString(-4, -2) == "45");
-}}
+}
 
 string capitalizeWords(string aText) {
 	auto words = aText.split(" ");
@@ -235,18 +235,20 @@ version(test_uim_core) { unittest {
 	assert("this  is  a  test".capitalizeWords == "This  Is  A  Test");
 }}
 
-size_t[string] countWords(string aText) {
+size_t[string] countWords(string aText, bool caseSensitive = true) {
 	size_t[string] results;
 
-	foreach(word; aText.split(" ")) {
-		if (word !in results) { results[word] = 0; }
- 		results[word]++;
- 	}
+  // TODO missing caseSensitive = false
+	aText
+    .split(" ")
+    .each!(word => results[word] = word in results ? results[word] + 1 : 1);
 
 	return results;
 }
 unittest {
+	// assert(countWords("This is a test")["this"] == 0);
 	assert(countWords("this is a test")["this"] == 1);
+	assert(countWords("this is a this")["this"] == 2);
 }
 
 string repeat(string text, size_t times) {
@@ -256,9 +258,9 @@ string repeat(string text, size_t times) {
 	}
 	return result;
 }
-version(test_uim_core) { unittest {
+unittest {
 	assert(repeat("bla", 0) == "");
 	assert(repeat("bla", 2) == "blabla");
-}}
+}
 
 

@@ -5,9 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.datatypes.datetime;
 
-@safe:
 import uim.core;
 
+@safe:
 enum startUNIX = DateTime(1970, 1, 1, 0, 0, 0);
 
 long toTimestamp(SysTime untilTime) {

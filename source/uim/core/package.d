@@ -9,14 +9,17 @@ mixin(ImportPhobos!());
 
 public import vibe.d;
 
-public import uim.core.classes;
-public import uim.core.containers;
-public import uim.core.datatypes;
-public import uim.core.dlang;
-public import uim.core.io;
-public import uim.core.mixins;
-public import uim.core.web;
-public import uim.core.tests;
+public {
+  import uim.core.classes;
+  import uim.core.containers;
+  import uim.core.containers;
+  import uim.core.datatypes;
+  import uim.core.dlang;
+  import uim.core.io;
+  import uim.core.mixins;
+  import uim.core.web;
+  import uim.core.tests;
+}
 
 @safe:
 alias STRINGAA = string[string];
@@ -76,32 +79,62 @@ T[] leValues(T)(T value, T[] values) if (isNumeric!T) {
 
 /// compare values in array
 // all values in array are equal to value
-bool eqAll(T)(T value, T[] values) {
-	foreach(v; values) if (value == v) continue; else return false;
-	return true;
+bool allEqual(T)(T[] values, T aValue) {
+	return values
+    .filter!(value => value != aValue).array.length == 0;
 } 
+unittest {
+  assert([1, 1, 1].allEqual(1));
+  assert(![1, 2, 1].allEqual(1));
+}
+
+bool equalAny(T)(T[] values, T aValue) {
+	return (values.filter!(value => value == aValue).array.length > 0);
+} 
+unittest {
+  assert([1, 1, 1].equalAny(1));
+  assert(![1, 2, 1].equalAny(3));
+  assert([1, 2, 1].equalAny(1));
+}
+
 // all values in array are not equal to value
-bool neqAll(T)(T value, T[] values) {
-	foreach(v; values) if (value != v) continue; else return false;
+bool nallEqual(T)(T aValue, T[] values) {
+	foreach(v; values) if (aValue != v) continue; else return false;
 	return true;
 } 
+
 // all values in array are greater then value
-bool gtAll(T)(T value, T[] values) if (isNumeric!T) {
-	foreach(v; values) if (value > v) continue; else return false;
-	return true;
+bool allGreaterThen(T)(T[] values, T aValue) if (isNumeric!T) {
+	return values
+    .filter!(value => !(value > aValue)).array.length == 0;
 } 
+unittest {
+  assert([2, 3, 4].allGreaterThen(1));
+  assert(![1, 2, 1].allGreaterThen(1));
+}
+
+bool anyGreaterThen(T)(T[] values, T aValue) if (isNumeric!T) {
+	return values
+    .filter!(value => value > aValue).array.length > 0;
+} 
+unittest {
+  assert([2, 3, 4].anyGreaterThen(1));
+  assert([1, 2, 1].anyGreaterThen(1));
+  assert(![1, 2, 1].anyGreaterThen(3));
+}
+
 // all values in array are greater equal value
-bool geAll(T)(T value, T[] values) if (isNumeric!T) {
+bool allGreaterEqual(T)(T value, T[] values) if (isNumeric!T) {
 	foreach(v; values) if (value >= v) continue; else return false;
 	return true;
 } 
 // all values in array are less then value
-bool ltAll(T)(T value, T[] values) if (isNumeric!T) {
+bool allLowerThen(T)(T value, T[] values) if (isNumeric!T) {
 	foreach(v; values) if (value < v) continue; else return false;
 	return true;
 } 
 // all values in array are less equal value
-bool leAll(T)(T value, T[] values) if (isNumeric!T) {
+bool allLowerEqual(T)(T value, T[] values) if (isNumeric!T) {
 	foreach(v; values) if (value <= v) continue; else return false;
 	return true;
 } 
