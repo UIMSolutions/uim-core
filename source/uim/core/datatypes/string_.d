@@ -123,9 +123,6 @@ version(test_uim_core) { unittest {
 	assert(["a", "b", "c", "c"].unique == ["a", "b", "c"]);
 }}
 
-
-
-
 bool startsWith(string str, string txt) {
 	if (str.length == 0) { return false; }
 	if (txt.length == 0) { return false; }
