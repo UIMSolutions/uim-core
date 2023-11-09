@@ -13,13 +13,11 @@ string toJSONValue(T)(T value) if (isBoolean!T) {
   return (value) ? "true" : "false";
 }
 
-version (test_uim_core) {
-  unittest {
-    assert(true.toJSONValue == "true");
-    assert(false.toJSONValue == "false");
-    assert(true.toJSONValue != "false");
-    assert(false.toJSONValue != "true");
-  }
+unittest {
+  assert(true.toJSONValue == "true");
+  assert(false.toJSONValue == "false");
+  assert(true.toJSONValue != "false");
+  assert(false.toJSONValue != "true");
 }
 
 /// Convert a numeric to a JsonValue
@@ -27,15 +25,13 @@ string toJSONValue(T)(T value) if ((std.traits.isNumeric!T) && (!isBoolean!T)) {
   return "%s".format(value);
 }
 
-version (test_uim_core) {
-  unittest {
-    assert(0.toJSONValue == "0");
-    assert(100.toJSONValue == "100");
-    assert(100.toJSONValue != "0");
+unittest {
+  assert(0.toJSONValue == "0");
+  assert(100.toJSONValue == "100");
+  assert(100.toJSONValue != "0");
 
-    assert((1.1).toJSONValue == "1.1");
-    assert((100.1).toJSONValue == "100.1");
-  }
+  assert((1.1).toJSONValue == "1.1");
+  assert((100.1).toJSONValue == "100.1");
 }
 
 /// Convert a string to a JsonValue

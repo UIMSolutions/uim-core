@@ -5,4 +5,6 @@
 ***********************************************************************************************************************/
 module uim.core.io;
 
-public import uim.core.io.file;
+public {
+  import uim.core.io.file;
+}

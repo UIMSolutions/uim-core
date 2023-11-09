@@ -1,3 +1,6 @@
 module uim.core.extras;
 
-import uim.core;
+public {
+  import uim.core.extras.bitmap;
+  import uim.core.extras.csvhtml;
+}

@@ -214,10 +214,8 @@ version (test_uim_core) {
 }
 
 T[] filters(T)(T[] baseArray, T[] filterValues) {
-  T[] results;
-  foreach (v; baseArray)
-    if (filterValues.has(v))
-      results ~= v;
+  T[] results = baseArray.filter!(item => filterValues.has(item)).array;
+
   return results;
 }
 
@@ -231,8 +229,10 @@ version (test_uim_core) {
 OUT[] castTo(OUT, IN)(IN[] values) {
   OUT[] results;
   results.length = values.length;
-  foreach (i, value; value)
+  foreach (i, value; value) {
     result[i] = to!OUT(value);
+  }
+
   return results;
 }
 
@@ -247,87 +247,85 @@ version (test_uim_core) {
 }
 
 bool exist(T)(in T[] values, in T[] checkValues...) {
-  return has(values, checkValues);
-}
-
-bool hasValues(T)(in T[] values, in T[] checkValues...) {
   return hasValues(values, checkValues);
 }
 
-version (test_uim_core) {
-  unittest {
-    assert([1, 2, 3, 4].hasValues(1));
-    assert(![1, 2, 3, 4].hasValues(5));
-    assert([1, 2, 3, 4].hasValues(1, 2));
-    assert(![1, 2, 3, 4].hasValues(5, 1));
-  }
-}
-
-// will be sdeprecated
-bool hasValues(T)(in T[] values, in T[] checkValues) {
-  bool result = false;
-  foreach (cv; checkValues) {
-    result = false;
-    values.each!((value) { if (value == cv) {
-        result = true; 
-        return No.each; }});
-
-        if (!result) {
-          return false;
-        }
-      }
-
-    return result;
+// #region hasValues & hasValue
+  bool hasAllValues(T)(in T[] source, in T[] values...) {
+    return hasAllValues(source, values.dup);
   }
 
-  version (test_uim_core) {
-    unittest {
-      assert([1, 2, 3, 4].has([1]));
-      assert(![1, 2, 3, 4].has([5]));
-      assert([1, 2, 3, 4].has([1, 2]));
-      assert(![1, 2, 3, 4].has([5, 1]));
+  bool hasAllValues(T)(in T[] source, in T[] values) {
+    // IN Check
+    if (source.isEmpty || values.isEmpty) { return false; }
+
+    // BODY
+    foreach (myValue; values) {
+      if (!hasValue(source, myValue)) { return false; }
     }
+    return true;
+  }
+  ///
+  unittest {
+    assert([1, 2, 3, 4].hasAllValues(1));
+    assert(![1, 2, 3, 4].hasAllValues(5));
+    assert([1, 2, 3, 4].hasAllValues(1, 2));
+    assert(![1, 2, 3, 4].hasAllValues(5, 1));
+
+    assert([1, 2, 3, 4].hasAllValues([1]));
+    assert(![1, 2, 3, 4].hasAllValues([5]));
+    assert([1, 2, 3, 4].hasAllValues([1, 2]));
+    assert(![1, 2, 3, 4].hasAllValues([5, 1]));
   }
 
   // similar to has
-  bool hasAllValues(T)(in T[] source, in T[] values...) {
-    bool found = false;
-    foreach (value; values) {
-      found = false;
-      foreach (sourceValue; source) {
-        if (sourceValue == value) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        return false;
-      }
-    }
-    return found;
+  bool hasAnyValues(T)(in T[] source, in T[] values...) {
+    return hasAnyValues(source, values.dup);
   }
 
-  version (test_uim_core) {
-    unittest {
-      assert([1, 2, 3, 4].hasAllValues(1));
-      assert(![1, 2, 3, 4].hasAllValues(5));
-      assert([1, 2, 3, 4].hasAllValues(1, 2));
-      assert(![1, 2, 3, 4].hasAllValues(5, 1));
+  bool hasAnyValues(T)(in T[] source, in T[] values) {
+    // IN Check
+    if (source.isEmpty || values.isEmpty) { return false; }
+
+    // BODY
+    foreach (myValue; values) {
+      if (hasValue(source, myValue)) { return true; }
     }
+    return false;
   }
+  ///
+  unittest {
+    assert([1, 2, 3, 4].hasAnyValues(1));
+    assert(![1, 2, 3, 4].hasAnyValues(5));
+    assert([1, 2, 3, 4].hasAnyValues(1, 2, 6));
+    assert(![1, 2, 3, 4].hasAnyValues(5, 6));
+
+    assert([1, 2, 3, 4].hasAnyValues([1]));
+    assert(![1, 2, 3, 4].hasAnyValues([5]));
+    assert([1, 2, 3, 4].hasAnyValues([1, 2]));
+    assert([1, 2, 3, 4].hasAnyValues([1, 2, 5]));
+    assert(![1, 2, 3, 4].hasAnyValues([5, 6]));
+  }
+
+  bool hasValue(T)(in T[] source, in T aValue) {
+    foreach (myValue; source) {
+      if (myValue == aValue) { return true; }
+    }
+    return false;
+  }
+// #endregion hasValues & hasValue
 
   size_t index(T)(T[] values, T value) {
-    foreach (count, key; values)
-      if (key == value)
-        return count;
+    foreach (count, key; values) {
+      if (key == value) { return count; }
+    }
+
     return -1;
   }
-
-  version (test_uim_core) {
-    unittest {
-      assert([1, 2, 3, 4].index(1) == 0);
-      assert([1, 2, 3, 4].index(0) == -1);
-    }
+  /// 
+  unittest {
+    assert([1, 2, 3, 4].index(1) == 0);
+    assert([1, 2, 3, 4].index(0) == -1);
   }
 
   size_t[] indexes(T)(T[] values, T value) {
@@ -337,13 +335,11 @@ bool hasValues(T)(in T[] values, in T[] checkValues) {
         results ~= count;
     return results;
   }
-
-  version (test_uim_core) {
-    unittest {
-      assert([1, 2, 3, 4].indexes(1) == [0]);
-      assert([1, 2, 3, 4].indexes(0) == null);
-      assert([1, 2, 3, 4, 1].indexes(1) == [0, 4]);
-    }
+  ///
+  unittest {
+    assert([1, 2, 3, 4].indexes(1) == [0]);
+    assert([1, 2, 3, 4].indexes(0) == null);
+    assert([1, 2, 3, 4, 1].indexes(1) == [0, 4]);
   }
 
   size_t[][T] indexes(T)(T[] values, T[] keys) {
@@ -363,25 +359,21 @@ bool hasValues(T)(in T[] values, in T[] checkValues) {
   bool isEmpty(T)(T[] values) {
     return (values.length == 0);
   }
-
-  version (test_uim_core) {
-    unittest {
-      assert(![1, 2, 3, 4].isEmpty);
-      assert([].isEmpty);
-    }
+  ///
+  unittest {
+    assert(![1, 2, 3, 4].isEmpty);
+    assert([].isEmpty);
   }
 
   T shiftFirst(T)(ref T[] values) {
-    if (values.length == 0) {
-      return null;
-    }
+    // IN Check
+    if (values.isEmpty) { return null; }
+
     auto value = values[0];
 
-    if (values.length > 1) {
-      values = values[1 .. $];
-    } else {
-      values = null;
-    }
+    values = values.length > 1 
+      ? values[1 .. $]
+      : null;
 
     return value;
   }
