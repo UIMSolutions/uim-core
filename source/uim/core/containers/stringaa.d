@@ -89,11 +89,11 @@ version(test_uim_core) { unittest {
 STRINGAA filterByValues(STRINGAA entries, string[] values...) {
 	return filterByValues(entries, values.dup);
 }
-STRINGAA filterByValues(STRINGAA entries, string[] values) {
+STRINGAA filterByValues(STRINGAA entries, string[] someValues) {
 	STRINGAA results;
-	foreach(val; values) {
-		foreach(key, v; entries) {
-			if (v == val) results[key] = entries[key];
+	foreach(myValue; someValues) {
+		foreach(key, entryValue; entries) {
+			if (entryValue == myValue) results[key] = entries[key];
 		}
 	}
 	return results;
@@ -104,7 +104,6 @@ version(test_uim_core) { unittest {
 }}
 
 string toString(string[string] aa) {
-	import std.string; 
 	return "%s".format(aa);
 }
 version(test_uim_core) { unittest {
