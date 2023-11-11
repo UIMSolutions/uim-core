@@ -138,20 +138,74 @@ version(test_uim_core) { unittest {
 		// Add Test
 }}
 
-bool hasKey(T, S)(T[S] base, S key) { return (key in base) ? true : false; }
-bool hasKeys(T, S)(T[S] base, S[] keys...) { return base.hasKeys(keys); }
-bool hasKeys(T, S)(T[S] base, S[] keys) { bool result; foreach(key; keys) if (key !in base) { return false; } return true; }
-version(test_uim_core) { unittest {
+bool hasAllKeys(T, S)(T[S] base, S[] keys...) { 
+	return base.hasAllKeys(keys.dup); 
+}
+
+bool hasAllKeys(T, S)(T[S] base, S[] keys) { 
+	bool result; 
+	
+	foreach(key; keys) {
+		if (!base.hasKey(key)) { 
+			return false; 
+		} 
+	}
+
+	return true; 
+}
+
+bool hasAnyKeys(T, S)(T[S] base, S[] keys...) { 
+	return base.hasAnyKeys(keys.dup); 
+}
+
+bool hasAnyKeys(T, S)(T[S] base, S[] keys) { 
+	bool result; 
+	
+	foreach(key; keys) {
+		if (base.hasKey(key)) { 
+			return true; 
+		} 
+	}
+
+	return false; 
+}
+
+bool hasKey(T, S)(T[S] base, S key) { 
+	return (key in base) 
+		? true 
+		: false; 
+}
+///
+unittest {
 	assert(["a":"b", "c":"d"].hasKey("a"));
-	assert(["a":"b", "c":"d"].hasKeys("a"));
-	assert(["a":"b", "c":"d"].hasKeys("a", "c"));
-	assert(["a":"b", "c":"d"].hasKeys(["a"]));
-	assert(["a":"b", "c":"d"].hasKeys(["a", "c"]));
-}}
+	assert(!["a":"b", "c":"d"].hasKey("x"));
+
+	assert(["a":"b", "c":"d"].hasAllKeys("a"));
+	assert(["a":"b", "c":"d"].hasAllKeys("a", "c"));
+	assert(["a":"b", "c":"d"].hasAllKeys(["a"]));
+	assert(["a":"b", "c":"d"].hasAllKeys(["a", "c"]));
+
+	assert(!["a":"b", "c":"d"].hasAllKeys("x"));
+	assert(!["a":"b", "c":"d"].hasAllKeys("x", "c"));
+	assert(!["a":"b", "c":"d"].hasAllKeys(["x"]));
+	assert(!["a":"b", "c":"d"].hasAllKeys(["x", "c"]));
+
+	assert(["a":"b", "c":"d"].hasAnyKeys("a"));
+	assert(["a":"b", "c":"d"].hasAnyKeys("a", "x"));
+	assert(["a":"b", "c":"d"].hasAnyKeys(["a"]));
+	assert(["a":"b", "c":"d"].hasAnyKeys(["a", "x"]));
+
+	assert(!["a":"b", "c":"d"].hasAnyKeys("x"));
+	assert(!["a":"b", "c":"d"].hasAnyKeys("x", "y"));
+	assert(!["a":"b", "c":"d"].hasAnyKeys(["x"]));
+	assert(!["a":"b", "c":"d"].hasAnyKeys(["x", "y"]));
+}
 
 bool hasValue(T, S)(T[S] base, S value...) { foreach(v; base.getValues) if (v == value) { return true; } return false; }
 bool hasValues(T, S)(T[S] base, S[] values...) { return base.hasValues(values); }
-bool hasValues(T, S)(T[S] base, S[] values) { foreach(value; values) if (!base.hasValue(value)) { return false; } return true; }
+bool hasValues(T, S)(T[S] base, S[] values) { foreach(value; values) if (!base.hasValue(value)) { 
+      return false; 
+    } return true; }
 version(test_uim_core) { unittest {
 	assert(["a":"b", "c":"d"].hasValue("b"));
 	assert(["a":"b", "c":"d"].hasValues("b"));
@@ -213,8 +267,12 @@ version(test_uim_core) { unittest {
 // Checks if values exist in base
 pure bool isValues(T, S)(T[S] base, T[S] values) {
 	foreach(k; values.getKeys) {
-		if (k !in base) { return false; }
-		if (base[k] != values[k]) { return false; }
+		if (k !in base) { 
+      return false; 
+    }
+		if (base[k] != values[k]) { 
+      return false; 
+    }
 	}
 	return true;
 }
@@ -240,4 +298,17 @@ V[K] merge(K, V)(V[K] sourceValues, V[K] mergeValues, bool overwrite = true) {
 
 bool isEmpty(V, K)(V[K] someValues) {
 	return (someValues.length == 0);
+}
+
+V[K] setValues(K, V)(V[K] target, V[K] someValues) {
+	// IN Check
+	if (someValues.isEmpty) { return target; }
+
+	// BODY
+	auto result = target;
+	someValues.byKeyValue
+		.each!(kv => result[kv.key] = kv.value);
+
+	// OUT
+	return result;
 }

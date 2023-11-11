@@ -8,6 +8,19 @@ module uim.core.datatypes;
 
 import uim.core;
 
+public {
+  import uim.core.datatypes.datetime;
+  import uim.core.datatypes.boolean;
+  import uim.core.datatypes.datetime;
+  import uim.core.datatypes.floating;
+  import uim.core.datatypes.general;
+  import uim.core.datatypes.datetime;
+  import uim.core.datatypes.integral;
+  import uim.core.datatypes.json;
+  import uim.core.datatypes.string_;
+  import uim.core.datatypes.uuid;
+}
+
 /*
 T toogle(T)(T value, T checkValue, T changeValue) if (!isBoolean!T) {
     if (value == checkValue) return changeValue;
@@ -21,22 +34,24 @@ version(test_uim_core) { unittest {
 }*/
 
 T rotate(T)(T value, T[] values, bool directionRight = true) {
-    if (values.length > 0)
-    foreach(index, val; values) {
-        if (val == value) {
-            if (directionRight) {
-                if (index == values.length-1) return values[0];
-                return values[index+1];
-            }
-            else {
-                if (index == 0) return values[$-1];
-                return values[index-1];
-            }
-        }
+  if (values.length > 0)
+  foreach(index, val; values) {
+    if (val == value) {
+      if (directionRight) {
+        return index == values.length-1 
+          ? values[0]
+          : values[index+1];
+      }
+      else {
+        return index == 0 
+          ? values[$-1] 
+          : values[index-1];
+      }
     }
-    return value;
+  }
+  return value;
 }
-version(test_uim_core) { unittest {
-    assert(1.rotate([2,3,1,4,5]) == 4);
-}}
+unittest {
+  assert(1.rotate([2,3,1,4,5]) == 4);
+}
 

@@ -25,10 +25,14 @@ bool isSet(V)(V[] values, size_t[] index...) {
 
 }
 bool isSet(V)(V[] values, size_t[] index) {
-  if (index.length == 0) { return false; }
+  if (index.length == 0) { 
+      return false; 
+    }
 
   foreach (i; index) {
-    if (index >= values.length) { return false; }
+    if (index >= values.length) { 
+      return false; 
+    }
   }
   return true;
 }
@@ -38,10 +42,14 @@ bool isSet(V, K)(V[K] values, K[] keys...) {
 }
 
 bool isSet(V, K)(V[K] values, K[] keys...) {
-  if (keys.length == 0) { return false; }
+  if (keys.length == 0) { 
+      return false; 
+    }
 
   foreach (k; keys) {
-    if (k !in values) { return false; }
+    if (k !in values) { 
+      return false; 
+    }
   }
   return true;
 }

@@ -34,8 +34,12 @@ version(test_uim_core) { unittest {
 }}
 
 bool endsWith(string str, string txt) {
-	if (str.length == 0) { return false; }
-	if (txt.length == 0) { return false; }
+	if (str.length == 0) { 
+      return false; 
+    }
+	if (txt.length == 0) { 
+      return false; 
+    }
 	return (lastIndexOf(str, txt) == str.length-1);
 }
 version(test_uim_core) { unittest {
@@ -124,8 +128,12 @@ version(test_uim_core) { unittest {
 }}
 
 bool startsWith(string str, string txt) {
-	if (str.length == 0) { return false; }
-	if (txt.length == 0) { return false; }
+	if (str.length == 0) { 
+      return false; 
+    }
+	if (txt.length == 0) { 
+      return false; 
+    }
 	return (indexOf(str, txt) == 0);
 }
 version(test_uim_core) { unittest {

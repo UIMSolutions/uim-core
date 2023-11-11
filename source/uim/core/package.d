@@ -142,7 +142,9 @@ bool allLowerEqual(T)(T value, T[] values) if (isNumeric!T) {
 bool equal(T)(T[] leftCells, T[] rightCells) {
 	if (leftCells.length == rightCells.length) {
 		foreach(i; 0..leftCells.length) 
-			if (leftCells[i] != rightCells[i]) { return false; }
+			if (leftCells[i] != rightCells[i]) { 
+      return false; 
+    }
 		return true;
 	}
 	return false;  }

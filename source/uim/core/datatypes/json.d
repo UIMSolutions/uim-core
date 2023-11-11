@@ -8,6 +8,16 @@ module uim.core.datatypes.json;
 @safe:
 import uim.core;
 
+// #region Properties
+  string[] keys(Json anObject) {
+    if (anObject.isNull) { 
+      return null;
+    }
+
+    return anObject.byKeyValue.map!(kv => kv.key).array;
+  }
+// #endregion Properties
+
 // #region Check json value
   bool isObject(Json aJson) {
     return aJson.type == Json.Type.object;
@@ -114,10 +124,12 @@ unittest {
 
 /// Check if Json has key
 bool hasAnyKey(Json aJson, string[] keys, bool deepSearch = false) {
-  foreach (key; keys)
+  foreach (key; keys) {
     if (hasKey(aJson, key, deepSearch)) {
       return true;
     }
+  }
+
   return false;
 }
 ///
@@ -142,6 +154,7 @@ bool hasKey(Json aJson, string key, bool deepSearch = false) {
       }
     }
   }
+  
   if (deepSearch) {
     if (aJson.isArray) {
       for (size_t i = 0; i < aJson.length; i++) {
@@ -210,6 +223,7 @@ bool hasValue(Json aJson, Json value, bool deepSearch = false) {
       }
     }
   }
+
   if (deepSearch) {
     if (aJson.isArray) {
       for (size_t i = 0; i < aJson.length; i++) {
@@ -220,6 +234,7 @@ bool hasValue(Json aJson, Json value, bool deepSearch = false) {
       }
     }
   }
+
   return false;
 }
 ///

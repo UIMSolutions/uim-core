@@ -5,6 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.containers;
 
-public import uim.core.containers.aa;
-public import uim.core.containers.array_;
-public import uim.core.containers.stringaa;
+public {
+  import uim.core.containers.aa;
+  import uim.core.containers.array_;
+  import uim.core.containers.general;
+  import uim.core.containers.stringaa;
+}
