@@ -12,7 +12,6 @@ public import vibe.d;
 public {
   import uim.core.classes;
   import uim.core.containers;
-  import uim.core.containers;
   import uim.core.datatypes;
   import uim.core.dlang;
   import uim.core.io;

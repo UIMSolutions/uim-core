@@ -5,9 +5,9 @@
 ***********************************************************************************************************************/
 module uim.core.datatypes.json;
 
-@safe:
 import uim.core;
 
+@safe:
 // #region Properties
   string[] keys(Json anObject) {
     if (anObject.isNull) { 
@@ -578,6 +578,26 @@ Json mergeJsonObject(Json baseJson, Json mergeJson) {
   return result;
 }
 
+// #region set()
+Json set(T)(Json json, T[string] newValues) {
+  if (!json.isObject) { return Json(null); }
+
+  auto result = json;
+  newValues.byKeyValue.each!(kv => result[kv.key] = kv.value);
+
+  return result;
+}
+///
+unittest {
+  auto json = parseJsonString(`{"a":"b", "x":"y"}`);
+  assert(json.set(["a": "c"])["a"].get!string == "c");
+
+  json = parseJsonString(`{"a":"b", "x":"y"}`);
+  assert(json.set(["a": "c", "x": "z"])["x"].get!string == "z");
+  assert(json.set(["a": "c", "x": "z"])["x"].get!string != "c");
+}
+// #endregion
+
 // #region merge
 /// Merge jsons objects to one
 Json mergeJsons(Json[] jsons...) {
@@ -626,4 +646,100 @@ unittest {
 }
 // #endregion merge
 
+Json jsonWithMinVersion(Json[] jsons...) {
+  return jsonWithMinVersion(jsons.dup);
+}
 
+Json jsonWithMinVersion(Json[] jsons) {
+  if (jsons.length == 0) { return Json(null); }
+
+  auto result = jsons[0];
+
+  if (jsons.length > 1) {
+    jsons[1..$]
+      .filter!(json => json.isObject && json.isSet("versionNumber"))
+      .each!(json => result = json["versionNumber"].get!size_t < result["versionNumber"].get!size_t ? json : result);
+  }
+
+  return result;
+}
+///
+unittest {
+  auto json1 = parseJsonString(`{"versionNumber":1}`);
+  auto json2 = parseJsonString(`{"versionNumber":2}`);
+
+  auto json3 = parseJsonString(`{"versionNumber":3}`);
+
+  assert(jsonWithMinVersion(json1, json2)["versionNumber"].get!size_t == 1);
+  assert(jsonWithMinVersion([json1, json2])["versionNumber"].get!size_t == 1);
+
+  assert(jsonWithMinVersion(json1, json3, json2)["versionNumber"].get!size_t == 1);
+  assert(jsonWithMinVersion([json1, json3, json2])["versionNumber"].get!size_t == 1);
+
+  assert(jsonWithMinVersion(json3, json3, json2)["versionNumber"].get!size_t == 2);
+  assert(jsonWithMinVersion([json3, json3, json2])["versionNumber"].get!size_t == 2);
+}
+
+Json jsonWithMaxVersion(Json[] jsons...) {
+  return jsonWithMaxVersion(jsons.dup);
+}
+
+Json jsonWithMaxVersion(Json[] jsons) {
+  if (jsons.length == 0) { return Json(null); }
+
+  auto result = jsons[0];
+
+  if (jsons.length > 1) {
+    jsons[1..$]
+      .filter!(json => json.isObject && json.isSet("versionNumber"))
+      .each!(json => result = json["versionNumber"].get!size_t > result["versionNumber"].get!size_t ? json : result);
+  }
+
+  return result;
+}
+///
+unittest {
+  auto json1 = parseJsonString(`{"versionNumber":1}`);
+  auto json2 = parseJsonString(`{"versionNumber":2}`);
+  auto json3 = parseJsonString(`{"versionNumber":3}`);
+
+  assert(jsonWithMaxVersion(json1, json2)["versionNumber"].get!size_t == 2);
+  assert(jsonWithMaxVersion([json1, json2])["versionNumber"].get!size_t == 2);
+
+  assert(jsonWithMaxVersion(json1, json3, json2)["versionNumber"].get!size_t == 3);
+  assert(jsonWithMaxVersion([json1, json3, json2])["versionNumber"].get!size_t == 3);
+
+  assert(jsonWithMaxVersion(json3, json3, json2)["versionNumber"].get!size_t == 3);
+  assert(jsonWithMaxVersion([json3, json3, json2])["versionNumber"].get!size_t == 3);
+}
+
+size_t maxVersionNumber(Json[] jsons...) {
+  return maxVersionNumber(jsons.dup);
+}
+
+size_t maxVersionNumber(Json[] jsons) {
+  if (jsons.length == 0) { return 0; }
+
+  size_t result = 0;
+
+  jsons
+    .filter!(json => json.isObject && json.isSet("versionNumber"))
+    .each!(json => result = json["versionNumber"].get!size_t > result ? json["versionNumber"].get!size_t : result);
+
+  return result;
+}
+///
+unittest {
+  auto json1 = parseJsonString(`{"versionNumber":1}`);
+  auto json2 = parseJsonString(`{"versionNumber":2}`);
+  auto json3 = parseJsonString(`{"versionNumber":3}`);
+
+  assert(maxVersionNumber(json1, json2) == 2);
+  assert(maxVersionNumber([json1, json2]) == 2);
+
+  assert(maxVersionNumber(json1, json3, json2) == 3);
+  assert(maxVersionNumber([json1, json3, json2]) == 3);
+
+  assert(maxVersionNumber(json3, json3, json2) == 3);
+  assert(maxVersionNumber([json3, json3, json2]) == 3);
+}

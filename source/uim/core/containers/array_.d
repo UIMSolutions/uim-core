@@ -236,18 +236,16 @@ OUT[] castTo(OUT, IN)(IN[] values) {
   return results;
 }
 
-version (test_uim_core) {
-  unittest {
-    auto values = [1, 2, 3, 4];
-    change(values[2], values[3]);
-    assert(values == [1, 2, 4, 3]);
+unittest {
+  auto values = [1, 2, 3, 4];
+  change(values[2], values[3]);
+  assert(values == [1, 2, 4, 3]);
 
-    assert([1, 2, 3, 4].change(1, 3) == [1, 4, 3, 2]);
-  }
+  assert([1, 2, 3, 4].change(1, 3) == [1, 4, 3, 2]);
 }
 
 bool exist(T)(in T[] values, in T[] checkValues...) {
-  return hasValues(values, checkValues);
+  return hasAllValues(values, checkValues);
 }
 
 // #region hasValues & hasValue
@@ -356,8 +354,8 @@ bool exist(T)(in T[] values, in T[] checkValues...) {
     }
   }
 
-  bool isEmpty(T)(T[] values) {
-    return (values.length == 0);
+  bool isEmpty(T)(T[] someValues) {
+    return (someValues.length == 0);
   }
   ///
   unittest {
