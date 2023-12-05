@@ -103,7 +103,7 @@ version(test_uim_core) { unittest {
 		assert(["a":"1", "b":"2"].filterByValues("0").empty);
 }}
 
-string toString(string[string] aa) {
+string toString(STRINGAA aa) {
 	return "%s".format(aa);
 }
 version(test_uim_core) { unittest {

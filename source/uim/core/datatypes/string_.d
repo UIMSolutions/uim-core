@@ -23,7 +23,7 @@ version(test_uim_core) { unittest {
   assert(fill(10, "TXT") == "TXTTXTTXTT");
 }}
 
-string bind(string source, string[string] values, string limiter = "%") {
+string bind(string source, STRINGAA values, string limiter = "%") {
 	import std.string; 
 	string result = source;
 	foreach(k, v; values) { result = result.replace(limiter~k~limiter, v); }

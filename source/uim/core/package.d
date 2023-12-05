@@ -21,7 +21,7 @@ public {
 }
 
 @safe:
-alias STRINGAA = string[string];
+alias STRINGAA = STRINGAA;
 alias INTAA = int[int];
 alias DOUBLEAA = double[double];
 
@@ -170,7 +170,7 @@ T[2] arrayLimits(T)(T from, T to, T left, T right) if (isNumeric!T) {
 	return result;
 } 
 
-string[] stringAA2Array(string[string] values, string sep = ":") {
+string[] stringAA2Array(STRINGAA values, string sep = ":") {
 	string[] results;
 	foreach(k, v; values) results ~= k~sep~v;
 	return results;

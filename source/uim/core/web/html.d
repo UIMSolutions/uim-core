@@ -14,7 +14,7 @@ string htmlStartTag(string tag, bool close = false) {
 	return "<" ~ tag ~ ">";
 }
 
-string htmlStartTag(string tag, string[string] attributes, bool close = false) {
+string htmlStartTag(string tag, STRINGAA attributes, bool close = false) {
 	if (attributes) {
 		string[] atts;
 		foreach (k, v; attributes)
@@ -36,7 +36,7 @@ string htmlDoubleTag(string tag, string[] content...) {
 	return htmlStartTag(tag, true);
 }
 
-string htmlDoubleTag(string tag, string[string] attributes, string[] content...) {
+string htmlDoubleTag(string tag, STRINGAA attributes, string[] content...) {
 	if (content)
 		return htmlStartTag(tag, attributes) ~ content.join("") ~ htmlEndTag(tag);
 	return htmlStartTag(tag, attributes, true);
@@ -46,6 +46,6 @@ string htmlSingleTag(string tag) {
 	return htmlStartTag(tag);
 }
 
-string htmlSingleTag(string tag, string[string] attributes) {
+string htmlSingleTag(string tag, STRINGAA attributes) {
 	return htmlStartTag(tag, attributes);
 }

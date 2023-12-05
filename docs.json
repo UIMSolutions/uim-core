@@ -2871,7 +2871,7 @@
        "abstract"
       ],
       "deco" : "FNbNfAAyaS3std7variant__T8VariantNVmi4TiTE9eventcore6driver15ProcessRedirectZQCaSQCtQCs__TQCnVmi4TiTQChTEQClQCe21ProcessStdoutRedirectZQEgSQEzQEy__TQEtVmi4TiTQEnTEQErQEk21ProcessStderrRedirectZQGmxHQHkAyaEQGhQGa13ProcessConfigQImZSQHhQHa7Process",
-      "originalType" : "nothrow @safe Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const string[string] env = null, ProcessConfig config = ProcessConfig.none, string working_dir = null)",
+      "originalType" : "nothrow @safe Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const STRINGAA env = null, ProcessConfig config = ProcessConfig.none, string working_dir = null)",
       "parameters" : [
        {
         "name" : "args",
@@ -2892,7 +2892,7 @@
        {
         "name" : "env",
         "deco" : "xHAyaAya",
-        "default" : "cast(const(string[string]))null"
+        "default" : "cast(const(STRINGAA))null"
        },
        {
         "name" : "config",
@@ -9363,7 +9363,7 @@
          "final",
          "override"
         ],
-        "type" : "@trusted Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const string[string] env, ProcessConfig config, string working_dir)",
+        "type" : "@trusted Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const STRINGAA env, ProcessConfig config, string working_dir)",
         "parameters" : [
          {
           "name" : "args",
@@ -9383,7 +9383,7 @@
          },
          {
           "name" : "env",
-          "type" : "string[string]",
+          "type" : "STRINGAA",
           "storageClass" : [
            "const"
           ]
@@ -9883,7 +9883,7 @@
         "storageClass" : [
          "override"
         ],
-        "type" : "Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const string[string] env, ProcessConfig config, string working_dir)",
+        "type" : "Process(string[] args, ProcessStdinFile stdin, ProcessStdoutFile stdout, ProcessStderrFile stderr, const STRINGAA env, ProcessConfig config, string working_dir)",
         "parameters" : [
          {
           "name" : "args",
@@ -9903,7 +9903,7 @@
          },
          {
           "name" : "env",
-          "type" : "string[string]",
+          "type" : "STRINGAA",
           "storageClass" : [
            "const"
           ]
