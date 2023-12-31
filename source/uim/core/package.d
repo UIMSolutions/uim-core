@@ -14,6 +14,7 @@ public {
   import uim.core.containers;
   import uim.core.datatypes;
   import uim.core.dlang;
+  import uim.core.enumerations;
   import uim.core.io;
   import uim.core.mixins;
   import uim.core.web;
