@@ -38,8 +38,7 @@ unittest {
 
 /// get values of an associative array - currently not working für objects
 V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {
-	V[] results;
-	foreach(k, v; aa) results ~= v;
+	V[] results = aa.values.map!(v => v).array;
 	if (sorted) return results.sort.array;
 	return results;
 }
@@ -51,9 +50,10 @@ version(test_uim_core) { unittest {
 }}
 
 // Add Items from array
-T[S] add(T, S)(T[S] baseItems, T[S] addItems) {
-	T[S] results = baseItems.dup;
-	foreach(k, v; addItems) results[k] = v;
+T[S] add(T, S)(T[S] targetItems, T[S] addItems) {
+	T[S] results = targetItems;
+	addItems.byKeyValue
+.each!(kv => results[kv.key] = kv.value);
 	return results;
 }
 version(test_uim_core) { unittest {
