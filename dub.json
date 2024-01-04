@@ -2,7 +2,7 @@
 	"authors": [
 		"Ozan Nurettin Süel"
 	],
-	"copyright": "Copyright © 2015-2023, Ozan Nurettin Süel",
+	"copyright": "Copyright © 2015-2024, Ozan Nurettin Süel",
 	"description": "Core D Library for UIM projects",
 	"license": "Apache-2.0",
 	"name": "uim-core",
