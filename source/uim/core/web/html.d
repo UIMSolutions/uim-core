@@ -8,44 +8,51 @@ module uim.core.web.html;
 import uim.core;
 
 @safe:
-string htmlStartTag(string tag, bool close = false) {
+// #region createHtmlStartTag 
+string createHtmlStartTag(string tag, bool close = false) {
 	if (close)
 		return "<" ~ tag ~ "/>";
 	return "<" ~ tag ~ ">";
 }
 
-string htmlStartTag(string tag, STRINGAA attributes, bool close = false) {
+string createHtmlStartTag(string tag, STRINGAA attributes, bool close = false) {
 	if (attributes) {
-		string[] atts;
-		foreach (k, v; attributes)
-			atts ~= `%s="%s"`.format(k, v);
-		if (close)
-			return "<" ~ tag ~ " " ~ atts.join(" ") ~ "/>";
-		return "<" ~ tag ~ " " ~ atts.join(" ") ~ ">";
-	}
-	return htmlStartTag(tag, close);
-}
+		string attValue = attributes.byKeyValue
+			.map!(kv => `%s="%s"`.format(kv.key, kv.value))
+			.join(" ");
 
-string htmlEndTag(string tag) {
+		if (close)
+			return "<%s %s/>".format(tag, attValue);
+		return "<%s %s>".format(tag, attValue);
+	}
+	return createHtmlStartTag(tag, close);
+}
+// #endregion createHtmlStartTag 
+
+// #region createHtmlEndTag 
+string createHtmlEndTag(string tag) {
 	return "</" ~ tag ~ ">";
 }
+// #endregion createHtmlEndTag 
 
-string htmlDoubleTag(string tag, string[] content...) {
-	if (content)
-		return htmlStartTag(tag) ~ content.join("") ~ htmlEndTag(tag);
-	return htmlStartTag(tag, true);
+string createHtmlDoubleTag(string tag, string[] content...) {
+	if (content) {
+		return createHtmlStartTag(tag) ~ content.join("") ~ createHtmlEndTag(tag);
+	}
+	return createHtmlStartTag(tag, true);
 }
 
-string htmlDoubleTag(string tag, STRINGAA attributes, string[] content...) {
-	if (content)
-		return htmlStartTag(tag, attributes) ~ content.join("") ~ htmlEndTag(tag);
-	return htmlStartTag(tag, attributes, true);
+string createHtmlDoubleTag(string tag, STRINGAA attributes, string[] content...) {
+	if (content) {
+		return createHtmlStartTag(tag, attributes) ~ content.join("") ~ createHtmlEndTag(tag);
+	}
+	return createHtmlStartTag(tag, attributes, true);
 }
 
-string htmlSingleTag(string tag) {
-	return htmlStartTag(tag);
+string createHtmlSingleTag(string tag) {
+	return createHtmlStartTag(tag);
 }
 
-string htmlSingleTag(string tag, STRINGAA attributes) {
-	return htmlStartTag(tag, attributes);
+string createHtmlSingleTag(string tag, STRINGAA attributes) {
+	return createHtmlStartTag(tag, attributes);
 }
