@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************************************************
-	Copyright: © 2017-2023 Ozan Nurettin Süel (sicherheitsschmiede)                              
+	Copyright: © 2015-2024 Ozan Nurettin Süel (sicherheitsschmiede)                              
 	License: Licensed under Apache 2 [https://apache.org/licenses/LICENSE-2.0.txt]                                       
 	Authors: Ozan Nurettin Süel (Sicherheitsschmiede)										                          
 ***********************************************************************************************************************/
@@ -41,7 +41,6 @@ unittest {
 
 /// get values of an associative array - currently not working für objects
 V[] getValues(K, V)(V[K] aa, bool sorted = NOTSORTED) {
-<<<<<<< HEAD
   V[] results;
   foreach (k, v; aa)
     results ~= v;
@@ -59,11 +58,6 @@ version (test_uim_core) {
         "4", "5", "6"
       ]);
   }
-=======
-	V[] results = aa.values.map!(v => v).array;
-	if (sorted) return results.sort.array;
-	return results;
->>>>>>> d6c07921feef1b46de5d4eb79537fbf751c89ea2
 }
 
 // Add Items from array
