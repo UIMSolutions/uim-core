@@ -1,0 +1,24 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"arsd-official": "11.2.3",
+		"colored": "0.0.31",
+		"diet-ng": "1.8.1",
+		"dlib": "1.2.1",
+		"eventcore": "0.9.27",
+		"libasync": "0.8.6",
+		"memutils": "1.0.10",
+		"mir-algorithm": "3.21.0",
+		"mir-core": "1.7.0",
+		"mir-linux-kernel": "1.0.1",
+		"openssl": "3.3.3",
+		"openssl-static": "1.0.2+3.0.8",
+		"silly": "1.1.1",
+		"stdx-allocator": "2.77.5",
+		"taggedalgebraic": "0.11.22",
+		"unit-threaded": "2.1.7",
+		"vibe-container": "1.0.1",
+		"vibe-core": "2.7.1",
+		"vibe-d": "0.9.7"
+	}
+}
