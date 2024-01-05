@@ -1,0 +1,13 @@
+name "core"
+description "Core library"
+dependency "arsd-official" version="~>11.2.3"
+dependency "colored" version="~>0.0.31"
+dependency "dlib" version="~>1.2.1"
+dependency "mir-algorithm" version="~>3.21.0"
+dependency "vibe-d" version="~>0.9.7"
+
+sourcePaths "."
+importPaths "."
+
+targetType "library"
+targetName "uim-core"
