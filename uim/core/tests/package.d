@@ -1,0 +1,1 @@
+module uim.core.tests;
